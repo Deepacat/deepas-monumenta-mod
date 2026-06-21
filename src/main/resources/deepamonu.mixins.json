@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.deepacat.deepamonu.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+  ],
+  "plugin": "net.deepacat.deepamonu.MixinConfigPlugin",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "EntityStatusStateMixin"
+  ]
+}

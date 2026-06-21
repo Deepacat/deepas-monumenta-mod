@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "id": "deepamonu",
+  "version": "${version}",
+  "name": "Deepas' Monumenta Mod",
+  "description": "Monumenta utilities",
+  "authors": [
+    "Deepa",
+    "FT. All the stolen MMA code"
+  ],
+  "contact": {
+    "issues": "some of them (placeholder)",
+    "sources": "none of them (placeholder)"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/deepamonu/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.deepacat.deepamonu.ClientInit"
+    ],
+    "modmenu": [
+      "net.deepacat.deepamonu.config.ModMenuCompat"
+    ]
+  },
+  "mixins": [
+    "deepamonu.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "cloth-config": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "suggests": {
+    "modmenu": "*",
+    "sodium": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "discord link me (placeholder)",
+        "modmenu.github_releases": "gh link me (placeholder)",
+        "modmenu.modrinth": "mr link me (placeholder)"
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  // Keybinds
+  "category.deepa-monumenta-mod": "Deepas' Monumenta mod",
+
+  // Autoconfig
+  "text.autoconfig.deepamonu.title": "Deepas' Monumenta Mod Config",
+
+  /// Config categories
+  "text.autoconfig.deepamonu.category.features": "Features",
+  "text.autoconfig.deepamonu.category.modtweaks": "Mod Tweaks",
+  "text.autoconfig.deepamonu.category.mod": "Mod",
+  "text.autoconfig.deepamonu.category.appearance": "Appearance",
+
+  //// Feature config category
+  // unused
+
+  //// Mod Tweaks config category
+  "text.autoconfig.deepamonu.option.modtweaks.tslatentitystatus": "TslatEntityStatus",
+  ///// Tslats
+  "text.autoconfig.deepamonu.option.modtweaks.tslatentitystatus.particles": "Particles",
+  ////// Particles
+  "text.autoconfig.deepamonu.option.modtweaks.tslatentitystatus.particles.enableThresholds": "Enable Particle Thresholds",
+  "text.autoconfig.deepamonu.option.modtweaks.tslatentitystatus.particles.healThreshold": "Heal Particle Threshold",
+  "text.autoconfig.deepamonu.option.modtweaks.tslatentitystatus.particles.damageThreshold": "Damage particle threshold",
+
+  //// Mod settings config category
+  "text.autoconfig.deepamonu.option.mod.enableDebug": "Debugging mode",
+  "text.autoconfig.deepamonu.option.mod.suppressDebugWarning": "Silence debugging warnings",
+  "text.autoconfig.deepamonu.option.mod.versionCheck": "Version checks",
+  "text.autoconfig.deepamonu.option.mod.versionCheckIncludeBeta": "Include betas in version checks",
+  //// Appearance config category
+  "text.autoconfig.deepamonu.option.appearance.bracketColor": "Tag bracket color",
+  "text.autoconfig.deepamonu.option.appearance.tagColor": "Tag text color",
+  "text.autoconfig.deepamonu.option.appearance.tagText": "Tag text",
+  "text.autoconfig.deepamonu.option.appearance.textColor": "Default text color",
+  "text.autoconfig.deepamonu.option.appearance.numericColor": "Numeric/time statistic text color",
+  "text.autoconfig.deepamonu.option.appearance.detailColor": "Detail color",
+  "text.autoconfig.deepamonu.option.appearance.playerNameColor": "Player name color",
+  "text.autoconfig.deepamonu.option.appearance.altTextColor": "Alternate text color",
+  "text.autoconfig.deepamonu.option.appearance.warningColor": "Warning color",
+  "text.autoconfig.deepamonu.option.appearance.errorColor": "Error color"
+}
