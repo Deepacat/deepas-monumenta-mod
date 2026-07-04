@@ -1,6 +1,6 @@
 package net.deepacat.deepamonu.utils;
 
-import net.deepacat.deepamonu.ClientInit;
+import net.deepacat.deepamonu.DMMClient;
 import net.deepacat.deepamonu.config.ModConfig.Appearance;
 
 import java.util.Objects;
@@ -11,8 +11,8 @@ import net.minecraft.network.chat.Component;
 
 public class ChatUtil {
     public static void send(Component... message) {
-        Appearance config = ClientInit.appearance();
-        ClientInit.player()
+        Appearance config = DMMClient.appearance();
+        DMMClient.player()
                 .sendSystemMessage(
                         FormatUtil.join(
                                 FormatUtil.withColor("[", config.bracketColor),
@@ -28,7 +28,7 @@ public class ChatUtil {
     }
 
     public static void sendWarn(Component message) {
-        send(Component.empty().append(FormatUtil.withColor("WARN", ClientInit.appearance().warningColor)).append(" ").append(message));
+        send(Component.empty().append(FormatUtil.withColor("WARN", DMMClient.appearance().warningColor)).append(" ").append(message));
     }
 
     public static void sendWarn(String message) {
@@ -36,19 +36,19 @@ public class ChatUtil {
     }
 
     public static void sendDebug(String message) {
-        if (!ClientInit.features().suppressDebugWarning) {
+        if (!DMMClient.features().suppressDebugWarning) {
             sendWarn("(debug/possible bug) " + message);
         } else {
-            ClientInit.LOGGER.warn(message);
+            DMMClient.LOGGER.warn(message);
         }
     }
 
     public static void sendCommand(String command) {
         if (command.startsWith("/")) {
-            ClientInit.LOGGER.warn("leading /");
+            DMMClient.LOGGER.warn("leading /");
         }
 
-        ClientInit.LOGGER.debug("running command as client: {}", command);
+        DMMClient.LOGGER.debug("running command as client: {}", command);
         Objects.requireNonNull(Minecraft.getInstance().getConnection()).sendCommand(command);
     }
 }

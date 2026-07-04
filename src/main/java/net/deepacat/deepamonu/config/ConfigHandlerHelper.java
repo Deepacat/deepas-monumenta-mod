@@ -2,6 +2,7 @@ package net.deepacat.deepamonu.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

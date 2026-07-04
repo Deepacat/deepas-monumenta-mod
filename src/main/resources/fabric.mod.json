@@ -17,7 +17,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "net.deepacat.deepamonu.ClientInit"
+      "net.deepacat.deepamonu.DMMClient"
     ],
     "modmenu": [
       "net.deepacat.deepamonu.config.ModMenuCompat"

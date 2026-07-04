@@ -33,9 +33,11 @@ umm = { module = "maven.modrinth:unofficial-monumenta-mod", version.ref = "umm" 
 mcui = { module = "com.github.Ascynx:MCUIFramework", version.ref = "umm-fw" }
 mcconfig = { module = "com.github.Ascynx:MCConfigFramework", version.ref = "umm-fw" }
 discordrpc = { module = "club.minnced:java-discord-rpc", version.ref = "umm-discord-rpc" }
+
 ## tslat and deps
 tslatentitystatus = { module = "maven.modrinth:tslatentitystatus", version.ref = "tslatentitystatus" }
 midnightlib = { module = "maven.modrinth:midnightlib", version.ref = "midnightlib" }
+
 ## Standalone
 provihealth = { module = "com.github.Provismet:ProviHealth", version.ref = "provi" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }

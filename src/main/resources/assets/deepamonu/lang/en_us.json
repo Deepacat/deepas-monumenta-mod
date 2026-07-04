@@ -1,19 +1,25 @@
 {
   // Keybinds
   "category.deepa-monumenta-mod": "Deepas' Monumenta mod",
-
   // Autoconfig
   "text.autoconfig.deepamonu.title": "Deepas' Monumenta Mod Config",
-
   /// Config categories
   "text.autoconfig.deepamonu.category.features": "Features",
   "text.autoconfig.deepamonu.category.modtweaks": "Mod Tweaks",
   "text.autoconfig.deepamonu.category.mod": "Mod",
   "text.autoconfig.deepamonu.category.appearance": "Appearance",
-
   //// Feature config category
-  // unused
-
+  ///// Mob Glow Colors
+  "text.autoconfig.deepamonu.option.features.mobGlowColorOverrides": "Mob Glow Colors",
+  "text.autoconfig.deepamonu.option.features.mobGlowColorOverrides.enable": "Enable Mob Glow Color Overrides",
+  "text.autoconfig.deepamonu.option.features.mobGlowColorOverrides.mobColorsDropdown": "Color overrides list",
+  ////// Mob Glow Colors Entries
+  "config.deepamonu.mobGlowColorOverrides.addTooltip": "Add a new mob color entry",
+  "config.deepamonu.mobGlowColorOverrides.removeTooltip": "Remove this entry",
+  "config.deepamonu.mobGlowColorOverrides.keyTooltip": "Mobs Display name (e.g. \"Gravity Bomb\" or \"Kaul\")",
+  "config.deepamonu.mobGlowColorOverrides.colorTooltip": "6 digit hex color without the # (e.g. FF0000 for red)",
+  "config.deepamonu.mobGlowColorOverrides.colorPickerTitle": "Pick a color",
+  "config.deepamonu.mobGlowColorOverrides.hexInput": "Hex value",
   //// Mod Tweaks config category
   "text.autoconfig.deepamonu.option.modtweaks.tslatentitystatus": "TslatEntityStatus",
   ///// Tslats
@@ -22,7 +28,6 @@
   "text.autoconfig.deepamonu.option.modtweaks.tslatentitystatus.particles.enableThresholds": "Enable Particle Thresholds",
   "text.autoconfig.deepamonu.option.modtweaks.tslatentitystatus.particles.healThreshold": "Heal Particle Threshold",
   "text.autoconfig.deepamonu.option.modtweaks.tslatentitystatus.particles.damageThreshold": "Damage particle threshold",
-
   //// Mod settings config category
   "text.autoconfig.deepamonu.option.mod.enableDebug": "Debugging mode",
   "text.autoconfig.deepamonu.option.mod.suppressDebugWarning": "Silence debugging warnings",

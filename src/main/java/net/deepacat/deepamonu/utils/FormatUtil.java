@@ -1,6 +1,6 @@
 package net.deepacat.deepamonu.utils;
 
-import net.deepacat.deepamonu.ClientInit;
+import net.deepacat.deepamonu.DMMClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class FormatUtil {
     }
 
     public static MutableComponent buildTooltip(List<? extends Component> components) {
-        MutableComponent inst = colored(ClientInit.appearance().textColor);
+        MutableComponent inst = colored(DMMClient.appearance().textColor);
 
         for (int i = 0; i < components.size(); i++) {
             Component component = components.get(i);
@@ -86,23 +86,23 @@ public class FormatUtil {
     }
 
     public static MutableComponent timestamp(long ticks) {
-        return withColor(formatTimestamp(ticks), ClientInit.appearance().numericColor);
+        return withColor(formatTimestamp(ticks), DMMClient.appearance().numericColor);
     }
 
     public static MutableComponent timestampAlt(long ticks) {
-        return withColor(formatTimestamp(ticks), ClientInit.appearance().detailColor);
+        return withColor(formatTimestamp(ticks), DMMClient.appearance().detailColor);
     }
 
     public static MutableComponent numeric(Object value) {
-        return withColor(String.valueOf(value), ClientInit.appearance().numericColor);
+        return withColor(String.valueOf(value), DMMClient.appearance().numericColor);
     }
 
     public static MutableComponent altText(String text) {
-        return withColor(text, ClientInit.appearance().altTextColor);
+        return withColor(text, DMMClient.appearance().altTextColor);
     }
 
     public static MutableComponent playerNameText(String text) {
-        return withColor(text, ClientInit.appearance().playerNameColor);
+        return withColor(text, DMMClient.appearance().playerNameColor);
     }
 
     public static String fmtDouble(double d) {

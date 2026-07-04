@@ -2,11 +2,15 @@ package net.deepacat.deepamonu;
 
 import java.util.Objects;
 
+import com.dayssky.mma.events.ClientReceiveSystemChatEvent;
+import com.dayssky.mma.events.EventResult;
 import net.deepacat.deepamonu.config.ModConfig;
 import net.deepacat.deepamonu.features.Commands;
 import net.deepacat.deepamonu.features.Keybinds;
+import net.deepacat.deepamonu.features.SoundReward;
 import net.deepacat.deepamonu.utils.SafeExceptionLogger;
 import net.deepacat.deepamonu.utils.TickScheduler;
+import net.minecraft.client.resources.sounds.Sound;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +28,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.player.Player;
 
-public class ClientInit implements ClientModInitializer {
+public class DMMClient implements ClientModInitializer {
     public static final Gson GSON = new Gson();
     public static final Logger LOGGER = LogManager.getLogger();
     public static final TickScheduler SCHEDULER = new TickScheduler();
@@ -64,9 +68,10 @@ public class ClientInit implements ClientModInitializer {
     public void onInitializeClient() {
         CONFIG = ModConfig.register();
         Keybinds.init();
-        ClientLifecycleEvents.CLIENT_STARTED.register((ClientStarted) minecraft -> GLOBAL_SAFE_EH.runSafely(this::initializeAfterMC));
-        ClientTickEvents.END_CLIENT_TICK.register((EndTick) mc -> GLOBAL_SAFE_EH.runSafely(() -> {
-            // ClientInit tick functions
+        SoundReward.init();
+        ClientLifecycleEvents.CLIENT_STARTED.register(minecraft -> GLOBAL_SAFE_EH.runSafely(this::initializeAfterMC));
+        ClientTickEvents.END_CLIENT_TICK.register(mc -> GLOBAL_SAFE_EH.runSafely(() -> {
+            // DMMClient tick functions
             Keybinds.tick();
         }));
         Commands.init();

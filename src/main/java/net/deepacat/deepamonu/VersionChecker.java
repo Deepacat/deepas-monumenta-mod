@@ -47,7 +47,7 @@ public class VersionChecker {
                     for (JsonElement version : ((JsonElement) GSON.fromJson(s.body(), JsonElement.class)).getAsJsonArray()) {
                         String file = version.getAsJsonObject().get("tag_name").getAsString();
                         boolean preRelease = version.getAsJsonObject().get("prerelease").getAsBoolean();
-                        if (!preRelease || ClientInit.features().versionCheckIncludeBeta) {
+                        if (!preRelease || DMMClient.features().versionCheckIncludeBeta) {
                             SemanticVersion semVer = SemanticVersion.parse(file.substring(1));
                             list.add(semVer);
                         }
@@ -97,7 +97,7 @@ public class VersionChecker {
                 if (res.isEmpty()) {
                     return new VersionChecker.Info(VersionChecker.Info.Result.DISABLED, Optional.empty());
                 } else {
-                    int comp = res.get().compareTo(ClientInit.MOD.getMetadata().getVersion());
+                    int comp = res.get().compareTo(DMMClient.MOD.getMetadata().getVersion());
                     if (comp == 0) {
                         return new VersionChecker.Info(VersionChecker.Info.Result.LATEST, res);
                     } else {

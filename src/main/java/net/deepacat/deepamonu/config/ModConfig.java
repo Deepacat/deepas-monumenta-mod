@@ -8,10 +8,17 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Category;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.ColorPicker;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.TransitiveObject;
+import me.shedaniel.autoconfig.gui.registry.GuiRegistry;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
-import net.deepacat.deepamonu.ClientInit;
+import net.deepacat.deepamonu.DMMClient;
 import net.minecraft.SharedConstants;
 import net.minecraft.world.InteractionResult;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Predicate;
 
 @Config(name = "deepamonu")
 public class ModConfig implements ConfigData {
@@ -20,6 +27,31 @@ public class ModConfig implements ConfigData {
     public Features features = new Features();
 
     public static class Features {
+        @ConfigEntry.Gui.CollapsibleObject
+        public SoundReward soundReward = new SoundReward();
+
+
+        public static class SoundReward {
+            public boolean enable = true;
+            public float volume = 1.0f;
+            public float pitch = 1.0f;
+            public boolean deepasPreset = true;
+        }
+
+        @ConfigEntry.Gui.CollapsibleObject
+        public MobGlowColorOverrides mobGlowColorOverrides = new MobGlowColorOverrides();
+
+        public static class MobGlowColorOverrides {
+            public boolean enable = true;
+
+            @ConfigEntry.Gui.CollapsibleObject
+            public MobColorsDropdown mobColorsDropdown = new MobColorsDropdown();
+
+            public static class MobColorsDropdown {
+                public Map<String, Integer> mobColorMap = new LinkedHashMap<>(Map.of("Gravity Bomb", 0xFF0000));
+            }
+        }
+
 //        @ConfigEntry.Gui.CollapsibleObject
 //        public InventoryOverlayToggles inventoryOverlay = new InventoryOverlayToggles();
 //
@@ -49,9 +81,9 @@ public class ModConfig implements ConfigData {
             public Particles particles = new Particles();
 
             public static class Particles {
-                public static boolean enableThresholds = true;
-                public static float healThreshold = 1.0f;
-                public static float damageThreshold = 1.0f;
+                public boolean enableThresholds = true;
+                public float healThreshold = 1.0f;
+                public float damageThreshold = 1.0f;
             }
         }
     }
@@ -98,9 +130,19 @@ public class ModConfig implements ConfigData {
         ConfigHolder<ModConfig> holder = AutoConfig.register(
                 ModConfig.class, (config, clazz) -> new GsonConfigSerializer(config, clazz, ConfigHandlerHelper.GSON)
         );
+
+        GuiRegistry registry = AutoConfig.getGuiRegistry(ModConfig.class);
+        Predicate<Field> predicate = field -> {
+            if (field.getType() != Map.class) return false;
+            if (!(field.getGenericType() instanceof ParameterizedType pt)) return false;
+            java.lang.reflect.Type[] args = pt.getActualTypeArguments();
+            return args.length == 2 && args[0] == String.class && args[1] == Integer.class;
+        };
+        registry.registerPredicateProvider(new MobGlowColorProvider(), predicate);
+
         holder.registerSaveListener((configHolder, config) -> {
             config.validatePostLoad();
-            ClientInit.reload();
+            DMMClient.reload();
             return InteractionResult.PASS;
         });
         ConfigHandlerHelper.register();
