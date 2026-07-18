@@ -14,6 +14,9 @@ repositories {
         forRepository { maven("https://api.modrinth.com/maven") }
         filter { includeGroup("maven.modrinth") }
     }
+    flatDir {
+        dirs("libs")
+    }
     maven("https://maven.parchmentmc.org")
     maven("https://maven.siphalor.de/")
     maven("https://maven.shedaniel.me/")
@@ -24,7 +27,14 @@ repositories {
     mavenCentral()
 }
 
-loom { accessWidenerPath = file("src/main/resources/deepamonu.accesswidener") }
+loom {
+    accessWidenerPath = file("src/main/resources/deepamonu.accesswidener")
+    runConfigs {
+        "client" {
+            vmArgs("-Dmixin.debug.export=true")
+        }
+    }
+}
 
 dependencies {
     minecraft(libs.minecraft)
@@ -53,6 +63,7 @@ dependencies {
     // Dev instance mods for debugging
     modRuntimeOnly(libs.bundles.dev)
     modRuntimeOnly(libs.provihealth)
+    modImplementation(files("libs/unofficial-monumenta-mod-mc1.20.4-1.10.jar"))
 }
 
 tasks {

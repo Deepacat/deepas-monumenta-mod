@@ -2,15 +2,13 @@ package net.deepacat.deepamonu;
 
 import java.util.Objects;
 
-import com.dayssky.mma.events.ClientReceiveSystemChatEvent;
-import com.dayssky.mma.events.EventResult;
+import net.deepacat.deepamonu.compat.TriggerSaving;
 import net.deepacat.deepamonu.config.ModConfig;
 import net.deepacat.deepamonu.features.Commands;
 import net.deepacat.deepamonu.features.Keybinds;
 import net.deepacat.deepamonu.features.SoundReward;
 import net.deepacat.deepamonu.utils.SafeExceptionLogger;
 import net.deepacat.deepamonu.utils.TickScheduler;
-import net.minecraft.client.resources.sounds.Sound;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,9 +17,7 @@ import com.google.gson.Gson;
 import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents.ClientStarted;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.EndTick;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.Minecraft;
@@ -36,6 +32,7 @@ public class DMMClient implements ClientModInitializer {
     public static final SafeExceptionLogger GLOBAL_SAFE_EH = new SafeExceptionLogger("GlobalExceptionHandler");
     public static ConfigHolder<ModConfig> CONFIG;
     public static VersionChecker VERSION_CHECK;
+    public static String MOD_ID = "deepamonu";
 
     public static Player player() {
         return Objects.requireNonNull(Minecraft.getInstance().player);
@@ -54,7 +51,7 @@ public class DMMClient implements ClientModInitializer {
     }
 
     public static ModConfig config() {
-        return (ModConfig) CONFIG.get();
+        return CONFIG.get();
     }
 
     public static ModConfig.Appearance appearance() {
@@ -73,6 +70,7 @@ public class DMMClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(mc -> GLOBAL_SAFE_EH.runSafely(() -> {
             // DMMClient tick functions
             Keybinds.tick();
+            TriggerSaving.tick();
         }));
         Commands.init();
         VERSION_CHECK = new VersionChecker((ModConfig) CONFIG.get());

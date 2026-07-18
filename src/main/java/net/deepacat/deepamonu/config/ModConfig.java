@@ -28,17 +28,6 @@ public class ModConfig implements ConfigData {
 
     public static class Features {
         @ConfigEntry.Gui.CollapsibleObject
-        public SoundReward soundReward = new SoundReward();
-
-
-        public static class SoundReward {
-            public boolean enable = true;
-            public float volume = 1.0f;
-            public float pitch = 1.0f;
-            public boolean deepasPreset = true;
-        }
-
-        @ConfigEntry.Gui.CollapsibleObject
         public MobGlowColorOverrides mobGlowColorOverrides = new MobGlowColorOverrides();
 
         public static class MobGlowColorOverrides {
@@ -51,21 +40,6 @@ public class ModConfig implements ConfigData {
                 public Map<String, Integer> mobColorMap = new LinkedHashMap<>(Map.of("Gravity Bomb", 0xFF0000));
             }
         }
-
-//        @ConfigEntry.Gui.CollapsibleObject
-//        public InventoryOverlayToggles inventoryOverlay = new InventoryOverlayToggles();
-//
-//        public static class InventoryOverlayToggles {
-//            public boolean enable = true;
-//            public boolean enableRarity = false;
-//            public boolean enableCZCharmRarity = false;
-//            public boolean enableCooldown = true;
-//            public boolean enableCZCharmPower = false;
-//            public boolean enablePICount = true;
-//            public boolean enableLoomFirmCount = false;
-//            @ConfigEntry.BoundedDiscrete(min = 0L, max = 20L)
-//            public int updateDelayTicks = 5;
-//        }
     }
 
     @Category("modtweaks")
@@ -86,8 +60,40 @@ public class ModConfig implements ConfigData {
                 public float damageThreshold = 1.0f;
             }
         }
-    }
 
+        @ConfigEntry.Gui.CollapsibleObject
+        public UMM umm = new UMM();
+
+        public static class UMM {
+            @ConfigEntry.Gui.CollapsibleObject
+            public TriggerOverlay triggerOverlay = new TriggerOverlay();
+
+            public static class TriggerOverlay {
+                public boolean enabled = true;
+                public int xOffset = 0;
+                public int yOffset = 0;
+
+                public boolean modifiersEnabled = true;
+                public int modifierXOffset = 0;
+                public int modifierYOffset = 0;
+                public boolean modifiersBelowKeyLine = false;
+
+                public boolean backgroundEnabled = true;
+                public int backgroundXOffset = 0;
+                public int backgroundYOffset = 0;
+                public int backgroundWidth = 0;
+                public int backgroundHeight = 0;
+                public float backgroundCornerRadius = 0.0f;   // 0 = sharp, >0 = rounded
+                @ColorPicker(allowAlpha = true)
+                public int backgroundColor = 0x80000000;
+
+                public boolean useIcons = false;
+
+                @ConfigEntry.Gui.Excluded
+                public transient boolean resetAutoTriggers = false;
+            }
+        }
+    }
 
     @Category("mod")
     @TransitiveObject
@@ -140,6 +146,12 @@ public class ModConfig implements ConfigData {
         };
         registry.registerPredicateProvider(new MobGlowColorProvider(), predicate);
 
+        // Register reset triggers button
+        registry.registerPredicateProvider(
+                new ResetTriggersProvider(),
+                field -> field.getName().equals("resetAutoTriggers")
+        );
+
         holder.registerSaveListener((configHolder, config) -> {
             config.validatePostLoad();
             DMMClient.reload();
@@ -153,6 +165,5 @@ public class ModConfig implements ConfigData {
     }
 
     public void validatePostLoad() {
-
     }
 }

@@ -1,0 +1,101 @@
+{
+  "trees": [
+    {
+      "tree": "Dawnbringer",
+      "description": "Bestows passive and active buffs to allies including speed, damage, resistance, and healing.",
+      "skills": [
+        {
+          "name": "Bottled Sunlight",
+          "trigger": "Sneak Right Click"
+        },
+        {
+          "name": "Enlightenment",
+          "trigger": "Passive"
+        },
+        {
+          "name": "Lightning Bottle",
+          "trigger": "Wildcard"
+        },
+        {
+          "name": "Radiant Blessing",
+
+          "depths_description": "Left click while sneaking to enchant players within 18 blocks, including yourself, with 20% resistance and #{12%|16%|20%|24%|28%|36%} increased damage for 10 seconds. Cooldown: 22s.",
+          "zenith_description": "Left click while sneaking to enchant players within 18 blocks, including yourself, with 20% resistance and #{12%|16%|20%|24%|28%|36%} increased damage for 10 seconds. Cooldown: 22s."
+        },
+        {
+          "name": "Rejuvenation",
+          "display_item": "nether_star",
+          "trigger": "Passive",
+          "depths_description": "All players within 12 blocks of you (including yourself) heal 5% of their max health every #{5|4.5|4|3.5|3|2.5} seconds. A given player will only be healed by the highest Rejuvenation that affects them.",
+          "zenith_description": "All players within 12 blocks of you (including yourself) heal 5% of their max health every #{5|4.5|4|3.5|3|2.5} seconds. A given player will only be healed by the highest Rejuvenation that affects them."
+        },
+        {
+          "name": "Soothing Combos",
+          "display_item": "honeycomb",
+          "trigger": "Combo",
+          "depths_description": "Every 3 melee strikes, heal all players within 6 blocks for #{6%|7%|8%|9%|10%|12%} of their max health. Other players receive 50% more healing. Additionally, give #{10%|12.5%|15%|17.5%|20%|25%} speed and Haste #{I|I|I|I|I|II} for 6 seconds to all players within 12 blocks.",
+          "zenith_description": "Every 3 melee strikes, heal all players within 6 blocks for #{6%|7%|8%|9%|10%|12%} of their max health. Other players receive 50% more healing. Additionally, give #{10%|12.5%|15%|17.5%|20%|25%} speed and Haste #{I|I|I|I|I|II} for 6 seconds to all players within 12 blocks."
+        },
+        {
+          "name": "Sundrops",
+          "display_item": "honeycomb_block",
+          "trigger": "Passive",
+          "depths_description": "Whenever a player in your party breaks a spawner, there is a #{20%|25%|30%|35%|40%|60%} chance of spawning a sundrop that lasts 10 seconds. Picking up a sundrop gives 20% speed and 15% resistance for 8 seconds. Spawn chance stacks with other players in your party who have the skill, up to 100%.",
+          "zenith_description": "Whenever a player in your party breaks a spawner, there is a #{20%|25%|30%|35%|40%|60%} chance of spawning a sundrop that lasts 10 seconds. Picking up a sundrop gives 20% speed and 15% resistance for 8 seconds. Spawn chance stacks with other players in your party who have the skill, up to 100%."
+        },
+        {
+          "name": "Ward of Light",
+          "trigger": "Right Click"
+        },
+        {
+          "name": "Divine Beam",
+          "trigger": "Sneak Bow"
+        },
+        {
+          "name": "Eternal Savior",
+          "trigger": "Lifeline"
+        },
+        {
+          "name": "Spark of Inspiration",
+          "trigger": "Swap"
+        }
+      ]
+    },
+    {
+      "tree": "Earthbound",
+      "description": "Resolute tank with capabilities of taking aggro and granting resistance to self, armed with minor crowd control."
+    },
+    {
+      "tree": "Flamecaller",
+      "description": "Caster of strong burst AOE abilities and potent damage over time."
+    },
+    {
+      "tree": "Frostborn",
+      "description": "Manipulates the flow of combat by debuffing enemies with ice generating abilities and high damage potential."
+    },
+    {
+      "tree": "Shadowdancer",
+      "description": "Skilled in single target melee damage, especially against bosses and elites."
+    },
+    {
+      "tree": "Steelsage",
+      "description": "Master of ranged abilities with dual AOE and single target damage capabilities."
+    },
+    {
+      "tree": "Windwalker",
+      "description": "An arsenal of movement abilities and crowd control, allowing precise maneuvers and quick escapes."
+    },
+    {
+      "tree": "Prismatic"
+    },
+    {
+      "tree": "Zenith Curse"
+    },
+    {
+      "tree": "Celestial Gift"
+    },
+    {
+      "tree": "Aspect"
+    }
+  ]
+}

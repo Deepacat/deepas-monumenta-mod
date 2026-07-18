@@ -4,12 +4,14 @@
   "package": "net.deepacat.deepamonu.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "LevelRendererMixin",
+    "TESStateMixin",
+    "UMMAbiltiesHudMixin"
   ],
   "plugin": "net.deepacat.deepamonu.MixinConfigPlugin",
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "TESStateMixin"
   ]
 }

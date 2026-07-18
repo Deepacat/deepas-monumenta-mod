@@ -1,0 +1,275 @@
+{
+  "container": "Ability Triggers",
+  "contents": [
+    {
+      "slot": 0,
+      "item": "Back",
+      "nbt": "{Gui:{Placeholder:1b,texture:\"trigger_main_back\"},HideFlags:255,display:{Lore:[\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Return to the class selection page.\"}\u0027],Name:\u0027{\"bold\":false,\"italic\":false,\"color\":\"gray\",\"text\":\"Back\"}\u0027},plain:{display:{Lore:[\"Return to the class selection page.\"],Name:\"Back\"}}}"
+    },
+    {
+      "slot": 1,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 2,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 3,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 4,
+      "item": "Help",
+      "nbt": "{Gui:{Placeholder:1b,texture:\"trigger_main_help\"},HideFlags:255,display:{Lore:[\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Click on a trigger to change it.\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Triggers are shown in the order they are\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"handled. Whenever a key is pressed, the\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"top-left trigger is checked first if it\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"matches. If not, the next trigger is\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"checked, and so forth until a trigger\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"matches and casts its ability.\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"If the ability cannot cast and\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"\\\\\"fall-through\\\\\" is enabled on the\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"trigger, the next trigger is checked.\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Right-click a trigger to immediately\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"perform the trigger\\\u0027s action (e.g.\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"toggle some state).\"}\u0027],Name:\u0027{\"bold\":false,\"italic\":false,\"color\":\"white\",\"text\":\"Help\"}\u0027},plain:{display:{Lore:[\"Click on a trigger to change it.\",\"Triggers are shown in the order they are\",\"handled. Whenever a key is pressed, the\",\"top-left trigger is checked first if it\",\"matches. If not, the next trigger is\",\"checked, and so forth until a trigger\",\"matches and casts its ability.\",\"If the ability cannot cast and\",\u0027\"fall-through\" is enabled on the\u0027,\"trigger, the next trigger is checked.\",\"Right-click a trigger to immediately\",\"perform the trigger\u0027s action (e.g.\",\"toggle some state).\"],Name:\"Help\"}}}"
+    },
+    {
+      "slot": 5,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 6,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 7,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 8,
+      "item": "Revert all triggers to defaults",
+      "nbt": "{Gui:{Placeholder:1b,texture:\"trigger_main_reset_trigger\"},HideFlags:255,display:{Lore:[\u0027{\"italic\":false,\"color\":\"red\",\"text\":\"This resets all triggers of all\"}\u0027,\u0027{\"italic\":false,\"color\":\"red\",\"text\":\"abilities of all classes back to\"}\u0027,\u0027{\"italic\":false,\"color\":\"red\",\"text\":\"defaults!\"}\u0027,\u0027{\"italic\":false,\"color\":\"red\",\"extra\":[{\"color\":\"gold\",\"text\":\"49\"},\" custom triggers\"],\"text\":\"You currently have \"}\u0027,\u0027{\"italic\":false,\"color\":\"red\",\"text\":\"defined.\"}\u0027],Name:\u0027{\"bold\":false,\"italic\":false,\"color\":\"dark_red\",\"text\":\"Revert all triggers to defaults\"}\u0027},plain:{display:{Lore:[\"This resets all triggers of all\",\"abilities of all classes back to\",\"defaults!\",\"You currently have 49 custom triggers\",\"defined.\"],Name:\"Revert all triggers to defaults\"}}}"
+    },
+    {
+      "slot": 9,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 10,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 11,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 12,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 13,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 14,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 15,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 16,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 17,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 18,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 19,
+      "item": "Swiftness - toggle jump boost",
+      "nbt": "{Gui:{Placeholder:1b,texture:\"Swiftness\"},HideFlags:255,display:{Lore:[\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Current Trigger (default):\"}\u0027,\u0027{\"italic\":false,\"color\":\"red\",\"text\":\"Trigger is disabled!\"}\u0027],Name:\u0027{\"bold\":false,\"italic\":false,\"color\":\"gold\",\"text\":\"Swiftness - toggle jump boost\"}\u0027},plain:{display:{Lore:[\"Current Trigger (default):\",\"Trigger is disabled!\"],Name:\"Swiftness - toggle jump boost\"}}}"
+    },
+    {
+      "slot": 20,
+      "item": "Swiftness - toggle default trigger",
+      "nbt": "{Gui:{Placeholder:1b,texture:\"Swiftness\"},HideFlags:255,display:{Lore:[\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Toggle the default behavior of double-tapping space to dash\"}\u0027,\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Current Trigger (default):\"}\u0027,\u0027{\"italic\":false,\"color\":\"red\",\"text\":\"Trigger is disabled!\"}\u0027],Name:\u0027{\"bold\":false,\"italic\":false,\"color\":\"gold\",\"text\":\"Swiftness - toggle default trigger\"}\u0027},plain:{display:{Lore:[\"Toggle the default behavior of double-tapping space to dash\",\"Current Trigger (default):\",\"Trigger is disabled!\"],Name:\"Swiftness - toggle default trigger\"}}}"
+    },
+    {
+      "slot": 21,
+      "item": "Swiftness - alternative jump trigger",
+      "nbt": "{Gui:{Placeholder:1b,texture:\"Swiftness\"},HideFlags:255,display:{Lore:[\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Current Trigger (default):\"}\u0027,\u0027{\"italic\":false,\"color\":\"red\",\"text\":\"Trigger is disabled!\"}\u0027],Name:\u0027{\"bold\":false,\"italic\":false,\"color\":\"gold\",\"text\":\"Swiftness - alternative jump trigger\"}\u0027},plain:{display:{Lore:[\"Current Trigger (default):\",\"Trigger is disabled!\"],Name:\"Swiftness - alternative jump trigger\"}}}"
+    },
+    {
+      "slot": 22,
+      "item": "Wind Bomb - cast",
+      "nbt": "{Gui:{Placeholder:1b,texture:\"Wind Bomb\"},HideFlags:255,display:{Lore:[\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Current Trigger (default):\"}\u0027,\u0027{\"italic\":false,\"color\":\"gold\",\"text\":\"Swap Hands\"}\u0027,\u0027{\"italic\":false,\"color\":\"white\",\"text\":\"- sneaking\"}\u0027],Name:\u0027{\"bold\":false,\"italic\":false,\"color\":\"gold\",\"text\":\"Wind Bomb - cast\"}\u0027},plain:{display:{Lore:[\"Current Trigger (default):\",\"Swap Hands\",\"- sneaking\"],Name:\"Wind Bomb - cast\"}}}"
+    },
+    {
+      "slot": 23,
+      "item": "Shrapnel Bomb - cast",
+      "nbt": "{Gui:{Placeholder:1b,texture:\"Shrapnel Bomb\"},HideFlags:255,display:{Lore:[\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Current Trigger (default):\"}\u0027,\u0027{\"italic\":false,\"color\":\"gold\",\"text\":\"Left Click\"}\u0027,\u0027{\"italic\":false,\"color\":\"white\",\"text\":\"- sneaking\"}\u0027,\u0027{\"italic\":false,\"color\":\"red\",\"extra\":[{\"color\":\"white\",\"text\":\"Holding a Projectile Weapon\"}],\"text\":\"- unchangeable: \"}\u0027],Name:\u0027{\"bold\":false,\"italic\":false,\"color\":\"gold\",\"text\":\"Shrapnel Bomb - cast\"}\u0027},plain:{display:{Lore:[\"Current Trigger (default):\",\"Left Click\",\"- sneaking\",\"- unchangeable: Holding a Projectile Weapon\"],Name:\"Shrapnel Bomb - cast\"}}}"
+    },
+    {
+      "slot": 24,
+      "item": "Steel Trap - cast",
+      "nbt": "{Gui:{Placeholder:1b,texture:\"Steel Trap\"},HideFlags:255,display:{Lore:[\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Current Trigger (default):\"}\u0027,\u0027{\"italic\":false,\"color\":\"gold\",\"text\":\"Drop Item\"}\u0027,\u0027{\"italic\":false,\"color\":\"red\",\"extra\":[{\"color\":\"white\",\"text\":\"Holding a Projectile Weapon\"}],\"text\":\"- unchangeable: \"}\u0027],Name:\u0027{\"bold\":false,\"italic\":false,\"color\":\"gold\",\"text\":\"Steel Trap - cast\"}\u0027},plain:{display:{Lore:[\"Current Trigger (default):\",\"Drop Item\",\"- unchangeable: Holding a Projectile Weapon\"],Name:\"Steel Trap - cast\"}}}"
+    },
+    {
+      "slot": 25,
+      "item": "Tactical Maneuver - dash forwards",
+      "nbt": "{Gui:{Placeholder:1b,texture:\"Tactical Maneuver\"},HideFlags:255,display:{Lore:[\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Current Trigger (default):\"}\u0027,\u0027{\"italic\":false,\"color\":\"gold\",\"text\":\"Swap Hands\"}\u0027,\u0027{\"italic\":false,\"color\":\"white\",\"text\":\"- not sneaking\"}\u0027],Name:\u0027{\"bold\":false,\"italic\":false,\"color\":\"gold\",\"text\":\"Tactical Maneuver - dash forwards\"}\u0027},plain:{display:{Lore:[\"Current Trigger (default):\",\"Swap Hands\",\"- not sneaking\"],Name:\"Tactical Maneuver - dash forwards\"}}}"
+    },
+    {
+      "slot": 26,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 27,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 28,
+      "item": "Rending Razor - cast",
+      "nbt": "{Damage:0,Gui:{Placeholder:1b,texture:\"Rending Razor\"},HideFlags:255,display:{Lore:[\u0027{\"italic\":false,\"color\":\"gray\",\"text\":\"Current Trigger (default):\"}\u0027,\u0027{\"italic\":false,\"color\":\"gold\",\"text\":\"Left Click\"}\u0027,\u0027{\"italic\":false,\"color\":\"red\",\"extra\":[{\"color\":\"white\",\"text\":\"Holding a Projectile Weapon\"}],\"text\":\"- unchangeable: \"}\u0027],Name:\u0027{\"bold\":false,\"italic\":false,\"color\":\"gold\",\"text\":\"Rending Razor - cast\"}\u0027},plain:{display:{Lore:[\"Current Trigger (default):\",\"Left Click\",\"- unchangeable: Holding a Projectile Weapon\"],Name:\"Rending Razor - cast\"}}}"
+    },
+    {
+      "slot": 29,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 30,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 31,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 32,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 33,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 34,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 35,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 36,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 37,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 38,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 39,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 40,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 41,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 42,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 43,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 44,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 45,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b,texture:\"gui_class_4_l\"},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"\"}}}"
+    },
+    {
+      "slot": 46,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 47,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 48,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 49,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 50,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 51,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 52,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"gui_blank\"}}}"
+    },
+    {
+      "slot": 53,
+      "item": "",
+      "nbt": "{Gui:{Filler:1b,Placeholder:1b,texture:\"gui_class_4_r\"},display:{Name:\u0027\"\"\u0027},plain:{display:{Name:\"\"}}}"
+    }
+  ]
+}
