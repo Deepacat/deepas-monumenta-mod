@@ -1,40 +1,18 @@
-# Monumenta Addons
+# Deepa's monumenta mod 
+
+This mod is a fork of MMA with everything stripped just to add features that I don't think fit in the main MMA mod for myself
+
+beware vibecoding
 
 ## Features
+- [Tslatentitystatus](https://modrinth.com/mod/tslatentitystatus/versions) compat
+    - Allows settings a threshold for damage/healing particles to show (e.g. if healing threshold is 1, healing particles below 1 value wont show)
+- [Unofficial Monumenta Mod](https://modrinth.com/mod/unofficial-monumenta-mod) compat
+    - Adds an ability trigger indicator
+        - Automatically reads your custom triggers when looking at the abilities and triggers screen
+        - Works with depths abilities
+- Glow color overrides (Editing the glowing color for any mob)
+    - E.g. change gravity bomb or twisted intruder to have a pink glow for better visibility
+    - Does NOT force mobs to glow that would be very illegal
 
-- :3
-- ultra configurable (feature toggle for everything)
-- meow keybind/macro
-- (portal) green box around buttons when cube summon is required
-- leaderboard command shorthand - /lb
-- random command aliases - see /mma help
-- vanilla effects in UMM HUD
-- HUD with shard/timer info
-- CZ charm stat helper
-- slot/item overlays
-    - item rarity
-    - cz charm rarity
-    - cooldown
-    - charm power (cz)
-    - pi pot counter
-    - firm/loom item counter
-- timers
-    - configurable split notification
-    - portal
-- bugfix
-    - iota doesn't appear (wtb fix 10har @usb)
-    - items where vanity doesn't have durability but the base item does won't show durability (mojang)
-- experimental
-    - better chat channels
-- usbplus:
-    - player glowing based on HP
-    - hitbox color based on HP
-
-## TODO
-
-- overlay location info on items as icons
-- infusion cost calculators
-- ability rarity
-- procedurally generated charm textures
-- automatic score assignment to charms
-- minimap (xaero my beloathed)
+## Potential planned features
