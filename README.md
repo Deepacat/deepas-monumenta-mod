@@ -8,7 +8,9 @@ beware vibecoding
 - [Tslatentitystatus](https://modrinth.com/mod/tslatentitystatus/versions) compat
     - Allows settings a threshold for damage/healing particles to show (e.g. if healing threshold is 1, healing particles below 1 value wont show)
 - [Unofficial Monumenta Mod](https://modrinth.com/mod/unofficial-monumenta-mod) compat
-    - Adds an ability trigger indicator
+    - Ability trigger indicators
+        - Displays the key input/combos to use abilities under/above them (configurable)
+        - Can also show modifiers like sprinting/doubletap/looking up/down/wherever etc
         - Automatically reads your custom triggers when looking at the abilities and triggers screen
         - Works with depths abilities
 - Glow color overrides (Editing the glowing color for any mob)
