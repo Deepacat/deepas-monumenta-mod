@@ -191,8 +191,6 @@ public class ModConfig implements ConfigData {
         public static class CompactAbilities {
             @Tooltip(count = 1)
             public boolean enabled = false;
-            @ConfigEntry.Gui.CollapsibleObject
-            public Layout layout = new Layout(45);
             @Tooltip(count = 1)
             public List<CompactAbilityEntry> trackedAbilities = new ArrayList<>();
             @Tooltip(count = 1)

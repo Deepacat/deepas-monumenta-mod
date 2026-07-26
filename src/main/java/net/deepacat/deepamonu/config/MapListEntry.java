@@ -44,8 +44,8 @@ public class MapListEntry extends AbstractConfigListEntry<List<MapEntry>> {
                         Consumer<List<MapEntry>> saveConsumer,
                         Supplier<List<MapEntry>> defaultValue,
                         Component resetButtonKey) {
-        super(fieldName, true);
-        this.value = new ArrayList<>(value);
+        super(fieldName, false);
+        this.value = value.stream().map(MapEntry::new).collect(Collectors.toCollection(ArrayList::new));
         this.defaultValue = defaultValue;
         this.saveConsumer = saveConsumer;
         rebuildRows();
@@ -75,6 +75,11 @@ public class MapListEntry extends AbstractConfigListEntry<List<MapEntry>> {
 
     @Override
     public void save() {
+        for (Row row : rows) {
+            row.commitHexSilent();
+        }
+        commitChange();
+        saveConsumer.accept(value);
         dirty = false;
     }
 
@@ -87,9 +92,6 @@ public class MapListEntry extends AbstractConfigListEntry<List<MapEntry>> {
             }
         }
         value = newList;
-        saveConsumer.accept(value);
-
-        // Mark as edited so the "Save & Quit" button activates
         dirty = true;
     }
 
@@ -219,6 +221,7 @@ public class MapListEntry extends AbstractConfigListEntry<List<MapEntry>> {
             keyField.setMaxLength(128);
             keyField.setValue(entry.key);
             keyField.setCursorPosition(0);
+            keyField.setHighlightPos(0);
             keyField.setResponder(newKey -> {
                 this.entry.key = newKey;
                 commitChange();
@@ -266,6 +269,18 @@ public class MapListEntry extends AbstractConfigListEntry<List<MapEntry>> {
             } catch (NumberFormatException e) {
                 this.currentColor = lastValidColor;
                 hexField.setValue(String.format("%06X", lastValidColor));
+            }
+        }
+
+        private void commitHexSilent() {
+            String text = hexField.getValue();
+            try {
+                String clean = text.startsWith("#") ? text.substring(1) : text;
+                int parsed = Integer.parseInt(clean, 16);
+                this.currentColor = parsed;
+                this.lastValidColor = parsed;
+                this.entry.color = parsed;
+            } catch (NumberFormatException ignored) {
             }
         }
 

@@ -1,11 +1,12 @@
 package net.deepacat.deepamonu.hud;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.deepacat.deepamonu.DMMClient;
 import net.deepacat.deepamonu.config.ModConfig;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.gui.GuiGraphics;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CrosshairHud {
 
@@ -20,7 +21,7 @@ public class CrosshairHud {
         ModConfig config = DMMClient.config();
         if (config == null) return;
 
-        if (config.features.crosshair.compactAbilities.enabled && !config.features.crosshair.compactAbilities.layout.renderOverUI) {
+        if (config.features.crosshair.compactAbilities.enabled) {
             CompactAbilityDisplay.render(graphics);
         }
         if (config.features.crosshair.alchPotions.enabled && !config.features.crosshair.alchPotions.layout.renderOverUI) {
@@ -35,9 +36,6 @@ public class CrosshairHud {
         ModConfig config = DMMClient.config();
         if (config == null) return;
 
-        if (config.features.crosshair.compactAbilities.enabled && config.features.crosshair.compactAbilities.layout.renderOverUI) {
-            CompactAbilityDisplay.render(graphics);
-        }
         if (config.features.crosshair.alchPotions.enabled && config.features.crosshair.alchPotions.layout.renderOverUI) {
             AlchPotionDisplay.render(graphics);
         }

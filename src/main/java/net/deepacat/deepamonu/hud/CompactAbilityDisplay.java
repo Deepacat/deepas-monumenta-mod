@@ -55,25 +55,22 @@ public class CompactAbilityDisplay {
             return;
         }
 
-        List<List<CrosshairTextRenderer.TextLine>> lineSegments = new ArrayList<>();
-
         for (AbilityHandler.AbilityInfo info : abilities) {
-            List<CrosshairTextRenderer.TextLine> parsed = getDisplayLines(cfg, info);
-            if (!parsed.isEmpty()) {
-                lineSegments.add(parsed);
-            }
-        }
+            CompactAbilityEntry entry = findEntry(cfg, info);
+            if (entry == null) continue;
+            List<CrosshairTextRenderer.TextLine> parsed = getDisplayText(cfg, entry, info);
+            if (parsed.isEmpty()) continue;
 
-        CrosshairTextRenderer.renderSegmentedLines(
-                graphics, lineSegments,
-                cfg.layout.xOffset, cfg.layout.yOffset,
-                0, cfg.layout.textScale
-        );
+            CrosshairTextRenderer.renderLines(
+                    graphics, parsed,
+                    entry.xOffset, entry.yOffset,
+                    0, entry.textScale
+            );
+        }
     }
 
-    private static List<CrosshairTextRenderer.TextLine> getDisplayLines(ModConfig.Crosshair.CompactAbilities cfg, AbilityHandler.AbilityInfo info) {
-        if (info == null || info.name == null) return List.of();
-
+    private static CompactAbilityEntry findEntry(ModConfig.Crosshair.CompactAbilities cfg, AbilityHandler.AbilityInfo info) {
+        if (info == null || info.name == null) return null;
         if (cfg.advancedMode) {
             String jsonPath = cfg.advancedJsonPath;
             if (jsonPath != null && !jsonPath.isEmpty()) {
@@ -84,20 +81,25 @@ public class CompactAbilityDisplay {
                 if (cachedAdvanced != null && !cachedAdvanced.isEmpty()) {
                     String display = FormatParser.evaluateAdvanced(cachedAdvanced, info);
                     if (display != null) {
-                        return FormatParser.parseString(display, info);
+                        return new CompactAbilityEntry(info.name, display);
                     }
                 }
             }
         }
-
         String searchLower = info.name.toLowerCase(Locale.ROOT);
         for (CompactAbilityEntry entry : cfg.trackedAbilities) {
-            if (entry.abilityName == null || entry.abilityName.isEmpty()) continue;
-            if (entry.abilityName.toLowerCase(Locale.ROOT).equals(searchLower)) {
-                return FormatParser.parse(entry, info);
+            if (entry.abilityName != null && !entry.abilityName.isEmpty()
+                    && entry.abilityName.toLowerCase(Locale.ROOT).equals(searchLower)) {
+                return entry;
             }
         }
+        return null;
+    }
 
-        return List.of();
+    private static List<CrosshairTextRenderer.TextLine> getDisplayText(ModConfig.Crosshair.CompactAbilities cfg, CompactAbilityEntry entry, AbilityHandler.AbilityInfo info) {
+        if (cfg.advancedMode && entry.abilityName.equals(info.name)) {
+            return FormatParser.parseString(entry.formatString, info);
+        }
+        return FormatParser.parse(entry, info);
     }
 }

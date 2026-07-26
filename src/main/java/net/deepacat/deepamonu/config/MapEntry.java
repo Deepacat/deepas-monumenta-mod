@@ -8,4 +8,9 @@ public class MapEntry {
         this.key = key;
         this.color = color;
     }
+
+    public MapEntry(MapEntry other) {
+        this.key = other.key;
+        this.color = other.color;
+    }
 }
