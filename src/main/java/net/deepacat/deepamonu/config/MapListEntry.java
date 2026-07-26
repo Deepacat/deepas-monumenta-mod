@@ -218,6 +218,7 @@ public class MapListEntry extends AbstractConfigListEntry<List<MapEntry>> {
             );
             keyField.setMaxLength(128);
             keyField.setValue(entry.key);
+            keyField.setCursorPosition(0);
             keyField.setResponder(newKey -> {
                 this.entry.key = newKey;
                 commitChange();

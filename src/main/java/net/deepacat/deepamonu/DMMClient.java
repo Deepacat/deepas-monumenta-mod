@@ -7,6 +7,8 @@ import net.deepacat.deepamonu.config.ModConfig;
 import net.deepacat.deepamonu.features.Commands;
 import net.deepacat.deepamonu.features.Keybinds;
 import net.deepacat.deepamonu.features.SoundReward;
+import net.deepacat.deepamonu.features.commands.debug.DpsTestTracker;
+import net.deepacat.deepamonu.hud.CrosshairHud;
 import net.deepacat.deepamonu.utils.SafeExceptionLogger;
 import net.deepacat.deepamonu.utils.TickScheduler;
 import org.apache.logging.log4j.LogManager;
@@ -66,11 +68,14 @@ public class DMMClient implements ClientModInitializer {
         CONFIG = ModConfig.register();
         Keybinds.init();
         SoundReward.init();
+        CrosshairHud.init();
         ClientLifecycleEvents.CLIENT_STARTED.register(minecraft -> GLOBAL_SAFE_EH.runSafely(this::initializeAfterMC));
         ClientTickEvents.END_CLIENT_TICK.register(mc -> GLOBAL_SAFE_EH.runSafely(() -> {
             // DMMClient tick functions
             Keybinds.tick();
             TriggerSaving.tick();
+            CrosshairHud.tick();
+            DpsTestTracker.tick();
         }));
         Commands.init();
         VERSION_CHECK = new VersionChecker((ModConfig) CONFIG.get());

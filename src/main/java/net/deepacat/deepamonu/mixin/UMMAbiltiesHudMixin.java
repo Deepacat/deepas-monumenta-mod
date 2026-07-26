@@ -152,8 +152,8 @@ public abstract class UMMAbiltiesHudMixin {
 
         int arrowWidth = !arrow.isEmpty() ? Minecraft.getInstance().font.width(arrow) : 0;
         int totalWidth = arrowWidth + totalKeyWidth;
-        int startX = iconX + (iconSize - totalWidth) / 2 + cfg.xOffset;
-        int baseY = iconY + cfg.yOffset + FIXED_Y_OFFSET;
+        int startX = iconX + (iconSize - totalWidth) / 2 + cfg.layout.xOffset;
+        int baseY = iconY + cfg.layout.yOffset + FIXED_Y_OFFSET;
         int keyBaseY = baseY;
         if (trigger.displayOffsetY != 0 && trigger.displayString != null && !trigger.displayString.isEmpty()) {
             keyBaseY += trigger.displayOffsetY;
@@ -161,13 +161,13 @@ public abstract class UMMAbiltiesHudMixin {
 
         // --- Modifier indicators ---
         List<IndicatorLine> indicators = new ArrayList<>();
-        if (cfg.modifiersEnabled && trigger.lookDirection != null) {
+        if (cfg.modifiers.modifiersEnabled && trigger.lookDirection != null) {
             indicators.add(new IndicatorLine(lookDirToArrow(trigger.lookDirection), 0xFF55FFFF));
         }
-        if (cfg.modifiersEnabled && trigger.hasSprintCondition) {
+        if (cfg.modifiers.modifiersEnabled && trigger.hasSprintCondition) {
             indicators.add(new IndicatorLine("»", trigger.requireSprinting ? VANILLA_GREEN : VANILLA_RED));
         }
-        if (cfg.modifiersEnabled && trigger.hasGroundCondition) {
+        if (cfg.modifiers.modifiersEnabled && trigger.hasGroundCondition) {
             indicators.add(new IndicatorLine("⚓", trigger.requireOnGround ? VANILLA_GREEN : VANILLA_RED));
         }
 
@@ -185,10 +185,10 @@ public abstract class UMMAbiltiesHudMixin {
         int modifierLineY;
         int blockTop, blockBottom;
 
-        if (cfg.modifiersBelowKeyLine) {
-            modifierLineY = baseY + fontHeight + cfg.modifierYOffset + FIXED_MODIFIER_Y_OFFSET;
+        if (cfg.modifiers.modifiersBelowKeyLine) {
+            modifierLineY = baseY + fontHeight + cfg.modifiers.modifierYOffset + FIXED_MODIFIER_Y_OFFSET;
         } else {
-            modifierLineY = baseY + cfg.modifierYOffset + FIXED_MODIFIER_Y_OFFSET;
+            modifierLineY = baseY + cfg.modifiers.modifierYOffset + FIXED_MODIFIER_Y_OFFSET;
         }
 
         int keyTop = keyBaseY - fontHeight;
@@ -205,20 +205,20 @@ public abstract class UMMAbiltiesHudMixin {
         int blockHeight = blockBottom - blockTop;
 
         // Background
-        if (cfg.backgroundEnabled) {
+        if (cfg.background.backgroundEnabled) {
             int autoW = blockWidth + 2 * PADDING;
             int autoH = blockHeight + 2 * PADDING;
-            int bgW = autoW + cfg.backgroundWidth + FIXED_BG_EXTRA;
-            int bgH = autoH + cfg.backgroundHeight + FIXED_BG_EXTRA;
-            int bgX = iconX + (iconSize - bgW) / 2 + cfg.backgroundXOffset;
-            int bgY = blockTop - PADDING + cfg.backgroundYOffset + FIXED_BG_Y_OFFSET + trigger.backgroundOffsetY;
-            drawRoundedRect(drawContext, bgX, bgY, bgW, bgH, cfg.backgroundColor, cfg.backgroundCornerRadius);
+            int bgW = autoW + cfg.background.backgroundWidth + FIXED_BG_EXTRA;
+            int bgH = autoH + cfg.background.backgroundHeight + FIXED_BG_EXTRA;
+            int bgX = iconX + (iconSize - bgW) / 2 + cfg.background.backgroundXOffset;
+            int bgY = blockTop - PADDING + cfg.background.backgroundYOffset + FIXED_BG_Y_OFFSET + trigger.backgroundOffsetY;
+            drawRoundedRect(drawContext, bgX, bgY, bgW, bgH, cfg.background.backgroundColor, cfg.background.backgroundCornerRadius);
         }
 
         // Draw modifiers
         if (!indicators.isEmpty()) {
             int spaceWidth = Minecraft.getInstance().font.width(" ");
-            int currentX = iconX + (iconSize - indicatorLineWidth) / 2 + cfg.modifierXOffset;
+            int currentX = iconX + (iconSize - indicatorLineWidth) / 2 + cfg.modifiers.modifierXOffset;
             for (int i = 0; i < indicators.size(); i++) {
                 IndicatorLine ind = indicators.get(i);
                 hudElement.drawOutlinedText(drawContext, ind.text, currentX, modifierLineY, ind.color);
