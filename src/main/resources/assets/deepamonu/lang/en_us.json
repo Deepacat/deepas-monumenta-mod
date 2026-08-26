@@ -31,6 +31,8 @@
   "text.autoconfig.deepamonu.option.modtweaks.tslatentitystatus.particles.damageThreshold.@Tooltip": "Minimum damage amount required before a damage particle is shown",
 
   "text.autoconfig.deepamonu.option.modtweaks.umm.triggerOverlay": "Trigger Overlay",
+  "text.autoconfig.deepamonu.option.modtweaks.umm.triggerOverlay.enabled": "Enable Trigger Overlays",
+  "text.autoconfig.deepamonu.option.modtweaks.umm.triggerOverlay.enabled.@Tooltip": "Shows ability keybinds above ability displays from UMM\n(Requires opening triggers menu to cache ability triggers)",
   "text.autoconfig.deepamonu.option.modtweaks.umm.triggerOverlay.layout": "Layout",
   "text.autoconfig.deepamonu.option.modtweaks.umm.triggerOverlay.layout.xOffset": "X offset",
   "text.autoconfig.deepamonu.option.modtweaks.umm.triggerOverlay.layout.xOffset.@Tooltip": "Horizontal offset for the main key indicator text",
