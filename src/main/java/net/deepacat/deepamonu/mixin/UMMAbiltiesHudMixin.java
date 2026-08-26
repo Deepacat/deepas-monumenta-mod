@@ -34,7 +34,7 @@ public abstract class UMMAbiltiesHudMixin {
     @Unique private static final int VANILLA_GREEN = 0xFF55FF55;
     @Unique private static final int VANILLA_RED   = 0xFFFF5555;
     @Unique private static final int PADDING = 2;
-    @Unique private static final int FIXED_Y_OFFSET = -16;
+    @Unique private static final int FIXED_Y_OFFSET = -20;
     @Unique private static final int FIXED_MODIFIER_Y_OFFSET = -10;
     @Unique private static final int FIXED_BG_Y_OFFSET = 8;
     @Unique private static final int FIXED_BG_EXTRA = 1;

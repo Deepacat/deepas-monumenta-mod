@@ -63,7 +63,7 @@ public class ModConfig implements ConfigData {
 
             public static class Particles {
                 @Tooltip(count = 1)
-                public boolean enableThresholds = true;
+                public boolean enableThresholds = false;
                 @Tooltip(count = 1)
                 public float healThreshold = 1.0f;
                 @Tooltip(count = 1)
@@ -80,7 +80,7 @@ public class ModConfig implements ConfigData {
 
             public static class TriggerOverlay {
                 @Tooltip(count = 1)
-                public boolean enabled = true;
+                public boolean enabled = false;
 
                 @ConfigEntry.Gui.CollapsibleObject
                 public TriggerLayout layout = new TriggerLayout();
@@ -107,7 +107,7 @@ public class ModConfig implements ConfigData {
 
             public static class TriggerModifiers {
                 @Tooltip(count = 1)
-                public boolean modifiersEnabled = true;
+                public boolean modifiersEnabled = false;
                 @Tooltip(count = 1)
                 public int modifierXOffset = 0;
                 @Tooltip(count = 1)
@@ -128,7 +128,7 @@ public class ModConfig implements ConfigData {
                 @Tooltip(count = 1)
                 public int backgroundHeight = 0;
                 @Tooltip(count = 1)
-                public float backgroundCornerRadius = 0.0f;
+                public float backgroundCornerRadius = 1.0f;
                 @Tooltip(count = 1) @ColorPicker(allowAlpha = true)
                 public int backgroundColor = 0x80000000;
             }
@@ -273,9 +273,9 @@ public class ModConfig implements ConfigData {
 
         public static class DisplaySettings {
             @Tooltip(count = 1)
-            public boolean hideVanillaAmmo = true;
+            public boolean hideVanillaAmmo = false;
             @Tooltip(count = 1)
-            public boolean showTotal = true;
+            public boolean showTotal = false;
             @Tooltip(count = 1)
             public DisplayMode ammoDisplayMode = DisplayMode.TEXT;
         }
