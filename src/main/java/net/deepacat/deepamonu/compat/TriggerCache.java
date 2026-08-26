@@ -13,6 +13,7 @@ import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TriggerCache {
 
@@ -20,6 +21,7 @@ public class TriggerCache {
     private static final Path CACHE_DIR = FabricLoader.getInstance().getGameDir()
             .resolve("config/deepamonumentamod/triggerCache");
     private static final Path BACKUP_DIR = CACHE_DIR.resolve("backups");
+    private static final Map<String, ClassTriggers> MEMORY_CACHE = new ConcurrentHashMap<>();
 
     public static class TriggerEntry {
         public String keyBindingName;
@@ -93,18 +95,26 @@ public class TriggerCache {
 
     // ---------- file loading & merging ----------
     public static ClassTriggers loadClassTriggers(String className) {
-        Path file = CACHE_DIR.resolve(className.toLowerCase(Locale.ROOT) + ".json");
+        String key = className.toLowerCase(Locale.ROOT);
+        ClassTriggers cached = MEMORY_CACHE.get(key);
+        if (cached != null) return cached;
+
+        Path file = CACHE_DIR.resolve(key + ".json");
         if (!Files.exists(file)) return null;
         try {
             String json = Files.readString(file);
-            return GSON.fromJson(json, ClassTriggers.class);
+            ClassTriggers ct = GSON.fromJson(json, ClassTriggers.class);
+            if (ct != null) {
+                MEMORY_CACHE.put(key, ct);
+            }
+            return ct;
         } catch (IOException | JsonSyntaxException e) {
             DMMClient.LOGGER.warn("Failed to load trigger cache for {}. Corrupted file will be moved to backups.", className, e);
             DMMClient.GLOBAL_SAFE_EH.runSafely(() -> {
                 try {
                     Files.createDirectories(BACKUP_DIR);
                     String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-                    Path backupFile = BACKUP_DIR.resolve(className.toLowerCase(Locale.ROOT) + "_" + timestamp + ".json");
+                    Path backupFile = BACKUP_DIR.resolve(key + "_" + timestamp + ".json");
                     Files.move(file, backupFile, StandardCopyOption.REPLACE_EXISTING);
                     DMMClient.LOGGER.info("Corrupted trigger file moved to {}", backupFile);
                     notifyPlayer(Component.literal("⚠ Trigger file for " + className + " was corrupted and has been backed up."));
@@ -124,8 +134,9 @@ public class TriggerCache {
     public static void mergeAndSave(String className, Map<String, TriggerEntry> newAutoTriggers) {
         if (className == null) return;
         if (newAutoTriggers == null) newAutoTriggers = Collections.emptyMap();
+        String key = className.toLowerCase(Locale.ROOT);
 
-        ClassTriggers existing = loadClassTriggers(className);
+        ClassTriggers existing = MEMORY_CACHE.containsKey(key) ? MEMORY_CACHE.get(key) : loadClassTriggers(className);
         Map<String, TriggerEntry> mergedAuto = copyMap(existing != null ? existing.triggers : null);
         Map<String, TriggerEntry> hardcoded = copyMap(existing != null ? existing.hardcoded : null);
 
@@ -144,13 +155,15 @@ public class TriggerCache {
             ct.triggers = mergedAuto;
             ct.hardcoded = hardcoded;
             String json = GSON.toJson(ct);
-            Files.writeString(CACHE_DIR.resolve(className.toLowerCase(Locale.ROOT) + ".json"), json);
+            Files.writeString(CACHE_DIR.resolve(key + ".json"), json);
+            MEMORY_CACHE.put(key, ct);
         } catch (IOException e) {
             DMMClient.LOGGER.error("Failed to save trigger cache for " + className, e);
         }
     }
 
     public static void clearAllAutoTriggers() {
+        MEMORY_CACHE.clear();
         if (!Files.exists(CACHE_DIR)) return;
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(CACHE_DIR, "*.json")) {
             for (Path file : stream) {
