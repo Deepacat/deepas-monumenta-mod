@@ -30,6 +30,8 @@ public class LevelRendererMixin {
     )
     private int modifyEntityGlowingColor(int original, @Local Entity entity) {
         return ExceptionHandler.runSafely(() -> {
+            if (!config.features.mobGlowColorOverrides.enable) return original;
+
             var map = config.features.mobGlowColorOverrides.mobColorsDropdown.mobColorMap;
             for (Map.Entry<String, Integer> entry : map.entrySet()) {
                 if (entity.getName().getString().contains(entry.getKey())) {
