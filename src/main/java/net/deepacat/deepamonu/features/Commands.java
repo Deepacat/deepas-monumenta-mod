@@ -1,5 +1,7 @@
 package net.deepacat.deepamonu.features;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.deepacat.deepamonu.DMMClient;
 import net.deepacat.deepamonu.config.ModConfig;
 import net.deepacat.deepamonu.features.commands.debug.DpsTestTracker;
@@ -27,25 +29,25 @@ public class Commands {
                                         ChatUtil.send("Dumped ability data to log");
                                         return 0;
                                     }),
-                            CommandUtil.lit("chat", ignored -> {
-                                DumpChatMessage.dumpLast(1);
-                                ChatUtil.send("Dumped last chat message to log");
-                                return 0;
-                            },
-                                    CommandUtil.arg("count", IntegerArgumentType.integer(1, 50), (context) -> {
-                                        int count = IntegerArgumentType.getInteger(context, "count");
-                                        DumpChatMessage.dumpLast(count);
-                                        ChatUtil.send("Dumped last " + count + " chat messages to log");
-                                        return 0;
-                                    })
-                            )
+                                    CommandUtil.lit("chat", ignored -> {
+                                                DumpChatMessage.dumpLast(1);
+                                                ChatUtil.send("Dumped last chat message to log");
+                                                return 0;
+                                            },
+                                            CommandUtil.arg("count", IntegerArgumentType.integer(1, 50), (context) -> {
+                                                int count = IntegerArgumentType.getInteger(context, "count");
+                                                DumpChatMessage.dumpLast(count);
+                                                ChatUtil.send("Dumped last " + count + " chat messages to log");
+                                                return 0;
+                                            })
+                                    )
                             ),
                             CommandUtil.lit("dpstest",
                                     CommandUtil.lit("timer", ignored -> {
-                                        DpsTestTracker.start(10);
-                                        ChatUtil.send("DPS test started for 10 seconds");
-                                        return 0;
-                                    },
+                                                DpsTestTracker.start(10);
+                                                ChatUtil.send("DPS test started for 10 seconds");
+                                                return 0;
+                                            },
                                             CommandUtil.arg("seconds", IntegerArgumentType.integer(1, 300), (context) -> {
                                                 int secs = IntegerArgumentType.getInteger(context, "seconds");
                                                 DpsTestTracker.start(secs);
@@ -54,10 +56,10 @@ public class Commands {
                                             })
                                     ),
                                     CommandUtil.lit("total", ignored -> {
-                                        DpsTestTracker.startTotal(10000);
-                                        ChatUtil.send("DPS test started, target 10000 total damage");
-                                        return 0;
-                                    },
+                                                DpsTestTracker.startTotal(10000);
+                                                ChatUtil.send("DPS test started, target 10000 total damage");
+                                                return 0;
+                                            },
                                             CommandUtil.arg("damage", IntegerArgumentType.integer(1, Integer.MAX_VALUE), (context) -> {
                                                 int target = IntegerArgumentType.getInteger(context, "damage");
                                                 DpsTestTracker.startTotal(target);
@@ -98,6 +100,10 @@ public class Commands {
                             })
                     )
             );
+            // dmm alias for deepamonu command
+            LiteralArgumentBuilder<FabricClientCommandSource> dmm =
+                    LiteralArgumentBuilder.<FabricClientCommandSource>literal("dmm").redirect(deepamonu);
+            dispatcher.register(dmm);
         });
     }
 }
