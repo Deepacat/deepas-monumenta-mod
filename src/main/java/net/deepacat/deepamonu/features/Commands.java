@@ -79,6 +79,7 @@ public class Commands {
                             ),
                             CommandUtil.lit("help", ignored -> {
                                 ChatUtil.send(Component.literal("Command Help").withStyle(ChatFormatting.BOLD));
+                                ChatUtil.send("(Note /dmm also works)");
                                 ChatUtil.send("/deepamonu debug abilities - dumps current UMM ability data to log");
                                 ChatUtil.send("/deepamonu debug chat [count] - dumps last N chat messages to log");
                                 ChatUtil.send("/deepamonu dpstest timer [seconds] - starts a timed DPS test");
