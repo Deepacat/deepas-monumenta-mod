@@ -4,7 +4,6 @@ package net.deepacat.deepamonu.mixin;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.deepacat.deepamonu.DMMClient;
 import net.deepacat.deepamonu.config.ModConfig;
-import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
@@ -13,7 +12,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,8 +21,6 @@ import java.util.List;
 
 @Mixin(BlockEntityRenderDispatcher.class)
 public abstract class BlockEntityRenderDispatcherMixin {
-    @Shadow
-    public Camera camera;
 
     @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
     private <E extends BlockEntity> void renderMixin(E blockEntity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, CallbackInfo ci) {
@@ -33,7 +29,7 @@ public abstract class BlockEntityRenderDispatcherMixin {
 
         if (!shouldHide(hider, blockEntity)) return;
 
-        int distSq = distSquared(blockEntity.getBlockPos(), this.camera.getBlockPosition());
+        int distSq = distSquared(blockEntity.getBlockPos(), DMMClient.player().blockPosition());
         if (distSq > hider.distance * hider.distance) {
             ci.cancel();
         }
