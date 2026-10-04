@@ -1,8 +1,6 @@
 {
   "category.deepamonu": "Deepas' Monumenta mod",
-  "key.deepamonu.debugDumpItems": "Dump container item lore to log (Debug)",
-  "key.deepamonu.debugDumpAbilities": "Dump ability information to log (Debug)",
-  "key.deepamonu.debugDumpChat": "Dump last chat message data to log (Debug)",
+
   "text.autoconfig.deepamonu.title": "Deepas' Monumenta Mod Config",
   "text.autoconfig.deepamonu.category.features": "Features",
   "text.autoconfig.deepamonu.category.modtweaks": "Mod Tweaks",
@@ -222,5 +220,12 @@
   "text.autoconfig.deepamonu.option.appearance.warningColor": "Warning color",
   "text.autoconfig.deepamonu.option.appearance.warningColor.@Tooltip": "Color used for warning messages in chat",
   "text.autoconfig.deepamonu.option.appearance.errorColor": "Error color",
-  "text.autoconfig.deepamonu.option.appearance.errorColor.@Tooltip": "Color used for error messages in chat"
+  "text.autoconfig.deepamonu.option.appearance.errorColor.@Tooltip": "Color used for error messages in chat",
+
+  "key.deepamonu.debugDumpItems": "Dump container item lore to log (Debug)",
+  "key.deepamonu.debugDumpAbilities": "Dump ability information to log (Debug)",
+  "key.deepamonu.debugDumpChat": "Dump last chat message data to log (Debug)",
+  "key.deepamonu.toggleHideAllBlocks": "Toggle all blocks hidden",
+  "key.deepamonu.toggleHideBlocksDimensionList": "Hide all blocks in dimension list",
+  "key.deepamonu.toggleHideBlocksAllDimensions": "Hide blocks in all dimensions"
 }
