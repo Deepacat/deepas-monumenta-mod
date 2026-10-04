@@ -46,6 +46,24 @@ public class ModConfig implements ConfigData {
         }
 
         @ConfigEntry.Gui.CollapsibleObject
+        public BlockEntityHider blockEntityHider = new BlockEntityHider();
+
+        public static class BlockEntityHider {
+            @Tooltip(count = 1)
+            public boolean hideInAllDimensions = false;
+            @Tooltip(count = 1)
+            public boolean hideInDimensionList = false;
+            @Tooltip(count = 1)
+            public boolean hideAllBlocks = false;
+            @Tooltip(count = 1)
+            public int distance = 6;
+            @Tooltip(count = 1)
+            public List<String> blockEntityIds = new ArrayList<>(List.of("minecraft:chest", "/minecraft.*sign/", "/minecraft.*banner/"));
+            @Tooltip(count = 1)
+            public List<String> dimensionIds = new ArrayList<>(List.of("monumenta:plots"));
+        }
+
+        @ConfigEntry.Gui.CollapsibleObject
         public Crosshair crosshair = new Crosshair();
     }
 
@@ -129,7 +147,8 @@ public class ModConfig implements ConfigData {
                 public int backgroundHeight = 0;
                 @Tooltip(count = 1)
                 public float backgroundCornerRadius = 1.0f;
-                @Tooltip(count = 1) @ColorPicker(allowAlpha = true)
+                @Tooltip(count = 1)
+                @ColorPicker(allowAlpha = true)
                 public int backgroundColor = 0x80000000;
             }
         }
@@ -155,35 +174,47 @@ public class ModConfig implements ConfigData {
     public Appearance appearance = new Appearance();
 
     public static class Appearance {
-        @Tooltip(count = 1) @ColorPicker
+        @Tooltip(count = 1)
+        @ColorPicker
         public int bracketColor = 12041720;
-        @Tooltip(count = 1) @ColorPicker
+        @Tooltip(count = 1)
+        @ColorPicker
         public int tagColor = 13017334;
         @Tooltip(count = 1)
         public String tagText = "DMM";
-        @Tooltip(count = 1) @ColorPicker
+        @Tooltip(count = 1)
+        @ColorPicker
         public int textColor = 16047062;
-        @Tooltip(count = 1) @ColorPicker
+        @Tooltip(count = 1)
+        @ColorPicker
         public int numericColor = 15961000;
-        @Tooltip(count = 1) @ColorPicker
+        @Tooltip(count = 1)
+        @ColorPicker
         public int detailColor = 7106437;
-        @Tooltip(count = 1) @ColorPicker
+        @Tooltip(count = 1)
+        @ColorPicker
         public int playerNameColor = 15703926;
-        @Tooltip(count = 1) @ColorPicker
+        @Tooltip(count = 1)
+        @ColorPicker
         public int altTextColor = 11845374;
-        @Tooltip(count = 1) @ColorPicker
+        @Tooltip(count = 1)
+        @ColorPicker
         public int errorColor = 15091027;
-        @Tooltip(count = 1) @ColorPicker
+        @Tooltip(count = 1)
+        @ColorPicker
         public int warningColor = 14650909;
     }
 
     // ===== Crosshair HUD sub-configs (inside Features) =====
 
     public static class Crosshair {
-        public enum DisplayMode { TEXT, ICONS }
-        public enum IconCharStyle { BLOCKS, CIRCLES, SQUARES }
-        public enum Alignment { LEFT, CENTER, RIGHT }
-        public enum ShadowType { OUTLINE, VANILLA }
+        public enum DisplayMode {TEXT, ICONS}
+
+        public enum IconCharStyle {BLOCKS, CIRCLES, SQUARES}
+
+        public enum Alignment {LEFT, CENTER, RIGHT}
+
+        public enum ShadowType {OUTLINE, VANILLA}
 
         @ConfigEntry.Gui.CollapsibleObject
         public CompactAbilities compactAbilities = new CompactAbilities();
@@ -238,13 +269,17 @@ public class ModConfig implements ConfigData {
         }
 
         public static class PotionColors {
-            @Tooltip(count = 1) @ColorPicker
+            @Tooltip(count = 1)
+            @ColorPicker
             public int potionFullColor = 0x55FF55;
-            @Tooltip(count = 1) @ColorPicker
+            @Tooltip(count = 1)
+            @ColorPicker
             public int potionMidColor = 0xFFAA00;
-            @Tooltip(count = 1) @ColorPicker
+            @Tooltip(count = 1)
+            @ColorPicker
             public int potionEmptyColor = 0xFF5555;
-            @Tooltip(count = 1) @ColorPicker
+            @Tooltip(count = 1)
+            @ColorPicker
             public int potionEmptySlotColor = 0x444444;
         }
 
@@ -324,20 +359,26 @@ public class ModConfig implements ConfigData {
         }
 
         public static class BarColors {
-            @Tooltip(count = 1) @ColorPicker
+            @Tooltip(count = 1)
+            @ColorPicker
             public int barColor = 0xFFFFFF;
-            @Tooltip(count = 1) @ColorPicker
+            @Tooltip(count = 1)
+            @ColorPicker
             public int bgColor = 0x000000;
         }
 
         public static class AmmoColors {
-            @Tooltip(count = 1) @ColorPicker
+            @Tooltip(count = 1)
+            @ColorPicker
             public int ammoFullColor = 0x55FF55;
-            @Tooltip(count = 1) @ColorPicker
+            @Tooltip(count = 1)
+            @ColorPicker
             public int ammoMidColor = 0xFFAA00;
-            @Tooltip(count = 1) @ColorPicker
+            @Tooltip(count = 1)
+            @ColorPicker
             public int ammoEmptyColor = 0xFF5555;
-            @Tooltip(count = 1) @ColorPicker
+            @Tooltip(count = 1)
+            @ColorPicker
             public int ammoEmptySlotColor = 0x444444;
         }
 
@@ -362,10 +403,11 @@ public class ModConfig implements ConfigData {
 
     public static ConfigHolder<ModConfig> register() {
         ConfigHolder<ModConfig> holder = AutoConfig.register(
-                ModConfig.class, (config, clazz) -> new GsonConfigSerializer(config, clazz, ConfigHandlerHelper.GSON)
+                ModConfig.class, (config, clazz) -> new GsonConfigSerializer<>(config, clazz, ConfigHandlerHelper.GSON)
         );
 
         GuiRegistry registry = AutoConfig.getGuiRegistry(ModConfig.class);
+
         Predicate<Field> predicate = field -> {
             if (field.getType() != Map.class) return false;
             if (!(field.getGenericType() instanceof ParameterizedType pt)) return false;
@@ -375,7 +417,12 @@ public class ModConfig implements ConfigData {
         registry.registerPredicateProvider(new MobGlowColorProvider(), predicate);
 
         registry.registerPredicateProvider(new CompactAbilityProvider(),
-                field -> field.getType() == List.class
+                field -> {
+                    if (field.getType() != List.class) return false;
+                    if (!(field.getGenericType() instanceof ParameterizedType pt)) return false;
+                    java.lang.reflect.Type[] args = pt.getActualTypeArguments();
+                    return args.length == 1 && args[0] == CompactAbilityEntry.class;
+                }
         );
 
         registry.registerPredicateProvider(

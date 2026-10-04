@@ -4,6 +4,7 @@
   "package": "net.deepacat.deepamonu.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "BlockEntityRenderDispatcherMixin",
     "GuiMixin",
     "LevelRendererMixin",
     "TESStateMixin",
