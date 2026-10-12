@@ -64,6 +64,7 @@ dependencies {
     modRuntimeOnly(libs.bundles.dev)
     modRuntimeOnly(libs.provihealth)
     modImplementation(files("libs/unofficial-monumenta-mod-mc1.20.4-1.10.jar"))
+    modImplementation(files("libs/cannot-remove-from-team-workaround-1.0.1"))
 }
 
 tasks {
