@@ -25,7 +25,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
 public class VersionChecker {
-    // TODO Add own version tracker url
+    // TODO: Add own version tracker url
     private static final String VERSION_URL = "https://api.github.com/repos/DaysSky/mma/releases";
     private static final Gson GSON = new Gson();
     private static final HttpClient CLIENT = HttpClient.newBuilder().connectTimeout(Duration.of(10L, ChronoUnit.SECONDS)).build();

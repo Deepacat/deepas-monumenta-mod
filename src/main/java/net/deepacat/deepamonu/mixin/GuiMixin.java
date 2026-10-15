@@ -24,7 +24,7 @@ public class GuiMixin {
         if (component == null) return;
 
         String plainText = component.getString();
-        if (plainText == null || plainText.isEmpty()) return;
+        if (plainText.isEmpty()) return;
 
         LOGGER.debug("[ActionBar] (animateColor={}): {}", animateColor, plainText);
 

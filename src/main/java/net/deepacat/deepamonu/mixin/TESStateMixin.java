@@ -14,11 +14,7 @@ public class TESStateMixin {
 
     @Inject(
             method = "handleHealthChange",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/tslat/tes/core/particle/TESParticleManager;addParticle(Lnet/tslat/tes/api/TESParticle;)V",
-                    shift = At.Shift.BEFORE
-            ),
+            at = @At(value = "INVOKE", target = "Lnet/tslat/tes/core/particle/TESParticleManager;addParticle(Lnet/tslat/tes/api/TESParticle;)V", shift = At.Shift.BEFORE),
             cancellable = true,
             remap = false
     )

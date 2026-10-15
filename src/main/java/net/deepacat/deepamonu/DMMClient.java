@@ -2,13 +2,19 @@ package net.deepacat.deepamonu;
 
 import java.util.Objects;
 
+import ch.njol.minecraft.uiframework.hud.Hud;
+import com.dayssky.mma.MMAClient;
 import net.deepacat.deepamonu.compat.TriggerSaving;
 import net.deepacat.deepamonu.config.ModConfig;
+import net.deepacat.deepamonu.events.ClientPlayerHurtEvent;
+import net.deepacat.deepamonu.events.LocalShieldHitEvent;
 import net.deepacat.deepamonu.features.Commands;
 import net.deepacat.deepamonu.features.Keybinds;
-import net.deepacat.deepamonu.features.SoundReward;
+import net.deepacat.deepamonu.features.ShieldBlockHelper;
 import net.deepacat.deepamonu.features.commands.debug.DpsTestTracker;
 import net.deepacat.deepamonu.hud.CrosshairHud;
+import net.deepacat.deepamonu.hud.elements.GuardSituText;
+import net.deepacat.deepamonu.hud.elements.ShieldBreakText;
 import net.deepacat.deepamonu.utils.SafeExceptionLogger;
 import net.deepacat.deepamonu.utils.TickScheduler;
 import org.apache.logging.log4j.LogManager;
@@ -40,6 +46,10 @@ public class DMMClient implements ClientModInitializer {
         return Objects.requireNonNull(Minecraft.getInstance().player);
     }
 
+    public static Minecraft instance() {
+        return Objects.requireNonNull(Minecraft.getInstance());
+    }
+
     public static ClientLevel level() {
         return (ClientLevel) player().level();
     }
@@ -49,7 +59,7 @@ public class DMMClient implements ClientModInitializer {
     }
 
     public static void reload() {
-        ModConfig config = (ModConfig) CONFIG.get();
+        ModConfig config = CONFIG.get();
     }
 
     public static ModConfig config() {
@@ -66,10 +76,28 @@ public class DMMClient implements ClientModInitializer {
 
     public void onInitializeClient() {
         CONFIG = ModConfig.register();
-        Keybinds.init();
-        SoundReward.init();
-        CrosshairHud.init();
         ClientLifecycleEvents.CLIENT_STARTED.register(minecraft -> GLOBAL_SAFE_EH.runSafely(this::initializeAfterMC));
+
+        Keybinds.init();
+        CrosshairHud.init();
+        Commands.init();
+
+        // UMM hud system elements
+        Hud.INSTANCE.addElement(GuardSituText.INSTANCE);
+        Hud.INSTANCE.addElement(ShieldBreakText.INSTANCE);
+
+        ClientPlayerHurtEvent.EVENT.register(damage -> {
+            MMAClient.LOGGER.info("Local player hurt with dmg {}", damage);
+            ShieldBlockHelper.updateGuardHitTimer(player(), damage);
+        });
+
+        LocalShieldHitEvent.EVENT.register(player -> GLOBAL_SAFE_EH.runSafely(() -> ShieldBlockHelper.updateGuardBlockTimer(player)));
+//        EntityShieldDisabledEvent.EVENT.register(player -> GLOBAL_SAFE_EH.runSafely(() -> ShieldBlockHelper.updateShieldBreakTimer(player)));
+
+        ClientTickEvents.END_WORLD_TICK.register(clientLevel -> GLOBAL_SAFE_EH.runSafely(() -> {
+            ShieldBlockHelper.onTick(instance());
+        }));
+
         ClientTickEvents.END_CLIENT_TICK.register(mc -> GLOBAL_SAFE_EH.runSafely(() -> {
             // DMMClient tick functions
             Keybinds.tick();
@@ -77,8 +105,8 @@ public class DMMClient implements ClientModInitializer {
             CrosshairHud.tick();
             DpsTestTracker.tick();
         }));
-        Commands.init();
-        VERSION_CHECK = new VersionChecker((ModConfig) CONFIG.get());
+
+        VERSION_CHECK = new VersionChecker(CONFIG.get());
         VERSION_CHECK.init();
     }
 

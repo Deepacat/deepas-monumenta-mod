@@ -1,5 +1,6 @@
 package net.deepacat.deepamonu.config;
 
+import ch.njol.minecraft.uiframework.ElementPosition;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.ConfigHolder;
@@ -61,6 +62,51 @@ public class ModConfig implements ConfigData {
             public List<String> blockEntityIds = new ArrayList<>(List.of("minecraft:chest", "/minecraft.*sign/", "/minecraft.*banner/"));
             @Tooltip(count = 1)
             public List<String> dimensionIds = new ArrayList<>(List.of("monumenta:plots"));
+        }
+
+        @ConfigEntry.Gui.CollapsibleObject
+        public ShieldHelpers shieldHelpers = new ShieldHelpers();
+
+        public static class ShieldHelpers {
+            @Tooltip(count = 1)
+            public boolean enableShieldStunTimer;
+
+            @ConfigEntry.Gui.CollapsibleObject
+            public ShieldStunTimerDisplaySettings shieldStunTimerDisplaySettings = new ShieldStunTimerDisplaySettings();
+
+            public static class ShieldStunTimerDisplaySettings {
+                public String displayText = "Stun: %breaktime%t";
+                public float offsetXRelative = 1.0F;
+                public int offsetXAbsolute = 0;
+                public float offsetYRelative = 0.0F;
+                public int offsetYAbsolute = 0;
+                public float alignX = 1.0F;
+                public float alignY = 0.0F;
+                @ColorPicker(allowAlpha = false)
+                public int textColor = 16733695;
+                @ColorPicker(allowAlpha = true)
+                public int bgColor = 0x80000000;
+            }
+
+            @Tooltip(count = 1)
+            public boolean enableGuardTimer;
+
+            @ConfigEntry.Gui.CollapsibleObject
+            public GuardTimerDisplaySettings guardTimerDisplaySettings = new GuardTimerDisplaySettings();
+
+            public static class GuardTimerDisplaySettings {
+                public String displayText = "Guard: %guardtime%";
+                public float offsetXRelative = 1.0F;
+                public int offsetXAbsolute = 0;
+                public float offsetYRelative = 0.0F;
+                public int offsetYAbsolute = 20;
+                public float alignX = 1.0F;
+                public float alignY = 0.0F;
+                @ColorPicker(allowAlpha = false)
+                public int textColor = 16733695;
+                @ColorPicker(allowAlpha = true)
+                public int bgColor = 0x80000000;
+            }
         }
 
         @ConfigEntry.Gui.CollapsibleObject

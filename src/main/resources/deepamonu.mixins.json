@@ -6,7 +6,9 @@
   "client": [
     "BlockEntityRenderDispatcherMixin",
     "GuiMixin",
+    "InGameHudMixin",
     "LevelRendererMixin",
+    "LocalPlayerMixin",
     "TESStateMixin",
     "UMMAbiltiesHudMixin"
   ],
@@ -15,5 +17,6 @@
     "defaultRequire": 1
   },
   "mixins": [
+    "ClientPacketListenerMixin"
   ]
 }
