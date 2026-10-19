@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CrosshairTextRenderer {
@@ -141,6 +142,177 @@ public class CrosshairTextRenderer {
         }
 
         graphics.pose().popPose();
+    }
+
+    /**
+     * Renders color segments inline on a single logical line with horizontal alignment.
+     * Unlike {@link #renderLines} (which stacks each TextLine vertically), all segments
+     * in {@code segments} are drawn left-to-right on the same row so multiple
+     * colors (e.g. "&6%n &f%cds &7(%ch)") stay inline instead of wrapping.
+     * <p>
+     * Alignment (-1 to 1): -1 = left-anchored (leftmost char stays exactly
+     * at x/y, rest extends right), 0 = centered, 1 = right-anchored
+     * (rightmost char stays exactly at x/y, rest extends left).
+     * Fractional values interpolate between these anchors.
+     * Explicit '\n' characters in segment text start a new row below.
+     */
+    public static void renderSingleLineAligned(GuiGraphics graphics, List<TextLine> segments, float xOffset, float yOffset, int zOffset, float scale, int alignment) {
+        renderSingleLineAligned(graphics, segments, xOffset, yOffset, zOffset, scale, (float) alignment);
+    }
+
+    /**
+     * Float-based variant: -1 = left, 0 = centered, 1 = right (clamped).
+     * Matches the per-entry {@code alignment} convention used by compact abilities.
+     */
+    public static void renderSingleLineAligned(GuiGraphics graphics, List<TextLine> segments, float xOffset, float yOffset, int zOffset, float scale, float alignment) {
+        if (segments == null || segments.isEmpty()) return;
+
+        Minecraft mc = Minecraft.getInstance();
+        Font font = mc.font;
+        int screenWidth = mc.getWindow().getGuiScaledWidth();
+        int screenHeight = mc.getWindow().getGuiScaledHeight();
+
+        int centerX = screenWidth / 2;
+        int centerY = screenHeight / 2;
+
+        int lineHeight = font.lineHeight + 1;
+        float scaledLineHeight = lineHeight * scale;
+        float baseX = centerX + xOffset;
+        float baseY = centerY + yOffset;
+
+        List<List<TextLine>> rows = splitOnNewlines(segments);
+        if (rows.isEmpty()) return;
+
+        graphics.pose().pushPose();
+        graphics.pose().translate(0, 0, zOffset);
+
+        for (int i = 0; i < rows.size(); i++) {
+            List<TextLine> row = rows.get(i);
+            if (row == null || row.isEmpty()) continue;
+
+            float rowWidth = 0;
+            for (TextLine seg : row) {
+                if (seg != null && seg.text != null && !seg.text.isEmpty()) {
+                    rowWidth += font.width(seg.text) * scale;
+                }
+            }
+            if (rowWidth <= 0) continue;
+
+            float x = baseX - rowWidth * alignFraction(alignment);
+            float y = baseY + i * scaledLineHeight;
+
+            for (TextLine seg : row) {
+                if (seg == null || seg.text == null || seg.text.isEmpty()) continue;
+                drawScaledOutlinedText(graphics, font, seg.text, x, y, seg.color, scale);
+                x += font.width(seg.text) * scale;
+            }
+        }
+
+        graphics.pose().popPose();
+    }
+
+    /**
+     * Renders a list of text lines (each entry its own row) with horizontal
+     * alignment. Uses the same top-anchored Y convention as
+     * {@link #renderSingleLineAligned}: the first row starts exactly at
+     * {@code centerY + yOffset} so identical x/y offsets line up across
+     * displays (unlike legacy {@link #renderLines}, which vertically centers
+     * the block and therefore sits half a line higher for a single line).
+     * <p>
+     * Alignment (-1 to 1): -1 = each row's left edge at x, 0 = centered on x,
+     * 1 = each row's right edge at x. Fractional values interpolate.
+     * <p>
+     * Int-based variant: negative = left, 0 = centered, positive = right.
+     * Matches the per-entry {@code alignment} convention used by compact abilities.
+     */
+    public static void renderLinesAligned(GuiGraphics graphics, List<TextLine> lines, float xOffset, float yOffset, int zOffset, float scale, int alignment) {
+        renderLinesAligned(graphics, lines, xOffset, yOffset, zOffset, scale, (float) alignment);
+    }
+
+    /**
+     * Float-based variant (-1 = left, 0 = centered, 1 = right, clamped).
+     * Matches the per-entry {@code alignment} convention used by compact abilities.
+     */
+    public static void renderLinesAligned(GuiGraphics graphics, List<TextLine> lines, float xOffset, float yOffset, int zOffset, float scale, float alignment) {
+        if (lines == null || lines.isEmpty()) return;
+
+        Minecraft mc = Minecraft.getInstance();
+        Font font = mc.font;
+        int screenWidth = mc.getWindow().getGuiScaledWidth();
+        int screenHeight = mc.getWindow().getGuiScaledHeight();
+
+        int centerX = screenWidth / 2;
+        int centerY = screenHeight / 2;
+
+        int lineHeight = font.lineHeight + 1;
+        float scaledLineHeight = lineHeight * scale;
+        float baseX = centerX + xOffset;
+        float baseY = centerY + yOffset;
+
+        graphics.pose().pushPose();
+        graphics.pose().translate(0, 0, zOffset);
+
+        int rowIndex = 0;
+        for (TextLine line : lines) {
+            if (line == null || line.text == null || line.text.isEmpty()) continue;
+            // Split explicit newlines inside a line so they stack instead of rendering as tofu.
+            String[] parts = line.text.split("\n", -1);
+            for (String part : parts) {
+                if (part.isEmpty()) {
+                    rowIndex++;
+                    continue;
+                }
+                float rowWidth = font.width(part) * scale;
+                float x = baseX - rowWidth * alignFraction(alignment);
+                float y = baseY + rowIndex * scaledLineHeight;
+                drawScaledOutlinedText(graphics, font, part, x, y, line.color, scale);
+                rowIndex++;
+            }
+        }
+
+        graphics.pose().popPose();
+    }
+
+    /**
+     * Maps a -1 (left) to 1 (right) alignment value to the fraction of the row
+     * width subtracted from the anchor: -1 -> 0 (left edge at x), 0 -> 0.5
+     * (centered), 1 -> 1 (right edge at x). Values outside [-1, 1] are clamped.
+     */
+    private static float alignFraction(float alignment) {
+        float clamped = Math.max(-1f, Math.min(1f, alignment));
+        return (clamped + 1f) / 2f;
+    }
+
+    private static List<List<TextLine>> splitOnNewlines(List<TextLine> segments) {
+        List<List<TextLine>> rows = new ArrayList<>();
+        List<TextLine> current = new ArrayList<>();
+        for (TextLine seg : segments) {
+            if (seg == null || seg.text == null || seg.text.isEmpty()) continue;
+            String text = seg.text;
+            int start = 0;
+            for (int i = 0; i < text.length(); i++) {
+                if (text.charAt(i) == '\n') {
+                    if (i > start) {
+                        current.add(new TextLine(text.substring(start, i), seg.color));
+                    }
+                    rows.add(current);
+                    current = new ArrayList<>();
+                    start = i + 1;
+                }
+            }
+            if (start < text.length()) {
+                current.add(new TextLine(text.substring(start), seg.color));
+            } else if (start == text.length() && text.endsWith("\n")) {
+                // trailing newline already pushed a row; keep current empty for next row
+            }
+        }
+        if (!current.isEmpty()) {
+            rows.add(current);
+        }
+        if (rows.isEmpty() && !segments.isEmpty()) {
+            rows.add(new ArrayList<>(segments));
+        }
+        return rows;
     }
 
     private static void drawScaledOutlinedText(GuiGraphics graphics, Font font, String text, float x, float y, int color, float scale) {

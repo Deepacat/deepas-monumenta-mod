@@ -435,6 +435,7 @@ public class ModConfig implements ConfigData {
             public int yOffset;
             @Tooltip(count = 1)
             public float textScale = 1.0f;
+            public float textAlignment = 0.0f;
             @Tooltip(count = 1)
             public boolean renderOverUI = false;
 
@@ -469,6 +470,10 @@ public class ModConfig implements ConfigData {
                     java.lang.reflect.Type[] args = pt.getActualTypeArguments();
                     return args.length == 1 && args[0] == CompactAbilityEntry.class;
                 }
+        );
+
+        registry.registerPredicateTransformer(new TextAlignmentTooltip(),
+                field -> field.getName().equals("textAlignment")
         );
 
         registry.registerPredicateProvider(

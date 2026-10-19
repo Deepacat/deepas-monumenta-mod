@@ -149,7 +149,7 @@ public class DpsTestTracker {
 
     private static void outputResults() {
         if (events.isEmpty()) {
-            ChatUtil.send("No damage recorded during the test period.");
+            ChatUtil.send(Component.translatable("text.deepamonu.dpstest.noDamage"));
             return;
         }
 
@@ -191,11 +191,11 @@ public class DpsTestTracker {
                 .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, dpsHover)));
 
         ChatUtil.send(
-                Component.literal("Total: ").withStyle(s -> s.withColor(0xFFAAAAAA)),
+                Component.translatable("text.deepamonu.dpstest.total").withStyle(s -> s.withColor(0xFFAAAAAA)),
                 totalText,
-                Component.literal("  DPS: ").withStyle(s -> s.withColor(0xFFAAAAAA)),
+                Component.translatable("text.deepamonu.dpstest.dps").withStyle(s -> s.withColor(0xFFAAAAAA)),
                 dpsText,
-                Component.literal("  Time: ").withStyle(s -> s.withColor(0xFFAAAAAA)),
+                Component.translatable("text.deepamonu.dpstest.time").withStyle(s -> s.withColor(0xFFAAAAAA)),
                 Component.literal(String.format("%.2fs", totalTime)).withStyle(s -> s.withColor(0xFF55FFFF))
         );
     }

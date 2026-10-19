@@ -26,18 +26,18 @@ public class Commands {
                             CommandUtil.lit("debug",
                                     CommandUtil.lit("abilities", ignored -> {
                                         DumpAbilities.run();
-                                        ChatUtil.send("Dumped ability data to log");
+                                        ChatUtil.send(Component.translatable("text.deepamonu.command.debugDumpAbilities"));
                                         return 0;
                                     }),
                                     CommandUtil.lit("chat", ignored -> {
                                                 DumpChatMessage.dumpLast(1);
-                                                ChatUtil.send("Dumped last chat message to log");
+                                                ChatUtil.send(Component.translatable("text.deepamonu.command.debugDumpChat"));
                                                 return 0;
                                             },
                                             CommandUtil.arg("count", IntegerArgumentType.integer(1, 50), (context) -> {
                                                 int count = IntegerArgumentType.getInteger(context, "count");
                                                 DumpChatMessage.dumpLast(count);
-                                                ChatUtil.send("Dumped last " + count + " chat messages to log");
+                                                ChatUtil.send(Component.translatable("text.deepamonu.command.debugDumpChatCount", count));
                                                 return 0;
                                             })
                                     )
@@ -45,31 +45,31 @@ public class Commands {
                             CommandUtil.lit("dpstest",
                                     CommandUtil.lit("timer", ignored -> {
                                                 DpsTestTracker.start(10);
-                                                ChatUtil.send("DPS test started for 10 seconds");
+                                                ChatUtil.send(Component.translatable("text.deepamonu.command.dpstestTimer", 10));
                                                 return 0;
                                             },
                                             CommandUtil.arg("seconds", IntegerArgumentType.integer(1, 300), (context) -> {
                                                 int secs = IntegerArgumentType.getInteger(context, "seconds");
                                                 DpsTestTracker.start(secs);
-                                                ChatUtil.send("DPS test started for " + secs + " seconds");
+                                                ChatUtil.send(Component.translatable("text.deepamonu.command.dpstestTimer", secs));
                                                 return 0;
                                             })
                                     ),
                                     CommandUtil.lit("total", ignored -> {
                                                 DpsTestTracker.startTotal(10000);
-                                                ChatUtil.send("DPS test started, target 10000 total damage");
+                                                ChatUtil.send(Component.translatable("text.deepamonu.command.dpstestTotal", 10000));
                                                 return 0;
                                             },
                                             CommandUtil.arg("damage", IntegerArgumentType.integer(1, Integer.MAX_VALUE), (context) -> {
                                                 int target = IntegerArgumentType.getInteger(context, "damage");
                                                 DpsTestTracker.startTotal(target);
-                                                ChatUtil.send("DPS test started, target " + target + " total damage");
+                                                ChatUtil.send(Component.translatable("text.deepamonu.command.dpstestTotal", target));
                                                 return 0;
                                             })
                                     ),
                                     CommandUtil.lit("start", ignored -> {
                                         DpsTestTracker.startInfinite();
-                                        ChatUtil.send("DPS test started. Use /deepamonu dpstest stop to end.");
+                                        ChatUtil.send(Component.translatable("text.deepamonu.command.dpstestStart"));
                                         return 0;
                                     }),
                                     CommandUtil.lit("stop", ignored -> {
@@ -78,15 +78,15 @@ public class Commands {
                                     })
                             ),
                             CommandUtil.lit("help", ignored -> {
-                                ChatUtil.send(Component.literal("Command Help").withStyle(ChatFormatting.BOLD));
-                                ChatUtil.send("(Note /dmm also works)");
-                                ChatUtil.send("/deepamonu debug abilities - dumps current UMM ability data to log");
-                                ChatUtil.send("/deepamonu debug chat [count] - dumps last N chat messages to log");
-                                ChatUtil.send("/deepamonu dpstest timer [seconds] - starts a timed DPS test");
-                                ChatUtil.send("/deepamonu dpstest total [damage] - starts a damage-target DPS test");
-                                ChatUtil.send("/deepamonu config - opens the config");
-                                ChatUtil.send("/deepamonu help - prints this message");
-                                ChatUtil.send("/deepamonu version - displays version info");
+                                ChatUtil.send(Component.translatable("text.deepamonu.command.helpTitle").withStyle(ChatFormatting.BOLD));
+                                ChatUtil.send(Component.translatable("text.deepamonu.command.helpNote"));
+                                ChatUtil.send(Component.translatable("text.deepamonu.command.helpDebugAbilities"));
+                                ChatUtil.send(Component.translatable("text.deepamonu.command.helpDebugChat"));
+                                ChatUtil.send(Component.translatable("text.deepamonu.command.helpDpstestTimer"));
+                                ChatUtil.send(Component.translatable("text.deepamonu.command.helpDpstestTotal"));
+                                ChatUtil.send(Component.translatable("text.deepamonu.command.helpConfig"));
+                                ChatUtil.send(Component.translatable("text.deepamonu.command.helpHelp"));
+                                ChatUtil.send(Component.translatable("text.deepamonu.command.helpVersion"));
                                 return 0;
                             }),
                             CommandUtil.lit("version", ignored -> {

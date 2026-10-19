@@ -27,22 +27,14 @@ public class CompactAbilityListEntry extends AbstractConfigListEntry<List<Compac
     private Button addButton;
     private boolean dirty = false;
 
-    private static final Component ADD_TOOLTIP = Component.literal("Add a new ability tracker");
-    private static final Component REMOVE_TOOLTIP = Component.literal("Remove this entry");
-    private static final Component NAME_TOOLTIP = Component.literal("Monumenta ability name to track (case-insensitive)");
-    private static final Component FORMAT_TOOLTIP = Component.literal(
-        "%cd %cds %cdd %cdds   cooldown (int, int+s, dec, dec+s)\n" +
-        "%ch %chc %cht         charges (current/max, cur, max)\n" +
-        "%icd %icds             initial cooldown (int, int+s)\n" +
-        "%id %ids %idur %idus   duration (dec, dec+s, init, init+s)\n" +
-        "%n %cn %m               name, class name, mode\n" +
-        "\\%                     literal % sign (escape)\n" +
-        "&a &b ... &r           Minecraft color/format codes\n" +
-        "Example: &6%n &f%cds &7(%ch)");
-    private static final Component X_TOOLTIP = Component.literal("Horizontal pixel offset from screen center.\nNegative = left, positive = right");
-    private static final Component Y_TOOLTIP = Component.literal("Vertical pixel offset from screen center.\nNegative = up, positive = down");
-    private static final Component SCALE_TOOLTIP = Component.literal("Text size multiplier (e.g. 1.0 = default)");
-    private static final Component ALIGN_TOOLTIP = Component.literal("Horizontal alignment of this entry:\n  -1 = left-aligned\n   0 = centered\n   1 = right-aligned");
+    private static final Component ADD_TOOLTIP = Component.translatable("config.deepamonu.compactAbilities.addTooltip");
+    private static final Component REMOVE_TOOLTIP = Component.translatable("config.deepamonu.compactAbilities.removeTooltip");
+    private static final Component NAME_TOOLTIP = Component.translatable("config.deepamonu.compactAbilities.nameTooltip");
+    private static final Component FORMAT_TOOLTIP = Component.translatable("config.deepamonu.compactAbilities.formatTooltip");
+    private static final Component X_TOOLTIP = Component.translatable("config.deepamonu.compactAbilities.xTooltip");
+    private static final Component Y_TOOLTIP = Component.translatable("config.deepamonu.compactAbilities.yTooltip");
+    private static final Component SCALE_TOOLTIP = Component.translatable("config.deepamonu.compactAbilities.scaleTooltip");
+    private static final Component ALIGN_TOOLTIP = TextAlignmentTooltip.tooltip();
 
     private static final int LEFT_PADDING = 5;
     private static final int RIGHT_PADDING = 25;
@@ -106,7 +98,7 @@ public class CompactAbilityListEntry extends AbstractConfigListEntry<List<Compac
                        int mouseX, int mouseY, boolean isHovered, float delta) {
         int currentY = y;
         if (addButton == null) {
-            addButton = Button.builder(Component.literal("+ Add ability"), btn -> addRow())
+            addButton = Button.builder(Component.translatable("config.deepamonu.compactAbilities.addButton"), btn -> addRow())
                     .bounds(0, 0, 100, 20).tooltip(Tooltip.create(ADD_TOOLTIP)).build();
         }
         addButton.setX(x + LEFT_PADDING);

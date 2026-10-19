@@ -109,10 +109,10 @@ public class AlchPotionDisplay {
                 lines.add(new CrosshairTextRenderer.TextLine(text, color));
             }
 
-            CrosshairTextRenderer.renderLines(
+            CrosshairTextRenderer.renderLinesAligned(
                     graphics, lines,
                     cfg.layout.xOffset, cfg.layout.yOffset,
-                    0, cfg.layout.textScale
+                    0, cfg.layout.textScale, cfg.layout.textAlignment
             );
         }
     }

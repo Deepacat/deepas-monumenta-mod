@@ -28,7 +28,7 @@ public class ChatUtil {
     }
 
     public static void sendWarn(Component message) {
-        send(Component.empty().append(FormatUtil.withColor("WARN", DMMClient.appearance().warningColor)).append(" ").append(message));
+        send(Component.empty().append(FormatUtil.withColor(Component.translatable("text.deepamonu.chat.warn"), DMMClient.appearance().warningColor)).append(" ").append(message));
     }
 
     public static void sendWarn(String message) {
@@ -37,7 +37,7 @@ public class ChatUtil {
 
     public static void sendDebug(String message) {
         if (!DMMClient.features().suppressDebugWarning) {
-            sendWarn("(debug/possible bug) " + message);
+            sendWarn(Component.translatable("text.deepamonu.chat.debug", message));
         } else {
             DMMClient.LOGGER.warn(message);
         }

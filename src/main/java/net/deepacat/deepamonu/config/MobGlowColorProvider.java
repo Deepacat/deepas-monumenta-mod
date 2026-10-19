@@ -39,7 +39,7 @@ public class MobGlowColorProvider implements GuiProvider {
                     Utils.setUnsafely(field, config, newMap);
                 },
                 () -> defaultEntries,
-                Component.literal("Reset")
+                Component.translatable("config.deepamonu.reset")
         );
 
         return Collections.singletonList(listEntry);
