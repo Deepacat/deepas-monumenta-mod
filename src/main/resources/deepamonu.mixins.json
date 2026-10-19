@@ -4,8 +4,11 @@
   "package": "net.deepacat.deepamonu.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "BlockEntityRenderDispatcherMixin",
     "GuiMixin",
+    "InGameHudMixin",
     "LevelRendererMixin",
+    "LocalPlayerMixin",
     "TESStateMixin",
     "UMMAbiltiesHudMixin"
   ],
@@ -14,5 +17,6 @@
     "defaultRequire": 1
   },
   "mixins": [
+    "ClientPacketListenerMixin"
   ]
 }
