@@ -350,6 +350,14 @@ public class ModConfig implements ConfigData {
 
             @ConfigEntry.Gui.CollapsibleObject
             public FireTimer fireTimer = new FireTimer();
+
+            @ConfigEntry.Gui.CollapsibleObject
+            public Prediction prediction = new Prediction();
+        }
+
+        public static class Prediction {
+            @Tooltip(count = 1)
+            public boolean enabled = true;
         }
 
         public static class DisplaySettings {

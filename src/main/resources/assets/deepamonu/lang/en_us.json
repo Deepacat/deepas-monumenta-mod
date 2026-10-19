@@ -143,6 +143,9 @@
   "text.autoconfig.deepamonu.option.features.crosshair.multiload.fireTimer.barColors.barColor.@Tooltip": "Color of the depleting portion of the bar",
   "text.autoconfig.deepamonu.option.features.crosshair.multiload.fireTimer.barColors.bgColor": "Background",
   "text.autoconfig.deepamonu.option.features.crosshair.multiload.fireTimer.barColors.bgColor.@Tooltip": "Color of the empty bar background",
+  "text.autoconfig.deepamonu.option.features.crosshair.multiload.prediction": "Client Prediction",
+  "text.autoconfig.deepamonu.option.features.crosshair.multiload.prediction.enabled": "Enable",
+  "text.autoconfig.deepamonu.option.features.crosshair.multiload.prediction.enabled.@Tooltip": "Updates ammo and keeps the crossbow charged client-side immediately after firing, instead of waiting for the server update. Reduces reload flicker on high ping",
 
   "text.autoconfig.deepamonu.option.modtweaks.tslatentitystatus": "TslatEntityStatus",
   "text.autoconfig.deepamonu.option.modtweaks.umm": "Unofficial Monumenta Mod",
