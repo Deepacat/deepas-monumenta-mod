@@ -29,7 +29,7 @@ public class CompactAbilityProvider implements GuiProvider {
                 null,
                 (newList) -> Utils.setUnsafely(field, config, newList),
                 () -> defaultEntries,
-                Component.literal("Reset")
+                Component.translatable("config.deepamonu.reset")
         );
 
         return Collections.singletonList(listEntry);

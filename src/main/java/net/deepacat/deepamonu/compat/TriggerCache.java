@@ -117,7 +117,7 @@ public class TriggerCache {
                     Path backupFile = BACKUP_DIR.resolve(key + "_" + timestamp + ".json");
                     Files.move(file, backupFile, StandardCopyOption.REPLACE_EXISTING);
                     DMMClient.LOGGER.info("Corrupted trigger file moved to {}", backupFile);
-                    notifyPlayer(Component.literal("⚠ Trigger file for " + className + " was corrupted and has been backed up."));
+                    notifyPlayer(Component.translatable("text.deepamonu.trigger.cacheCorrupted", className));
                 } catch (IOException moveEx) {
                     DMMClient.LOGGER.error("Could not backup corrupted file; deleting instead.", moveEx);
                     try {

@@ -194,7 +194,7 @@ public class MultiloadDisplay {
                     : String.valueOf(current);
             List<CrosshairTextRenderer.TextLine> lines = new ArrayList<>();
             lines.add(new CrosshairTextRenderer.TextLine(displayText, textColor));
-            CrosshairTextRenderer.renderLines(graphics, lines, cfg.layout.xOffset, cfg.layout.yOffset, 0, cfg.layout.textScale);
+            CrosshairTextRenderer.renderLinesAligned(graphics, lines, cfg.layout.xOffset, cfg.layout.yOffset, 0, cfg.layout.textScale, cfg.layout.textAlignment);
         }
 
         if (cfg.fireTimer.enabled && lastShotTime > 0) {
