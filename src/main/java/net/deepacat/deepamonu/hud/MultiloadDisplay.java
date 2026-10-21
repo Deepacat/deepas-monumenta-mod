@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,17 +28,30 @@ public class MultiloadDisplay {
     private static final String PLAYER_MODIFIED_TAG = "PlayerModified";
     private static final String AMMO_TAG = "RepeaterAmmo";
 
+    /**
+     * The server can send an inventory update containing the pre-shot ammo
+     * value just before the mult-load task sends the real decremented value.
+     * Ignore such reverts for a short window instead of flashing the old count.
+     */
+    private static final long PREDICTION_WINDOW_MS = 1000;
+    private static final int MAX_STALE_VALUES = 16;
+
     private static int currentAmmo = -1;
     private static int maxAmmo = -1;
     private static long lastShotTime = 0;
     private static int lastObservedAmmo = -1;
-    private static int lastPredictedAmmo = -1;
     private static boolean localShotPending = false;
     private static boolean suppressRepeatUse = false;
     private static int lastSlot = -1;
     private static Item lastItem = null;
+    private static ItemStack lastHeldStack = null;
     private static int lastLoggedAmmo = -2;
     private static int lastLoggedMax = -2;
+
+    private static long predictionStartTime = 0;
+    private static ListTag predictedProjectiles = null;
+    private static final ArrayDeque<Integer> pendingPredictions = new ArrayDeque<>();
+    private static final ArrayDeque<Integer> staleAmmoValues = new ArrayDeque<>();
 
     /**
      * Reads mult-load state straight from the held item's Monumenta data.
@@ -47,6 +61,11 @@ public class MultiloadDisplay {
     public static void tick() {
         ModConfig config = DMMClient.config();
         if (config == null) return;
+
+        ModConfig.Crosshair.Multiload cfg = config.features.crosshair.multiload;
+        if (!cfg.enabled || !cfg.prediction.enabled) {
+            clearPrediction();
+        }
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) {
@@ -62,47 +81,99 @@ public class MultiloadDisplay {
             suppressRepeatUse = false;
         }
 
-        if (slot != lastSlot || item != lastItem) {
+        boolean itemChanged = slot != lastSlot || item != lastItem;
+        // Server slot updates replace the ItemStack instance; local edits such
+        // as keeping the crossbow charged mutate the existing one in place.
+        boolean stackReplaced = !itemChanged && held != lastHeldStack;
+        lastHeldStack = held;
+
+        if (itemChanged) {
             lastSlot = slot;
             lastItem = item;
             lastObservedAmmo = -1;
-            lastPredictedAmmo = -1;
+            clearPrediction();
             localShotPending = false;
             suppressRepeatUse = false;
             lastShotTime = 0;
         }
 
         if (hasMultiLoad(held)) {
-            int current = getAmmoFromNbt(held);
-            if (current < 0) current = 0;
+            int raw = getAmmoFromNbt(held);
+            if (raw < 0) raw = 0;
             int max = getMaxAmmoFromNbt(held);
-            if (max <= 0) max = Math.max(current, 1);
+            if (max <= 0) max = Math.max(raw, 1);
+
+            // A changed raw value can also indicate a server update if the
+            // stack instance happened to be reused.
+            boolean serverUpdate = stackReplaced
+                    || (lastObservedAmmo >= 0 && raw != lastObservedAmmo && !pendingPredictions.isEmpty());
+
+            int display = raw;
+            boolean wasPredicting = !pendingPredictions.isEmpty();
+
+            if (wasPredicting) {
+                int lastPrediction = pendingPredictions.peekLast();
+                long age = System.currentTimeMillis() - predictionStartTime;
+
+                if (!serverUpdate) {
+                    // No server data has arrived since the shot, keep showing
+                    // the predicted count instead of the stale item value.
+                    display = lastPrediction;
+                } else if (raw <= lastPrediction) {
+                    if (pendingPredictions.contains(raw)) {
+                        // Drop every prediction this server value has confirmed.
+                        while (!pendingPredictions.isEmpty() && pendingPredictions.peekFirst() >= raw) {
+                            pendingPredictions.removeFirst();
+                        }
+                    } else {
+                        // Server has less ammo than anything we predicted.
+                        pendingPredictions.clear();
+                    }
+
+                    if (pendingPredictions.isEmpty()) {
+                        clearPredictionData();
+                        localShotPending = false;
+                        display = raw;
+                    } else {
+                        display = pendingPredictions.peekLast();
+                    }
+                } else if (age <= PREDICTION_WINDOW_MS
+                        && (lastPrediction > 0 || (!CrossbowItem.isCharged(held) && staleAmmoValues.contains(raw)))) {
+                    // The server is behind our prediction (usually the pre-shot
+                    // inventory update), or a stale update after the final shot.
+                    if (DMMClient.features().enableDebug) {
+                        LOGGER.debug("[Multiload] Ignoring server ammo {} (predicted {}, charged {})",
+                                raw, lastPrediction, CrossbowItem.isCharged(held));
+                    }
+                    display = lastPrediction;
+                    keepCrossbowLoaded(held);
+                } else {
+                    // Reload, a different server state, or the guard timed out.
+                    clearPrediction();
+                }
+            }
 
             // If prediction is off, or another update path changes the item,
             // still catch ammo decreases to drive the fire timer.
-            if (lastObservedAmmo >= 0 && current < lastObservedAmmo && current != lastPredictedAmmo) {
-                if (localShotPending) {
+            if (lastObservedAmmo >= 0 && raw < lastObservedAmmo) {
+                if (localShotPending || wasPredicting) {
                     // This is the server confirming a shot we already timed locally.
                     localShotPending = false;
                 } else {
                     lastShotTime = System.currentTimeMillis();
                 }
             }
-            if (current == lastPredictedAmmo) {
-                lastPredictedAmmo = -1;
-                localShotPending = false;
-            }
 
-            lastObservedAmmo = current;
-            currentAmmo = current;
+            lastObservedAmmo = raw;
+            currentAmmo = display;
             maxAmmo = max;
         } else {
             currentAmmo = -1;
             maxAmmo = -1;
             lastObservedAmmo = -1;
-            lastPredictedAmmo = -1;
             localShotPending = false;
             suppressRepeatUse = false;
+            clearPrediction();
         }
 
         if (DMMClient.features().enableDebug && (currentAmmo != lastLoggedAmmo || maxAmmo != lastLoggedMax)) {
@@ -134,22 +205,31 @@ public class MultiloadDisplay {
 
         if (!cfg.prediction.enabled) return false;
 
-        int current = getAmmoFromNbt(stack);
+        int current = pendingPredictions.isEmpty() ? getAmmoFromNbt(stack) : pendingPredictions.peekLast();
         if (current <= 0) return false;
 
+        if (pendingPredictions.isEmpty()) {
+            staleAmmoValues.clear();
+        }
+        rememberStaleAmmo(current);
+
         int next = current - 1;
-        setAmmoInNbt(stack, next);
+        pendingPredictions.addLast(next);
+        predictionStartTime = System.currentTimeMillis();
+        predictedProjectiles = next > 0 ? chargedProjectiles.copy() : null;
 
         int max = getMaxAmmoFromNbt(stack);
         if (max > 0) maxAmmo = max;
         currentAmmo = next;
-        lastObservedAmmo = next;
-        lastPredictedAmmo = next;
+
+        if (DMMClient.features().enableDebug) {
+            LOGGER.debug("[Multiload] Predicted shot {} -> {} (pending {})", current, next, pendingPredictions);
+        }
 
         if (next > 0) {
             // Vanilla clears both during the shot. Put them back so the client
             // remains loaded until the server's mult-load update arrives.
-            stack.getOrCreateTag().put("ChargedProjectiles", chargedProjectiles.copy());
+            stack.getOrCreateTag().put("ChargedProjectiles", predictedProjectiles.copy());
             CrossbowItem.setCharged(stack, true);
             // Keep the trigger held from immediately firing the restored shot.
             suppressRepeatUse = true;
@@ -215,11 +295,40 @@ public class MultiloadDisplay {
         maxAmmo = -1;
         lastShotTime = 0;
         lastObservedAmmo = -1;
-        lastPredictedAmmo = -1;
         localShotPending = false;
         suppressRepeatUse = false;
+        clearPrediction();
         lastSlot = -1;
         lastItem = null;
+        lastHeldStack = null;
+    }
+
+    private static void rememberStaleAmmo(int ammo) {
+        if (!staleAmmoValues.contains(ammo)) {
+            staleAmmoValues.addLast(ammo);
+            if (staleAmmoValues.size() > MAX_STALE_VALUES) {
+                staleAmmoValues.removeFirst();
+            }
+        }
+    }
+
+    private static void keepCrossbowLoaded(ItemStack stack) {
+        if (pendingPredictions.isEmpty() || pendingPredictions.peekLast() <= 0 || predictedProjectiles == null) {
+            return;
+        }
+        stack.getOrCreateTag().put("ChargedProjectiles", predictedProjectiles.copy());
+        CrossbowItem.setCharged(stack, true);
+    }
+
+    private static void clearPredictionData() {
+        predictionStartTime = 0;
+        predictedProjectiles = null;
+        staleAmmoValues.clear();
+    }
+
+    private static void clearPrediction() {
+        pendingPredictions.clear();
+        clearPredictionData();
     }
 
     private static boolean hasMultiLoad(ItemStack stack) {
@@ -260,16 +369,6 @@ public class MultiloadDisplay {
         CompoundTag playerModified = monumenta.getCompound(PLAYER_MODIFIED_TAG);
         if (playerModified.isEmpty() || !playerModified.contains(AMMO_TAG)) return -1;
         return playerModified.getInt(AMMO_TAG);
-    }
-
-    private static void setAmmoInNbt(ItemStack stack, int amount) {
-        CompoundTag root = stack.getTag();
-        if (root == null) return;
-        CompoundTag monumenta = root.getCompound(MONUMENTA_TAG);
-        if (monumenta.isEmpty()) return;
-        CompoundTag playerModified = monumenta.getCompound(PLAYER_MODIFIED_TAG);
-        if (playerModified.isEmpty()) return;
-        playerModified.putInt(AMMO_TAG, amount);
     }
 
     static int getAmmoColor(int fullColor, int midColor, int emptyColor, int current, int max) {
