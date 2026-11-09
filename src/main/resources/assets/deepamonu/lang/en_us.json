@@ -28,6 +28,8 @@
   "config.deepamonu.compactAbilities.addButton": "+ Add ability",
 
   "text.autoconfig.deepamonu.option.features.blockEntityHider": "Block Entity Hider",
+  "text.autoconfig.deepamonu.option.features.blockEntityHider.enabled": "Enable",
+  "text.autoconfig.deepamonu.option.features.blockEntityHider.enabled.@Tooltip": "Master switch for the block entity hider",
   "text.autoconfig.deepamonu.option.features.blockEntityHider.hideInAllDimensions": "Hide block entities everywhere",
   "text.autoconfig.deepamonu.option.features.blockEntityHider.hideInAllDimensions.@Tooltip": "Hides all listed block entities in all dimensions rather than the specific list",
   "text.autoconfig.deepamonu.option.features.blockEntityHider.hideInDimensionList": "Hide block entities in dimension list",

@@ -51,6 +51,8 @@ public class ModConfig implements ConfigData {
 
         public static class BlockEntityHider {
             @Tooltip(count = 1)
+            public boolean enabled = true;
+            @Tooltip(count = 1)
             public boolean hideInAllDimensions = false;
             @Tooltip(count = 1)
             public boolean hideInDimensionList = false;
