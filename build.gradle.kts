@@ -3,7 +3,7 @@ plugins {
     id("maven-publish")
 }
 
-version = "1.0.1+mc1.20.4"
+version = "1.1.0+mc1.20.4"
 
 group = "net.deepacat"
 
@@ -57,6 +57,9 @@ dependencies {
     modImplementation(libs.bundles.umm)
     modImplementation(libs.modmenu)
     modImplementation(libs.sodium)
+
+    modImplementation(libs.xaeroworldmap)
+    modImplementation(libs.xaerominimapfair)
 
     modImplementation(libs.bundles.tslat)
 

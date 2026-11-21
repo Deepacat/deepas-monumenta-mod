@@ -1,4 +1,4 @@
-package net.deepacat.deepamonu.mixin;
+package net.deepacat.deepamonu.mixin.unofficialmonumentamod;
 
 import ch.njol.minecraft.uiframework.hud.HudElement;
 import ch.njol.unofficialmonumentamod.AbilityHandler;

@@ -20,7 +20,13 @@ public class MixinConfigPlugin implements IMixinConfigPlugin {
     }
 
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return mixinClassName.startsWith(this.mixinPackage + ".umm") ? FabricLoader.getInstance().isModLoaded("unofficial-monumenta-mod") : true;
+        if (mixinClassName.startsWith(this.mixinPackage + ".unofficialmonumentamod")) {
+            return FabricLoader.getInstance().isModLoaded("unofficial-monumenta-mod");
+        }
+        if (mixinClassName.startsWith(this.mixinPackage + ".xaero")) {
+            return FabricLoader.getInstance().isModLoaded("xaeroworldmap");
+        }
+        return true;
     }
 
     public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {

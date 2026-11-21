@@ -200,6 +200,19 @@ public class ModConfig implements ConfigData {
                 public int backgroundColor = 0x80000000;
             }
         }
+
+        @ConfigEntry.Gui.CollapsibleObject
+        public XaeroMap xaeromap = new XaeroMap();
+
+        public static class XaeroMap {
+            @ConfigEntry.Gui.CollapsibleObject
+            public Patches patches = new Patches();
+
+            public static class Patches {
+                @Tooltip(count = 1)
+                public boolean enableWorldMapTransferCrashFix = true;
+            }
+        }
     }
 
     @Category("mod")

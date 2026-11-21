@@ -205,6 +205,12 @@
   "text.autoconfig.deepamonu.option.modtweaks.umm.triggerOverlay.background.backgroundCornerRadius.@Tooltip": "Corner rounding radius for the background box, 0 = sharp corners",
   "text.autoconfig.deepamonu.option.modtweaks.umm.triggerOverlay.useIcons": "Use icons instead of text",
   "text.autoconfig.deepamonu.option.modtweaks.umm.triggerOverlay.useIcons.@Tooltip": "When possible, display mouse click icons instead of M1/M2 text",
+
+  "text.autoconfig.deepamonu.option.modtweaks.xaeromap": "Xaero's Map",
+  "text.autoconfig.deepamonu.option.modtweaks.xaeromap.patches": "Patches",
+  "text.autoconfig.deepamonu.option.modtweaks.xaeromap.patches.enableWorldMapTransferCrashFix": "Fix Java25 World Transfer Crash",
+  "text.autoconfig.deepamonu.option.modtweaks.xaeromap.patches.enableWorldMapTransferCrashFix.@Tooltip": "Backports a bugfix that crashes client when changing worlds, from xaero worldmap Update 1.46.0-2026/09/10",
+
   "text.deepamonu.config.resetDetectedTriggers": "Reset detected triggers",
   "text.deepamonu.config.resetDetectedTriggers.confirm": "Click again to confirm!",
   "text.deepamonu.config.resetDetectedTriggers.tooltip": "Resets all detected and cached ability triggers for each class, not hardcoded triggers",

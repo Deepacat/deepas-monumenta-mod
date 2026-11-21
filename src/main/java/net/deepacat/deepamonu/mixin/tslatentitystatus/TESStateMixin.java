@@ -1,4 +1,4 @@
-package net.deepacat.deepamonu.mixin;
+package net.deepacat.deepamonu.mixin.tslatentitystatus;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.deepacat.deepamonu.DMMClient;

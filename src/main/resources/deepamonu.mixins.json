@@ -10,8 +10,9 @@
     "InGameHudMixin",
     "LevelRendererMixin",
     "LocalPlayerMixin",
-    "TESStateMixin",
-    "UMMAbiltiesHudMixin"
+    "tslatentitystatus.TESStateMixin",
+    "unofficialmonumentamod.UMMAbiltiesHudMixin",
+    "xaero.BlockStateShortShapeCacheMixin"
   ],
   "plugin": "net.deepacat.deepamonu.MixinConfigPlugin",
   "injectors": {

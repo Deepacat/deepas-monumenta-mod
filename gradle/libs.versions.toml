@@ -5,16 +5,25 @@ fabric-loader = "0.19.3"
 fabric-api = "0.97.2+1.20.4"
 cloth = "13.0.138"
 modmenu = "9.2.0"
+# monumenta addons
 mma = "1.9.3+mc1.20.4"
+# unofficial monumenta mod
 umm = "1.10-fabric,1.20.4"
 umm-fw = "mc1.20.4-SNAPSHOT"
 umm-discord-rpc = "2.0.1"
+# dev instance helpers
 spark = "1.10.58-fabric"
 authme = "8.0.0+1.20.4-fabric"
 sodium = "mc1.20.4-0.5.8-fabric"
+# provihealth
 provi = "1aee0a07eeea509cdbd6c2d667b703fbd17e904e"
+# TES
 tslatentitystatus = "dpNAttAb"
 midnightlib = "EQNuBJf5"
+# Xaero map compatibility - exact versions from the instance log (2026-11-21-4/6.log)
+# xaeroworldmap 1.39.12_Fabric_1.20.4 and xaerominimapfair FP24.2.0_Fabric_1.20.4
+xaeroworldmap = "3gg1D980"
+xaerominimapfair = "bJG9Xt9N"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -41,6 +50,10 @@ midnightlib = { module = "maven.modrinth:midnightlib", version.ref = "midnightli
 ## Standalone
 provihealth = { module = "com.github.Provismet:ProviHealth", version.ref = "provi" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
+
+## Xaero map compatibility
+xaeroworldmap = { module = "maven.modrinth:xaeros-world-map", version.ref = "xaeroworldmap" }
+xaerominimapfair = { module = "maven.modrinth:xaeros-minimap-fair", version.ref = "xaerominimapfair" }
 
 # dev environment tools
 spark = { module = "maven.modrinth:spark", version.ref = "spark" }
