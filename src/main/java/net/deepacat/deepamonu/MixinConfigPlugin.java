@@ -20,6 +20,9 @@ public class MixinConfigPlugin implements IMixinConfigPlugin {
     }
 
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        if (mixinClassName.startsWith(this.mixinPackage + ".tslatentitystatus")) {
+            return FabricLoader.getInstance().isModLoaded("tslatentitystatus");
+        }
         if (mixinClassName.startsWith(this.mixinPackage + ".unofficialmonumentamod")) {
             return FabricLoader.getInstance().isModLoaded("unofficial-monumenta-mod");
         }
