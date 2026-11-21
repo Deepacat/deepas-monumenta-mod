@@ -30,11 +30,16 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "cloth-config": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "${minecraft_version}",
+    "mma": ">=1.9.0",
+    "unofficial-monumenta-mod": ">=1.10"
   },
   "suggests": {
     "modmenu": "*",
-    "sodium": "*"
+    "sodium": "*",
+    "tslatentitystatus": ">=1.5.1",
+    "xaeroworldmap": ">=1.39.12",
+    "xaerominimapfair": ">=24.2.0"
   },
   "custom": {
     "modmenu": {

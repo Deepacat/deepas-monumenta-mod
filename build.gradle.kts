@@ -52,20 +52,20 @@ dependencies {
 
     // Required deps
     modImplementation(libs.mma)
+    modImplementation(libs.bundles.umm)
 
     // Optional dependencies
-    modImplementation(libs.bundles.umm)
     modImplementation(libs.modmenu)
     modImplementation(libs.sodium)
 
+    // Optional compatibility
     modImplementation(libs.xaeroworldmap)
     modImplementation(libs.xaerominimapfair)
-
     modImplementation(libs.bundles.tslat)
+//    modRuntimeOnly(libs.provihealth)
 
-    // Dev instance mods for debugging
+    // Dev instance mods
     modRuntimeOnly(libs.bundles.dev)
-    modRuntimeOnly(libs.provihealth)
     modImplementation(files("libs/unofficial-monumenta-mod-mc1.20.4-1.10.jar"))
     modImplementation(files("libs/cannot-remove-from-team-workaround-1.0.1.jar"))
 }
