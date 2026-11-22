@@ -1,6 +1,5 @@
 package net.deepacat.deepamonu.utils;
 
-import net.deepacat.deepamonu.DMMClient;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -38,57 +37,14 @@ public final class NBTUtils {
 
     public static Map<String, Integer> getAllEnchants(Player player) {
         Map<String, Integer> result = new HashMap<>();
-        if (player == null) {
-            DMMClient.LOGGER.info("[DEBUG] NBTUtils.getAllEnchants player=null");
-            return result;
-        }
-
-        DMMClient.LOGGER.info("[DEBUG] NBTUtils.getAllEnchants player={} slots={}",
-                player.getScoreboardName(), EquipmentSlot.values().length);
+        if (player == null) return result;
 
         for (EquipmentSlot slot : EquipmentSlot.values()) {
-            ItemStack stack = player.getItemBySlot(slot);
-            Map<String, Integer> enchantments = getEnchants(stack);
-            logSlot(slot, stack, enchantments);
+            Map<String, Integer> enchantments = getEnchants(player.getItemBySlot(slot));
             enchantments.forEach((name, level) -> result.merge(name, level, Integer::sum));
         }
 
-        DMMClient.LOGGER.info("[DEBUG] NBTUtils.getAllEnchants result={}", result);
         return result;
-    }
-
-    private static void logSlot(EquipmentSlot slot, ItemStack stack, Map<String, Integer> parsed) {
-        if (stack == null || stack.isEmpty()) {
-            DMMClient.LOGGER.info("[DEBUG] NBTUtils slot={} empty=true", slot.getName());
-            return;
-        }
-
-        CompoundTag root = stack.getTag();
-        CompoundTag monumenta = root == null ? null : root.getCompound(MONUMENTA_TAG);
-        CompoundTag stock = monumenta == null
-                ? new CompoundTag()
-                : monumenta.getCompound(STOCK_TAG).getCompound(ENCHANTMENTS_TAG);
-        CompoundTag modified = monumenta == null
-                ? new CompoundTag()
-                : monumenta.getCompound(PLAYER_MODIFIED_TAG).getCompound(ENCHANTMENTS_TAG);
-        Map<String, Integer> loreParsed = new HashMap<>();
-        if (root != null) {
-            CompoundTag display = root.getCompound(DISPLAY_TAG);
-            collectLoreEnchants(display.getList(LORE_TAG, 8), true, loreParsed);
-        }
-
-        DMMClient.LOGGER.info(
-                "[DEBUG] NBTUtils slot={} item='{}' id={} empty=false hasTag={} rootKeys={} hasMonumenta={} stockEnch={} modifiedEnch={} loreParsed={} parsed={}",
-                slot.getName(),
-                stack.getHoverName().getString(),
-                stack.getItem(),
-                root != null,
-                root == null ? "[]" : root.getAllKeys(),
-                monumenta != null && !monumenta.isEmpty(),
-                stock,
-                modified,
-                loreParsed,
-                parsed);
     }
 
     public static Map<String, Integer> getEnchants(ItemStack stack) {

@@ -30,12 +30,7 @@ public class ShieldGuardHelper {
 
     // Updated from block event in client. Guard activates on any shield block.
     public static void updateGuardBlockTimer(Player player) {
-        DMMClient.LOGGER.info("[DEBUG] Shield was hit, checking guard timer");
-        DMMClient.LOGGER.info("[DEBUG] enchants: {}", NBTUtils.getAllEnchants(player));
-        DMMClient.LOGGER.info("[DEBUG] guard: {}", NBTUtils.getAllEnchants(player).getOrDefault("Guard", 0));
-        DMMClient.LOGGER.info("[DEBUG] Does player have guard: {}", hasGuardEnchant(player));
         if (!hasGuardEnchant(player)) return;
-        DMMClient.LOGGER.info("[DEBUG] Updating guard block timer");
         boolean mainShield = player.getMainHandItem().is(Items.SHIELD);
         boolean offShield = player.getOffhandItem().is(Items.SHIELD);
         if (mainShield) {
