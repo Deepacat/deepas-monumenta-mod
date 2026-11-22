@@ -4,7 +4,7 @@ import ch.njol.unofficialmonumentamod.AbilityHandler;
 import ch.njol.unofficialmonumentamod.UnofficialMonumentaModClient;
 import net.deepacat.deepamonu.DMMClient;
 import net.deepacat.deepamonu.configUtils.HudElementConfig;
-import net.deepacat.deepamonu.compat.FormatParser;
+import net.deepacat.deepamonu.compat.umm.FormatParser;
 import net.deepacat.deepamonu.configUtils.CompactAbilityEntry;
 import net.deepacat.deepamonu.ModConfig;
 import net.deepacat.deepamonu.hud.elements.DMMHudElement;

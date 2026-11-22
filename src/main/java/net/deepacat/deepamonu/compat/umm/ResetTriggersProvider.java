@@ -1,9 +1,8 @@
-package net.deepacat.deepamonu.configUtils;
+package net.deepacat.deepamonu.compat.umm;
 
 import me.shedaniel.autoconfig.gui.registry.api.GuiProvider;
 import me.shedaniel.autoconfig.gui.registry.api.GuiRegistryAccess;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
-import net.deepacat.deepamonu.compat.TriggerCache;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;

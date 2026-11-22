@@ -1,4 +1,4 @@
-package net.deepacat.deepamonu.configUtils;
+package net.deepacat.deepamonu.compat.umm;
 
 import me.shedaniel.autoconfig.gui.registry.api.GuiRegistryAccess;
 import me.shedaniel.autoconfig.gui.registry.api.GuiTransformer;

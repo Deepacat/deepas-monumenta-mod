@@ -1,4 +1,4 @@
-package net.deepacat.deepamonu.compat;
+package net.deepacat.deepamonu.compat.umm;
 
 import ch.njol.unofficialmonumentamod.AbilityHandler;
 import com.google.gson.Gson;

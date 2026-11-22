@@ -2,7 +2,7 @@ package net.deepacat.deepamonu;
 
 import java.util.Objects;
 
-import net.deepacat.deepamonu.compat.TriggerSaving;
+import net.deepacat.deepamonu.compat.umm.TriggerSaving;
 import net.deepacat.deepamonu.events.ClientPlayerHurtEvent;
 import net.deepacat.deepamonu.events.LocalShieldBreakEvent;
 import net.deepacat.deepamonu.events.LocalShieldHitEvent;

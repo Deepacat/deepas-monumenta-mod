@@ -6,6 +6,8 @@
   "client": [
     "BlockEntityRenderDispatcherMixin",
     "ChatComponentMixin",
+    "clothconfig.ColorDisplayWidgetMixin",
+    "clothconfig.ColorEntryMixin",
     "CrossbowItemMixin",
     "GuiMixin",
     "InGameHudMixin",

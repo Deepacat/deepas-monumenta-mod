@@ -1,6 +1,7 @@
 package net.deepacat.deepamonu.configUtils;
 
 import me.shedaniel.clothconfig2.gui.entries.AbstractListListEntry;
+import net.deepacat.deepamonu.compat.clothconfig.ColorPickerScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
@@ -47,6 +48,8 @@ public class MobGlowListEntry extends AbstractListListEntry<MapEntry, MobGlowLis
         private int currentColor;
         private boolean selected;
         private boolean hovered;
+        private int swatchX;
+        private int swatchY;
 
         public MobGlowCell(MapEntry value, MobGlowListEntry listListEntry) {
             super(value, listListEntry);
@@ -118,6 +121,8 @@ public class MobGlowListEntry extends AbstractListListEntry<MapEntry, MobGlowLis
 
             int swatchX = x + keyWidth + GAP;
             int swatchY = y + 1;
+            this.swatchX = swatchX;
+            this.swatchY = swatchY;
 
             int colorX = swatchX + SWATCH_SIZE + GAP;
             colorField.setX(colorX);
@@ -136,6 +141,20 @@ public class MobGlowListEntry extends AbstractListListEntry<MapEntry, MobGlowLis
             colorField.render(graphics, mouseX, mouseY, delta);
 
             hovered = keyField.isMouseOver(mouseX, mouseY) || colorField.isMouseOver(mouseX, mouseY);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (button == 0
+                    && mouseX >= swatchX && mouseX < swatchX + SWATCH_SIZE
+                    && mouseY >= swatchY && mouseY < swatchY + SWATCH_SIZE) {
+                ColorPickerScreen.open(Minecraft.getInstance().screen, 0xFF000000 | currentColor, false, color -> {
+                    currentColor = color & 0xFFFFFF;
+                    colorField.setValue(String.format("%06X", currentColor));
+                }, swatchX, swatchY);
+                return true;
+            }
+            return super.mouseClicked(mouseX, mouseY, button);
         }
 
         @Override

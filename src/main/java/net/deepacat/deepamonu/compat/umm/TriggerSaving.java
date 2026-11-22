@@ -1,8 +1,7 @@
-package net.deepacat.deepamonu.compat;
+package net.deepacat.deepamonu.compat.umm;
 
 import ch.njol.unofficialmonumentamod.AbilityHandler;
 import ch.njol.unofficialmonumentamod.UnofficialMonumentaModClient;
-import net.deepacat.deepamonu.compat.TriggerCache;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.*;
 import net.minecraft.nbt.CompoundTag;

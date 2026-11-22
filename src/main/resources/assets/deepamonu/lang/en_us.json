@@ -7,6 +7,9 @@
   "text.autoconfig.deepamonu.category.mod": "Mod",
   "text.autoconfig.deepamonu.category.appearance": "Appearance",
 
+  "config.deepamonu.colorPicker.title": "Color Picker",
+  "config.deepamonu.colorPicker.save": "Save",
+
   "text.autoconfig.deepamonu.option.features.mobGlowColorOverrides": "Mob Glow Color Overrides",
   "text.autoconfig.deepamonu.option.features.mobGlowColorOverrides.enable": "Enable Mob Glow Color Overrides",
   "text.autoconfig.deepamonu.option.features.mobGlowColorOverrides.enable.@Tooltip": "Enable editing the glow color of entities based on name (They must already be glowing)",

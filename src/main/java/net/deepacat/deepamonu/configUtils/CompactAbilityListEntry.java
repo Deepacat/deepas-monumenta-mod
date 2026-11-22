@@ -1,6 +1,7 @@
 package net.deepacat.deepamonu.configUtils;
 
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
+import net.deepacat.deepamonu.compat.umm.TextAlignmentTooltip;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;

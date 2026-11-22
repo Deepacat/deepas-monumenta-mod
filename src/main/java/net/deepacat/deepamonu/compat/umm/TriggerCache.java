@@ -1,10 +1,9 @@
-package net.deepacat.deepamonu.compat;
+package net.deepacat.deepamonu.compat.umm;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import net.deepacat.deepamonu.DMMClient;
-import net.deepacat.deepamonu.utils.SafeExceptionLogger;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;

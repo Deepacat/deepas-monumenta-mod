@@ -11,6 +11,8 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.TransitiveObject;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.Tooltip;
 import me.shedaniel.autoconfig.gui.registry.GuiRegistry;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+import net.deepacat.deepamonu.compat.umm.ResetTriggersProvider;
+import net.deepacat.deepamonu.compat.umm.TextAlignmentTooltip;
 import net.deepacat.deepamonu.configUtils.*;
 import net.minecraft.SharedConstants;
 import net.minecraft.world.InteractionResult;
