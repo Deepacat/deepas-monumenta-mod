@@ -1,4 +1,4 @@
-package net.deepacat.deepamonu.config;
+package net.deepacat.deepamonu.configUtils;
 
 import me.shedaniel.autoconfig.gui.registry.api.GuiRegistryAccess;
 import me.shedaniel.autoconfig.gui.registry.api.GuiTransformer;
@@ -12,14 +12,14 @@ import java.util.Optional;
 
 /**
  * Applies the shared alignment tooltip to every {@code textAlignment} field.
- * AutoConfig derives {@code @Tooltip} keys from the field's config path, so two
+ * AutoConfig derives {@code @Tooltip} keys from the field's configUtils path, so two
  * layouts can never share one key through annotations alone. These fields
  * therefore carry no {@code @Tooltip} annotation (which also keeps the default
  * tooltip transformer from overwriting this) and get the shared key here instead.
  */
 public class TextAlignmentTooltip implements GuiTransformer {
 
-    public static final String TOOLTIP_KEY = "config.deepamonu.textAlignment.tooltip";
+    public static final String TOOLTIP_KEY = "configUtils.deepamonu.textAlignment.tooltip";
 
     public static Component tooltip() {
         return Component.translatable(TOOLTIP_KEY);

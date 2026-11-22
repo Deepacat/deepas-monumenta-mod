@@ -2,8 +2,7 @@ package net.deepacat.deepamonu.compat;
 
 import ch.njol.unofficialmonumentamod.AbilityHandler;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import net.deepacat.deepamonu.config.CompactAbilityEntry;
+import net.deepacat.deepamonu.configUtils.CompactAbilityEntry;
 import net.deepacat.deepamonu.hud.CrosshairTextRenderer;
 import net.minecraft.ChatFormatting;
 
@@ -13,7 +12,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class FormatParser {
 

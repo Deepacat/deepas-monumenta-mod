@@ -1,6 +1,6 @@
 package net.deepacat.deepamonu.hud;
 
-import net.deepacat.deepamonu.config.ModConfig;
+import net.deepacat.deepamonu.ModConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

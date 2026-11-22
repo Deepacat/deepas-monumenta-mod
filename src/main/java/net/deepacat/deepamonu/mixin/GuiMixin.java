@@ -1,7 +1,7 @@
 package net.deepacat.deepamonu.mixin;
 
 import net.deepacat.deepamonu.DMMClient;
-import net.deepacat.deepamonu.config.ModConfig;
+import net.deepacat.deepamonu.ModConfig;
 import net.deepacat.deepamonu.hud.ActionBarState;
 import net.deepacat.deepamonu.hud.CrosshairHud;
 import org.slf4j.Logger;

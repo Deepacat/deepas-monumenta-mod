@@ -19,7 +19,7 @@ public class TriggerCache {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Path CACHE_DIR = FabricLoader.getInstance().getGameDir()
-            .resolve("config/deepamonumentamod/triggerCache");
+            .resolve("configUtils/deepamonumentamod/triggerCache");
     private static final Path BACKUP_DIR = CACHE_DIR.resolve("backups");
     private static final Map<String, ClassTriggers> MEMORY_CACHE = new ConcurrentHashMap<>();
 

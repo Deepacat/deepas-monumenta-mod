@@ -1,4 +1,4 @@
-package net.deepacat.deepamonu.config;
+package net.deepacat.deepamonu.configUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

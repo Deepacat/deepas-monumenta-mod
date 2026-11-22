@@ -3,7 +3,7 @@ package net.deepacat.deepamonu.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.deepacat.deepamonu.DMMClient;
-import net.deepacat.deepamonu.config.ModConfig;
+import net.deepacat.deepamonu.ModConfig;
 import net.deepacat.deepamonu.features.BlockEntityHiderCache;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;

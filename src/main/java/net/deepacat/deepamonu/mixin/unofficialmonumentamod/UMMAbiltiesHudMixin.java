@@ -11,7 +11,7 @@ import net.deepacat.deepamonu.DMMClient;
 import net.deepacat.deepamonu.compat.TriggerCache;
 import net.deepacat.deepamonu.compat.IndicatorLine;
 import net.deepacat.deepamonu.compat.TextSegment;
-import net.deepacat.deepamonu.config.ModConfig;
+import net.deepacat.deepamonu.ModConfig;
 import net.deepacat.deepamonu.utils.GuiTextures;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;

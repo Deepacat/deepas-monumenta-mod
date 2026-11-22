@@ -20,7 +20,7 @@
       "net.deepacat.deepamonu.DMMClient"
     ],
     "modmenu": [
-      "net.deepacat.deepamonu.config.ModMenuCompat"
+      "net.deepacat.deepamonu.configUtils.ModMenuCompat"
     ]
   },
   "mixins": [

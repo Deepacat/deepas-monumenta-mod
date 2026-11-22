@@ -1,7 +1,7 @@
 package net.deepacat.deepamonu.utils;
 
 import net.deepacat.deepamonu.DMMClient;
-import net.deepacat.deepamonu.config.ModConfig.Appearance;
+import net.deepacat.deepamonu.ModConfig.Appearance;
 
 import java.util.Objects;
 

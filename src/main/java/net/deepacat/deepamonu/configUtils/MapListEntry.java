@@ -1,4 +1,4 @@
-package net.deepacat.deepamonu.config;
+package net.deepacat.deepamonu.configUtils;
 
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import net.minecraft.client.Minecraft;

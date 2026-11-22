@@ -2,13 +2,12 @@ package net.deepacat.deepamonu.features;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.deepacat.deepamonu.DMMClient;
-import net.deepacat.deepamonu.config.ModConfig;
+import net.deepacat.deepamonu.ModConfig;
 import net.deepacat.deepamonu.features.commands.debug.DumpAbilities;
 import net.deepacat.deepamonu.features.commands.debug.DumpChatMessage;
 import net.deepacat.deepamonu.features.commands.debug.DumpContainerItems;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
-import org.lwjgl.glfw.GLFW;
 
 public class Keybinds {
     private static final KeyMapping debugDumpItems = new KeyMapping("key.deepamonu.debugDumpItems",

@@ -24,7 +24,7 @@ import java.util.regex.PatternSyntaxException;
  * The renderer previously ran {@link String#matches} (which compiles a fresh
  * {@link Pattern}) for every pattern, for every block entity, every frame, and
  * also did a linear registry lookup plus {@code toString()} allocations. This
- * class compiles the patterns once per config change and memoizes the answer per
+ * class compiles the patterns once per configUtils change and memoizes the answer per
  * {@link BlockEntityType} / dimension.
  */
 public final class BlockEntityHiderCache {
@@ -72,7 +72,7 @@ public final class BlockEntityHiderCache {
             return;
         }
 
-        // Owned copies, so later in-place edits of the config lists are detected.
+        // Owned copies, so later in-place edits of the configUtils lists are detected.
         blockIdConfig = new ArrayList<>(safeBlockIds);
         dimensionConfig = new ArrayList<>(safeDimensionIds);
         blockMatchers = compile(blockIdConfig);

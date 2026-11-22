@@ -1,9 +1,8 @@
 package net.deepacat.deepamonu.features;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.deepacat.deepamonu.DMMClient;
-import net.deepacat.deepamonu.config.ModConfig;
+import net.deepacat.deepamonu.ModConfig;
 import net.deepacat.deepamonu.features.commands.debug.DpsTestTracker;
 import net.deepacat.deepamonu.features.commands.debug.DumpAbilities;
 import net.deepacat.deepamonu.features.commands.debug.DumpChatMessage;
@@ -93,7 +92,7 @@ public class Commands {
                                 ChatUtil.send(DMMClient.MOD.getMetadata().getVersion().getFriendlyString());
                                 return 0;
                             }),
-                            CommandUtil.lit("config", context -> {
+                            CommandUtil.lit("configUtils", context -> {
                                 DMMClient.SCHEDULER.schedule(0, minecraft ->
                                         minecraft.setScreen(AutoConfig.getConfigScreen(ModConfig.class, minecraft.screen).get())
                                 );

@@ -3,7 +3,7 @@ package net.deepacat.deepamonu.hud;
 import ch.njol.unofficialmonumentamod.AbilityHandler;
 import ch.njol.unofficialmonumentamod.UnofficialMonumentaModClient;
 import net.deepacat.deepamonu.DMMClient;
-import net.deepacat.deepamonu.config.ModConfig;
+import net.deepacat.deepamonu.ModConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

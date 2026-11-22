@@ -1,4 +1,4 @@
-package net.deepacat.deepamonu.config;
+package net.deepacat.deepamonu.configUtils;
 
 public class MapEntry {
     public String key;

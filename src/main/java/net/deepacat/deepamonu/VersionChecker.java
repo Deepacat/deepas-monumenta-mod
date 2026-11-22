@@ -1,7 +1,6 @@
 package net.deepacat.deepamonu;
 
 import com.dayssky.mma.events.ClientJoinServerEvent;
-import net.deepacat.deepamonu.config.ModConfig;
 import net.deepacat.deepamonu.utils.ChatUtil;
 import net.deepacat.deepamonu.utils.FormatUtil;
 import com.google.gson.Gson;

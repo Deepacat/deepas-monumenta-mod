@@ -5,7 +5,6 @@ import java.util.Objects;
 import ch.njol.minecraft.uiframework.hud.Hud;
 import com.dayssky.mma.MMAClient;
 import net.deepacat.deepamonu.compat.TriggerSaving;
-import net.deepacat.deepamonu.config.ModConfig;
 import net.deepacat.deepamonu.events.ClientPlayerHurtEvent;
 import net.deepacat.deepamonu.events.LocalShieldHitEvent;
 import net.deepacat.deepamonu.features.Commands;

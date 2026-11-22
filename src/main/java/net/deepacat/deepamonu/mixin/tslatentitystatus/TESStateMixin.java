@@ -2,7 +2,7 @@ package net.deepacat.deepamonu.mixin.tslatentitystatus;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.deepacat.deepamonu.DMMClient;
-import net.deepacat.deepamonu.config.ModConfig;
+import net.deepacat.deepamonu.ModConfig;
 import net.tslat.tes.core.state.EntityState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
