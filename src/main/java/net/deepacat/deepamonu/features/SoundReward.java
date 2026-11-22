@@ -1,8 +1,6 @@
 package net.deepacat.deepamonu.features;
 
 import ch.njol.unofficialmonumentamod.UnofficialMonumentaModClient;
-import com.dayssky.mma.events.ClientReceiveSystemChatEvent;
-import com.dayssky.mma.events.EventResult;
 import net.deepacat.deepamonu.features.commands.debug.DpsTestTracker;
 
 import java.util.Locale;

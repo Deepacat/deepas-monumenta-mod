@@ -3,7 +3,6 @@ package net.deepacat.deepamonu;
 import java.util.Objects;
 
 import ch.njol.minecraft.uiframework.hud.Hud;
-import com.dayssky.mma.MMAClient;
 import net.deepacat.deepamonu.compat.TriggerSaving;
 import net.deepacat.deepamonu.events.ClientPlayerHurtEvent;
 import net.deepacat.deepamonu.events.LocalShieldHitEvent;
@@ -86,7 +85,7 @@ public class DMMClient implements ClientModInitializer {
         Hud.INSTANCE.addElement(ShieldBreakText.INSTANCE);
 
         ClientPlayerHurtEvent.EVENT.register(damage -> {
-            MMAClient.LOGGER.info("Local player hurt with dmg {}", damage);
+//            DMMClient.LOGGER.info("Local player hurt with dmg {}", damage);
             ShieldBlockHelper.updateGuardHitTimer(player(), damage);
         });
 

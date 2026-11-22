@@ -1,6 +1,5 @@
 package net.deepacat.deepamonu.mixin;
 
-import com.dayssky.mma.util.SafeExceptionLogger;
 import net.deepacat.deepamonu.DMMClient;
 import net.deepacat.deepamonu.events.ClientPlayerHurtEvent;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -14,9 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPacketListener.class)
 public class ClientPacketListenerMixin {
     @Unique
-    private static final SafeExceptionLogger dmm$EH = new SafeExceptionLogger("ClientPacketEvents");
-
-    @Unique
     private float dmm$lastHealth = -1f;
 
     @Unique
@@ -27,7 +23,7 @@ public class ClientPacketListenerMixin {
             at = {@At("TAIL")}
     )
     private void onSetHealth(ClientboundSetHealthPacket packet, CallbackInfo ci) {
-        dmm$EH.runSafely(() -> {
+        DMMClient.GLOBAL_SAFE_EH.runSafely(() -> {
             if (DMMClient.player() == null) return;
 
             float newHealth = packet.getHealth();

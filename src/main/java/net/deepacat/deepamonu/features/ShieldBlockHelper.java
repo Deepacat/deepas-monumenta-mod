@@ -1,15 +1,12 @@
 package net.deepacat.deepamonu.features;
 
-import com.dayssky.mma.MMAClient;
-import com.dayssky.mma.util.SafeExceptionLogger;
+import net.deepacat.deepamonu.DMMClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.Items;
 
 public class ShieldBlockHelper {
-    private static final SafeExceptionLogger EXCEPTION_LOGGER = new SafeExceptionLogger("ShieldBlockHelper");
-
     public static int guardHitTicks = 0;
     public static int guardBlockTicks = 0;
     public static int shieldBrokenTicks = 0;
@@ -31,7 +28,7 @@ public class ShieldBlockHelper {
     }
 
     public static void onTick(Minecraft mc) {
-        EXCEPTION_LOGGER.runSafely(() -> {
+        DMMClient.GLOBAL_SAFE_EH.runSafely(() -> {
             if (mc.player == null) {
                 guardHitTicks = 0;
                 guardBlockTicks = 0;
