@@ -101,7 +101,7 @@ public class Commands {
                                 ChatUtil.send(DMMClient.MOD.getMetadata().getVersion().getFriendlyString());
                                 return 0;
                             }),
-                            CommandUtil.lit("configUtils", context -> {
+                            CommandUtil.lit("config", context -> {
                                 DMMClient.SCHEDULER.schedule(0, minecraft ->
                                         minecraft.setScreen(AutoConfig.getConfigScreen(ModConfig.class, minecraft.screen).get())
                                 );
