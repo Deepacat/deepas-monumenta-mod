@@ -1,6 +1,7 @@
 package net.deepacat.deepamonu.features.commands;
 
 import net.deepacat.deepamonu.utils.ChatUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
@@ -11,11 +12,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-/* TODO: Fix dps tester not detecting dmg messages after monumenta had serverside updates to them
-    Add a debug command to toggle logging of message data (text embeds and raw msg) to debug this
-*/
 public class DpsTestTracker {
+    private static final Pattern DAMAGE_PATTERN =
+            Pattern.compile("^Damage:\\s*([0-9]+(?:[.,][0-9]+)?)");
 
     private static boolean running = false;
     private static long startTime = 0;
@@ -98,18 +100,19 @@ public class DpsTestTracker {
     }
 
     public static boolean isDamageMessage(Component message) {
-        return message.getString().startsWith("Damage: ");
+        return DAMAGE_PATTERN.matcher(message.getString().trim()).find();
     }
 
     public static void parseAndRecord(Component message) {
         if (!running) return;
-        String text = message.getString();
-        if (!text.startsWith("Damage: ")) return;
+
+        String text = message.getString().trim();
+        Matcher matcher = DAMAGE_PATTERN.matcher(text);
+        if (!matcher.find()) return;
 
         double value;
         try {
-            String numPart = text.substring(8).trim().split(" ")[0].replace(",", ".");
-            value = Double.parseDouble(numPart);
+            value = Double.parseDouble(matcher.group(1).replace(",", "."));
         } catch (Exception e) {
             return;
         }
@@ -130,13 +133,14 @@ public class DpsTestTracker {
     }
 
     private static String parseSourceFromHover(String hoverText) {
-        for (String line : hoverText.split("\n")) {
+        String plain = ChatFormatting.stripFormatting(hoverText);
+        for (String line : plain.split("\n")) {
             String trimmed = line.trim();
             if (trimmed.startsWith("Source: ")) {
                 return trimmed.substring(8).trim();
             }
         }
-        for (String line : hoverText.split("\n")) {
+        for (String line : plain.split("\n")) {
             String trimmed = line.trim();
             if (trimmed.startsWith("Type: ")) {
                 return trimmed.substring(6).trim();

@@ -1,6 +1,7 @@
 package net.deepacat.deepamonu.features.commands.debug;
 
 import net.deepacat.deepamonu.DMMClient;
+import net.deepacat.deepamonu.features.commands.DpsTestTracker;
 import net.minecraft.client.GuiMessageTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -24,6 +25,8 @@ public final class ChatLogManager {
 
     public static synchronized void capture(Component content, GuiMessageTag tag) {
         if (content == null) return;
+
+        DpsTestTracker.parseAndRecord(content);
 
         LoggedMessage message = new LoggedMessage(System.currentTimeMillis(), content, tag);
         MESSAGES.addLast(message);
