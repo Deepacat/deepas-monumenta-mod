@@ -72,7 +72,7 @@
   "text.autoconfig.deepamonu.option.features.shieldHelpers.enableGuardTimer": "Enable guard situational timer",
   "text.autoconfig.deepamonu.option.features.shieldHelpers.enableGuardTimer.@Tooltip": "Shows the remaining Guard duration after blocking with a Guard-enchanted shield or taking a large hit. A held shield with the Guard enchantment is still required.",
   "text.autoconfig.deepamonu.option.features.shieldHelpers.guardAlwaysShow": "Always show guard timer",
-  "text.autoconfig.deepamonu.option.features.shieldHelpers.guardAlwaysShow.@Tooltip": "Keep the guard timer visible at 0.0s even when guard is inactive. When disabled, it appears when guard activates and remains visible until the duration reaches 0.",
+  "text.autoconfig.deepamonu.option.features.shieldHelpers.guardAlwaysShow.@Tooltip": "Keep the guard timer visible at 0.0s while a Guard-enchanted item is equipped. Once activated, it remains visible until the duration reaches 0 even if the item is removed.",
   "text.autoconfig.deepamonu.option.features.shieldHelpers.guardTimerDisplaySettings": "Guard timer display",
   "text.autoconfig.deepamonu.option.features.shieldHelpers.guardTimerDisplaySettings.displayText": "Display text",
   "text.autoconfig.deepamonu.option.features.shieldHelpers.guardTimerDisplaySettings.displayText.@Tooltip": "Text shown by the timer. %guardtime% is replaced with the remaining seconds",

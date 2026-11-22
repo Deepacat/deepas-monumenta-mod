@@ -37,10 +37,14 @@ public class GuardSituText extends DMMHudElement {
     protected boolean isVisible() {
         ModConfig.Features.ShieldHelpers config = config();
         if (config == null || !config.enableGuardTimer) return false;
-        if (config.guardAlwaysShow) return true;
+
         // Once guard is activated, keep the timer visible until it reaches 0,
         // even if the Guard-enchanted item is no longer equipped.
-        return ShieldGuardHelper.guardTicks() > 0;
+        if (ShieldGuardHelper.guardTicks() > 0) return true;
+
+        // While idle, the always-show option only applies when Guard gear is equipped.
+        if (!config.guardAlwaysShow) return false;
+        return ShieldGuardHelper.hasGuardEnchant(Minecraft.getInstance().player);
     }
 
     private static String buildText() {
