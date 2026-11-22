@@ -4,6 +4,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.deepacat.deepamonu.DMMClient;
 import net.deepacat.deepamonu.ModConfig;
 import net.deepacat.deepamonu.features.commands.DpsTestTracker;
+import net.deepacat.deepamonu.features.commands.debug.ChatLogManager;
 import net.deepacat.deepamonu.features.commands.debug.DumpAbilities;
 import net.deepacat.deepamonu.features.commands.debug.DumpChatMessage;
 import net.deepacat.deepamonu.utils.ChatUtil;
@@ -28,18 +29,25 @@ public class Commands {
                                         ChatUtil.send(Component.translatable("text.deepamonu.command.debugDumpAbilities"));
                                         return 0;
                                     }),
-                                    CommandUtil.lit("chat", ignored -> {
-                                                DumpChatMessage.dumpLast(1);
+                                    CommandUtil.lit("log_last_messages", ignored -> {
+                                                ChatLogManager.dumpLast(1);
                                                 ChatUtil.send(Component.translatable("text.deepamonu.command.debugDumpChat"));
                                                 return 0;
                                             },
                                             CommandUtil.arg("count", IntegerArgumentType.integer(1, 50), (context) -> {
                                                 int count = IntegerArgumentType.getInteger(context, "count");
-                                                DumpChatMessage.dumpLast(count);
+                                                ChatLogManager.dumpLast(count);
                                                 ChatUtil.send(Component.translatable("text.deepamonu.command.debugDumpChatCount", count));
                                                 return 0;
                                             })
-                                    )
+                                    ),
+                                    CommandUtil.lit("toggle_log_messages", ignored -> {
+                                        boolean enabled = ChatLogManager.toggleLiveLogging();
+                                        ChatUtil.send(Component.translatable(enabled
+                                                ? "text.deepamonu.command.debugToggleLogMessagesOn"
+                                                : "text.deepamonu.command.debugToggleLogMessagesOff"));
+                                        return 0;
+                                    })
                             ),
                             CommandUtil.lit("dpstest",
                                     CommandUtil.lit("timer", ignored -> {
@@ -80,7 +88,8 @@ public class Commands {
                                 ChatUtil.send(Component.translatable("text.deepamonu.command.helpTitle").withStyle(ChatFormatting.BOLD));
                                 ChatUtil.send(Component.translatable("text.deepamonu.command.helpNote"));
                                 ChatUtil.send(Component.translatable("text.deepamonu.command.helpDebugAbilities"));
-                                ChatUtil.send(Component.translatable("text.deepamonu.command.helpDebugChat"));
+                                ChatUtil.send(Component.translatable("text.deepamonu.command.helpDebugLogLastMessages"));
+                                ChatUtil.send(Component.translatable("text.deepamonu.command.helpDebugToggleLogMessages"));
                                 ChatUtil.send(Component.translatable("text.deepamonu.command.helpDpstestTimer"));
                                 ChatUtil.send(Component.translatable("text.deepamonu.command.helpDpstestTotal"));
                                 ChatUtil.send(Component.translatable("text.deepamonu.command.helpConfig"));

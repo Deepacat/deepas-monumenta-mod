@@ -34,7 +34,7 @@ public class ModConfig implements ConfigData {
         public MobGlowColorOverrides mobGlowColorOverrides = new MobGlowColorOverrides();
 
         public static class MobGlowColorOverrides {
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean enable = true;
 
             @ConfigEntry.Gui.CollapsibleObject
@@ -49,19 +49,19 @@ public class ModConfig implements ConfigData {
         public BlockEntityHider blockEntityHider = new BlockEntityHider();
 
         public static class BlockEntityHider {
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean enabled = true;
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean hideInAllDimensions = false;
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean hideInDimensionList = false;
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean hideAllBlocks = false;
-            @Tooltip(count = 1)
+            @Tooltip()
             public int distance = 6;
-            @Tooltip(count = 1)
+            @Tooltip()
             public List<String> blockEntityIds = new ArrayList<>(List.of("minecraft:chest", "/minecraft.*sign/", "/minecraft.*banner/"));
-            @Tooltip(count = 1)
+            @Tooltip()
             public List<String> dimensionIds = new ArrayList<>(List.of("monumenta:plots"));
         }
 
@@ -69,17 +69,17 @@ public class ModConfig implements ConfigData {
         public ShieldHelpers shieldHelpers = new ShieldHelpers();
 
         public static class ShieldHelpers {
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean enableShieldStunTimer;
 
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean shieldStunAlwaysShow = false;
 
             @ConfigEntry.Gui.CollapsibleObject
             public ShieldStunTimerDisplaySettings shieldStunTimerDisplaySettings = new ShieldStunTimerDisplaySettings();
 
             public static class ShieldStunTimerDisplaySettings {
-                @Tooltip(count = 1)
+                @Tooltip()
                 public String displayText = "Break: %breaktime%";
                 @ConfigEntry.Gui.CollapsibleObject
                 public HudElementConfig hud = HudElementConfig.builder()
@@ -89,17 +89,17 @@ public class ModConfig implements ConfigData {
                         .build();
             }
 
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean enableGuardTimer;
 
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean guardAlwaysShow = false;
 
             @ConfigEntry.Gui.CollapsibleObject
             public GuardTimerDisplaySettings guardTimerDisplaySettings = new GuardTimerDisplaySettings();
 
             public static class GuardTimerDisplaySettings {
-                @Tooltip(count = 1)
+                @Tooltip()
                 public String displayText = "Guard: %guardtime%";
                 @ConfigEntry.Gui.CollapsibleObject
                 public HudElementConfig hud = HudElementConfig.builder()
@@ -128,11 +128,11 @@ public class ModConfig implements ConfigData {
             public Particles particles = new Particles();
 
             public static class Particles {
-                @Tooltip(count = 1)
+                @Tooltip()
                 public boolean enableThresholds = false;
-                @Tooltip(count = 1)
+                @Tooltip()
                 public float healThreshold = 1.0f;
-                @Tooltip(count = 1)
+                @Tooltip()
                 public float damageThreshold = 1.0f;
             }
         }
@@ -145,7 +145,7 @@ public class ModConfig implements ConfigData {
             public TriggerOverlay triggerOverlay = new TriggerOverlay();
 
             public static class TriggerOverlay {
-                @Tooltip(count = 1)
+                @Tooltip()
                 public boolean enabled = false;
 
                 @ConfigEntry.Gui.CollapsibleObject
@@ -157,7 +157,7 @@ public class ModConfig implements ConfigData {
                 @ConfigEntry.Gui.CollapsibleObject
                 public TriggerBackground background = new TriggerBackground();
 
-                @Tooltip(count = 1)
+                @Tooltip()
                 public boolean useIcons = false;
 
                 @ConfigEntry.Gui.Excluded
@@ -165,37 +165,37 @@ public class ModConfig implements ConfigData {
             }
 
             public static class TriggerLayout {
-                @Tooltip(count = 1)
+                @Tooltip()
                 public int xOffset = 0;
-                @Tooltip(count = 1)
+                @Tooltip()
                 public int yOffset = 0;
             }
 
             public static class TriggerModifiers {
-                @Tooltip(count = 1)
+                @Tooltip()
                 public boolean modifiersEnabled = false;
-                @Tooltip(count = 1)
+                @Tooltip()
                 public int modifierXOffset = 0;
-                @Tooltip(count = 1)
+                @Tooltip()
                 public int modifierYOffset = 0;
-                @Tooltip(count = 1)
+                @Tooltip()
                 public boolean modifiersBelowKeyLine = false;
             }
 
             public static class TriggerBackground {
-                @Tooltip(count = 1)
+                @Tooltip()
                 public boolean backgroundEnabled = true;
-                @Tooltip(count = 1)
+                @Tooltip()
                 public int backgroundXOffset = 0;
-                @Tooltip(count = 1)
+                @Tooltip()
                 public int backgroundYOffset = 0;
-                @Tooltip(count = 1)
+                @Tooltip()
                 public int backgroundWidth = 0;
-                @Tooltip(count = 1)
+                @Tooltip()
                 public int backgroundHeight = 0;
-                @Tooltip(count = 1)
+                @Tooltip()
                 public float backgroundCornerRadius = 1.0f;
-                @Tooltip(count = 1)
+                @Tooltip()
                 @ColorPicker(allowAlpha = true)
                 public int backgroundColor = 0x80000000;
             }
@@ -209,7 +209,7 @@ public class ModConfig implements ConfigData {
             public Patches patches = new Patches();
 
             public static class Patches {
-                @Tooltip(count = 1)
+                @Tooltip()
                 public boolean enableWorldMapTransferCrashFix = true;
             }
         }
@@ -220,13 +220,13 @@ public class ModConfig implements ConfigData {
     public ModToggles mod = new ModToggles();
 
     public static class ModToggles {
-        @Tooltip(count = 1)
+        @Tooltip()
         public boolean enableDebug = SharedConstants.IS_RUNNING_IN_IDE;
-        @Tooltip(count = 1)
+        @Tooltip()
         public boolean suppressDebugWarning = !SharedConstants.IS_RUNNING_IN_IDE;
-        @Tooltip(count = 1)
+        @Tooltip()
         public boolean versionCheck = false;
-        @Tooltip(count = 1)
+        @Tooltip()
         public boolean versionCheckIncludeBeta = false;
     }
 
@@ -235,33 +235,33 @@ public class ModConfig implements ConfigData {
     public Appearance appearance = new Appearance();
 
     public static class Appearance {
-        @Tooltip(count = 1)
+        @Tooltip()
         @ColorPicker
         public int bracketColor = 12041720;
-        @Tooltip(count = 1)
+        @Tooltip()
         @ColorPicker
         public int tagColor = 13017334;
-        @Tooltip(count = 1)
+        @Tooltip()
         public String tagText = "DMM";
-        @Tooltip(count = 1)
+        @Tooltip()
         @ColorPicker
         public int textColor = 16047062;
-        @Tooltip(count = 1)
+        @Tooltip()
         @ColorPicker
         public int numericColor = 15961000;
-        @Tooltip(count = 1)
+        @Tooltip()
         @ColorPicker
         public int detailColor = 7106437;
-        @Tooltip(count = 1)
+        @Tooltip()
         @ColorPicker
         public int playerNameColor = 15703926;
-        @Tooltip(count = 1)
+        @Tooltip()
         @ColorPicker
         public int altTextColor = 11845374;
-        @Tooltip(count = 1)
+        @Tooltip()
         @ColorPicker
         public int errorColor = 15091027;
-        @Tooltip(count = 1)
+        @Tooltip()
         @ColorPicker
         public int warningColor = 14650909;
     }
@@ -281,76 +281,23 @@ public class ModConfig implements ConfigData {
         public CompactAbilities compactAbilities = new CompactAbilities();
 
         public static class CompactAbilities {
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean enabled = false;
             @ConfigEntry.Gui.CollapsibleObject
             public HudElementConfig hud = HudElementConfig.builder().build();
-            @Tooltip(count = 1)
+            @Tooltip()
             public List<CompactAbilityEntry> trackedAbilities = new ArrayList<>();
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean advancedMode = false;
-            @Tooltip(count = 1)
+            @Tooltip()
             public String advancedJsonPath = "configUtils/deepamonu/compact_abilities.json";
-        }
-
-        @ConfigEntry.Gui.CollapsibleObject
-        public AlchPotions alchPotions = new AlchPotions();
-
-        public static class AlchPotions {
-            @Tooltip(count = 1)
-            public boolean enabled = false;
-
-            @ConfigEntry.Gui.CollapsibleObject
-            public Layout layout = new Layout(60);
-
-            @ConfigEntry.Gui.CollapsibleObject
-            public PotionDisplaySettings display = new PotionDisplaySettings();
-
-            @ConfigEntry.Gui.CollapsibleObject
-            public PotionIconSettings icons = new PotionIconSettings();
-
-            @ConfigEntry.Gui.CollapsibleObject
-            public PotionColors colors = new PotionColors();
-        }
-
-        public static class PotionDisplaySettings {
-            @Tooltip(count = 1)
-            public DisplayMode potionDisplayMode = DisplayMode.TEXT;
-        }
-
-        public static class PotionIconSettings {
-            @Tooltip(count = 1)
-            public IconCharStyle iconCharStyle = IconCharStyle.BLOCKS;
-            @Tooltip(count = 1)
-            public String filledIconChar = "";
-            @Tooltip(count = 1)
-            public String emptyIconChar = "\u25CB";
-            @Tooltip(count = 1)
-            public ShadowType iconShadow = ShadowType.OUTLINE;
-            @Tooltip(count = 1)
-            public boolean vertical = false;
-        }
-
-        public static class PotionColors {
-            @Tooltip(count = 1)
-            @ColorPicker
-            public int potionFullColor = 0x55FF55;
-            @Tooltip(count = 1)
-            @ColorPicker
-            public int potionMidColor = 0xFFAA00;
-            @Tooltip(count = 1)
-            @ColorPicker
-            public int potionEmptyColor = 0xFF5555;
-            @Tooltip(count = 1)
-            @ColorPicker
-            public int potionEmptySlotColor = 0x444444;
         }
 
         @ConfigEntry.Gui.CollapsibleObject
         public Multiload multiload = new Multiload();
 
         public static class Multiload {
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean enabled = false;
 
             @ConfigEntry.Gui.CollapsibleObject
@@ -373,42 +320,40 @@ public class ModConfig implements ConfigData {
         }
 
         public static class Prediction {
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean enabled = true;
         }
 
         public static class DisplaySettings {
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean hideVanillaAmmo = false;
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean showTotal = false;
-            @Tooltip(count = 1)
+            @Tooltip()
             public DisplayMode ammoDisplayMode = DisplayMode.TEXT;
         }
 
         public static class IconSettings {
-            @Tooltip(count = 1)
+            @Tooltip()
             public IconCharStyle iconCharStyle = IconCharStyle.BLOCKS;
-            @Tooltip(count = 1)
+            @Tooltip()
             public String filledIconChar = "";
-            @Tooltip(count = 1)
+            @Tooltip()
             public String emptyIconChar = "\u25CB";
-            @Tooltip(count = 1)
+            @Tooltip()
             public ShadowType iconShadow = ShadowType.OUTLINE;
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean vertical = false;
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean hideEmptySlots = false;
-            @Tooltip(count = 1)
-            public Alignment alignment = Alignment.CENTER;
         }
 
         public static class FireTimer {
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean enabled = false;
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean vertical = false;
-            @Tooltip(count = 1)
+            @Tooltip()
             public float duration = 0.5f;
 
             @ConfigEntry.Gui.CollapsibleObject
@@ -419,36 +364,36 @@ public class ModConfig implements ConfigData {
         }
 
         public static class BarLayout {
-            @Tooltip(count = 1)
+            @Tooltip()
             public int xOffset = 0;
-            @Tooltip(count = 1)
+            @Tooltip()
             public int yOffset = 33;
-            @Tooltip(count = 1)
+            @Tooltip()
             public int width = 32;
-            @Tooltip(count = 1)
+            @Tooltip()
             public int height = 4;
         }
 
         public static class BarColors {
-            @Tooltip(count = 1)
+            @Tooltip()
             @ColorPicker
             public int barColor = 0xFFFFFF;
-            @Tooltip(count = 1)
+            @Tooltip()
             @ColorPicker
             public int bgColor = 0x000000;
         }
 
         public static class AmmoColors {
-            @Tooltip(count = 1)
+            @Tooltip()
             @ColorPicker
             public int ammoFullColor = 0x55FF55;
-            @Tooltip(count = 1)
+            @Tooltip()
             @ColorPicker
             public int ammoMidColor = 0xFFAA00;
-            @Tooltip(count = 1)
+            @Tooltip()
             @ColorPicker
             public int ammoEmptyColor = 0xFF5555;
-            @Tooltip(count = 1)
+            @Tooltip()
             @ColorPicker
             public int ammoEmptySlotColor = 0x444444;
         }
@@ -456,14 +401,10 @@ public class ModConfig implements ConfigData {
         public static class Layout {
             @ConfigEntry.Gui.CollapsibleObject
             public HudElementConfig hud = HudElementConfig.builder().build();
-            @Tooltip(count = 1)
+            @Tooltip()
             public float textScale = 1.0f;
-            @Tooltip(count = 1)
+            @Tooltip()
             public boolean renderOverUI = false;
-
-            public Layout() {
-                this(0);
-            }
 
             public Layout(int defaultYOffset) {
                 hud.positioning.yOffset = defaultYOffset;
