@@ -1,10 +1,5 @@
 package net.deepacat.deepamonu.features;
 
-import ch.njol.unofficialmonumentamod.UnofficialMonumentaModClient;
-import net.deepacat.deepamonu.features.commands.debug.DpsTestTracker;
-
-import java.util.Locale;
-
 public class SoundReward {
     public static void init() {
 //        ClientReceiveSystemChatEvent.EVENT.register(text -> {

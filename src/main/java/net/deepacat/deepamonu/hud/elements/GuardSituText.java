@@ -1,63 +1,71 @@
 package net.deepacat.deepamonu.hud.elements;
 
-import ch.njol.minecraft.uiframework.ElementPosition;
-import ch.njol.minecraft.uiframework.hud.HudElement;
-import net.deepacat.deepamonu.features.ShieldBlockHelper;
+import net.deepacat.deepamonu.DMMClient;
+import net.deepacat.deepamonu.configUtils.HudElementConfig;
+import net.deepacat.deepamonu.ModConfig;
+import net.deepacat.deepamonu.features.ShieldGuardHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
 
-public class GuardSituText extends HudElement {
+import java.util.Locale;
+
+public class GuardSituText extends DMMHudElement {
     public static final GuardSituText INSTANCE = new GuardSituText();
 
-    private final ElementPosition pos = new ElementPosition(1.0F, 0, 0.0F, 20, 1.0F, 0.0F);
+    private static ModConfig.Features.ShieldHelpers config() {
+        ModConfig config = DMMClient.config();
+        return config == null ? null : config.features.shieldHelpers;
+    }
 
-    private static final String DISPLAY_TEXT = "Guard: %guardtime%";
-    private static final String REPLACER = "%guardtime%";
-
-    private final int pad = 5;
-    private final int textCol = 16733695;
-
-    private Component buildText() {
-        double guardTicks = (double) Math.max(ShieldBlockHelper.guardBlockTicks, ShieldBlockHelper.guardHitTicks) / 20;
-        String formatted = String.format("%.1f", guardTicks);
-        return Component.literal(DISPLAY_TEXT.replaceFirst(REPLACER, formatted));
+    private static ModConfig.Features.ShieldHelpers.GuardTimerDisplaySettings display() {
+        ModConfig.Features.ShieldHelpers config = config();
+        return config == null ? null : config.guardTimerDisplaySettings;
     }
 
     @Override
-    protected boolean isEnabled() { return true; }
+    protected HudElementConfig hudConfig() {
+        ModConfig.Features.ShieldHelpers.GuardTimerDisplaySettings display = display();
+        return display == null ? null : display.hud;
+    }
 
     @Override
-    protected boolean isVisible() { return true; }
+    protected boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    protected boolean isVisible() {
+        ModConfig.Features.ShieldHelpers config = config();
+        if (config == null || !config.enableGuardTimer) return false;
+        if (config.guardAlwaysShow) return true;
+        // Once guard is activated, keep the timer visible until it reaches 0,
+        // even if the Guard-enchanted item is no longer equipped.
+        return ShieldGuardHelper.guardTicks() > 0;
+    }
+
+    private static String buildText() {
+        ModConfig.Features.ShieldHelpers.GuardTimerDisplaySettings display = display();
+        String template = display != null ? display.displayText : "Guard: %guardtime%";
+        double seconds = (double) ShieldGuardHelper.guardTicks() / 20.0;
+        return template.replace("%guardtime%", String.format(Locale.ROOT, "%.1f", seconds));
+    }
 
     @Override
     protected int getWidth() {
-        return Minecraft.getInstance().font.width(buildText()) + pad * 2;
+        return Minecraft.getInstance().font.width(buildText()) + contentPadding() * 2;
     }
 
     @Override
     protected int getHeight() {
-        return Minecraft.getInstance().font.lineHeight * 2;
+        return Minecraft.getInstance().font.lineHeight + contentPadding() * 2;
     }
 
     @Override
-    protected ElementPosition getPosition() { return pos; }
-
-    @Override
-    protected int getZOffset() { return 0; }
-
-    @Override
-    protected void render(GuiGraphics draw, float v) {
-        Font fo = Minecraft.getInstance().font;
-        Component text = buildText();
-        int bgCol = Minecraft.getInstance().options.getBackgroundColor(0.3F);
-
-        int x = pad;
-        int y = fo.lineHeight / 2;
-        int width = fo.width(text);
-
-        draw.fill(0, 0, width + pad * 2, 18, bgCol);
-        draw.drawString(fo, text, x, y, textCol, true);
+    protected void render(GuiGraphics graphics, float tickDelta) {
+        int width = getWidth();
+        int height = getHeight();
+        int pad = contentPadding();
+        renderBackground(graphics, width, height);
+        drawText(graphics, buildText(), pad, pad, 1.0f);
     }
 }

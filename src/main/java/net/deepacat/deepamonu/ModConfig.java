@@ -72,41 +72,42 @@ public class ModConfig implements ConfigData {
             @Tooltip(count = 1)
             public boolean enableShieldStunTimer;
 
+            @Tooltip(count = 1)
+            public boolean shieldStunAlwaysShow = false;
+
             @ConfigEntry.Gui.CollapsibleObject
             public ShieldStunTimerDisplaySettings shieldStunTimerDisplaySettings = new ShieldStunTimerDisplaySettings();
 
             public static class ShieldStunTimerDisplaySettings {
-                public String displayText = "Stun: %breaktime%t";
-                public float offsetXRelative = 1.0F;
-                public int offsetXAbsolute = 0;
-                public float offsetYRelative = 0.0F;
-                public int offsetYAbsolute = 0;
-                public float alignX = 1.0F;
-                public float alignY = 0.0F;
-                @ColorPicker(allowAlpha = false)
-                public int textColor = 16733695;
-                @ColorPicker(allowAlpha = true)
-                public int bgColor = 0x80000000;
+                @Tooltip(count = 1)
+                public String displayText = "Break: %breaktime%";
+                @ConfigEntry.Gui.CollapsibleObject
+                public HudElementConfig hud = HudElementConfig.builder()
+                        .alignment(1.0F, 0.0F)
+                        .textColor(0xFF55FF)
+                        .bgColor(0x80000000)
+                        .build();
             }
 
             @Tooltip(count = 1)
             public boolean enableGuardTimer;
 
+            @Tooltip(count = 1)
+            public boolean guardAlwaysShow = false;
+
             @ConfigEntry.Gui.CollapsibleObject
             public GuardTimerDisplaySettings guardTimerDisplaySettings = new GuardTimerDisplaySettings();
 
             public static class GuardTimerDisplaySettings {
+                @Tooltip(count = 1)
                 public String displayText = "Guard: %guardtime%";
-                public float offsetXRelative = 1.0F;
-                public int offsetXAbsolute = 0;
-                public float offsetYRelative = 0.0F;
-                public int offsetYAbsolute = 20;
-                public float alignX = 1.0F;
-                public float alignY = 0.0F;
-                @ColorPicker(allowAlpha = false)
-                public int textColor = 16733695;
-                @ColorPicker(allowAlpha = true)
-                public int bgColor = 0x80000000;
+                @ConfigEntry.Gui.CollapsibleObject
+                public HudElementConfig hud = HudElementConfig.builder()
+                        .offset(0, 20)
+                        .alignment(1.0F, 0.0F)
+                        .textColor(0xFF55FF)
+                        .bgColor(0x80000000)
+                        .build();
             }
         }
 
@@ -282,6 +283,8 @@ public class ModConfig implements ConfigData {
         public static class CompactAbilities {
             @Tooltip(count = 1)
             public boolean enabled = false;
+            @ConfigEntry.Gui.CollapsibleObject
+            public HudElementConfig hud = HudElementConfig.builder().build();
             @Tooltip(count = 1)
             public List<CompactAbilityEntry> trackedAbilities = new ArrayList<>();
             @Tooltip(count = 1)
@@ -451,19 +454,19 @@ public class ModConfig implements ConfigData {
         }
 
         public static class Layout {
-            @Tooltip(count = 1)
-            public int xOffset;
-            @Tooltip(count = 1)
-            public int yOffset;
+            @ConfigEntry.Gui.CollapsibleObject
+            public HudElementConfig hud = HudElementConfig.builder().build();
             @Tooltip(count = 1)
             public float textScale = 1.0f;
-            public float textAlignment = 0.0f;
             @Tooltip(count = 1)
             public boolean renderOverUI = false;
 
+            public Layout() {
+                this(0);
+            }
+
             public Layout(int defaultYOffset) {
-                this.xOffset = 0;
-                this.yOffset = defaultYOffset;
+                hud.positioning.yOffset = defaultYOffset;
             }
         }
     }

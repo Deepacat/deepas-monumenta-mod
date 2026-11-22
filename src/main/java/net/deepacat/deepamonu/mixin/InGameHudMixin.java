@@ -1,7 +1,6 @@
 package net.deepacat.deepamonu.mixin;
 
-import net.deepacat.deepamonu.hud.elements.GuardSituText;
-import net.deepacat.deepamonu.hud.elements.ShieldBreakText;
+import net.deepacat.deepamonu.hud.DMMHud;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,8 +16,7 @@ public class InGameHudMixin {
             target = "Lnet/minecraft/client/gui/Gui;renderEffects(Lnet/minecraft/client/gui/GuiGraphics;)V",
             shift = At.Shift.BEFORE
     )})
-    void renderBeforeEffects(GuiGraphics drawContext, float tickDelta, CallbackInfo ci) {
-        ShieldBreakText.INSTANCE.renderAbsolute(drawContext, tickDelta);
-        GuardSituText.INSTANCE.renderAbsolute(drawContext, tickDelta);
+    void renderHudElements(GuiGraphics drawContext, float tickDelta, CallbackInfo ci) {
+        DMMHud.render(drawContext, tickDelta);
     }
 }

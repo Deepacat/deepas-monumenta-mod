@@ -1,7 +1,9 @@
 package net.deepacat.deepamonu.hud;
 
 import net.deepacat.deepamonu.DMMClient;
+import net.deepacat.deepamonu.configUtils.HudElementConfig;
 import net.deepacat.deepamonu.ModConfig;
+import net.deepacat.deepamonu.hud.elements.DMMHudElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.nbt.CompoundTag;
@@ -16,7 +18,9 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiloadDisplay {
+public class MultiloadDisplay extends DMMHudElement {
+
+    public static final MultiloadDisplay INSTANCE = new MultiloadDisplay();
 
     private static final Logger LOGGER = LoggerFactory.getLogger("CrosshairHud");
 
@@ -242,52 +246,114 @@ public class MultiloadDisplay {
         return suppressRepeatUse;
     }
 
-    public static void render(GuiGraphics graphics) {
+    private static ModConfig.Crosshair.Multiload config() {
         ModConfig config = DMMClient.config();
-        if (config == null) return;
-        ModConfig.Crosshair.Multiload cfg = config.features.crosshair.multiload;
-        if (!cfg.enabled) return;
+        return config == null ? null : config.features.crosshair.multiload;
+    }
 
-        if (maxAmmo <= 0) return;
+    @Override
+    protected HudElementConfig hudConfig() {
+        ModConfig.Crosshair.Multiload cfg = config();
+        return cfg == null ? null : cfg.layout.hud;
+    }
+
+    @Override
+    public boolean shouldRenderOverUI() {
+        ModConfig.Crosshair.Multiload cfg = config();
+        return cfg != null && cfg.layout.renderOverUI;
+    }
+
+    @Override
+    protected boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    protected boolean isVisible() {
+        ModConfig.Crosshair.Multiload cfg = config();
+        return cfg != null && cfg.enabled && maxAmmo > 0;
+    }
+
+    @Override
+    protected int getWidth() {
+        ModConfig.Crosshair.Multiload cfg = config();
+        if (cfg == null || maxAmmo <= 0) return 0;
+        int current = Math.max(0, Math.min(currentAmmo, maxAmmo));
+        int content;
+        if (cfg.display.ammoDisplayMode == ModConfig.Crosshair.DisplayMode.ICONS) {
+            int visible = CrosshairTextRenderer.getVisibleAmmoCount(current, maxAmmo, cfg.icons.hideEmptySlots);
+            content = CrosshairTextRenderer.getAmmoIconsWidth(visible, cfg.layout.textScale, cfg.icons.vertical,
+                    cfg.icons.iconCharStyle, cfg.icons.filledIconChar, cfg.icons.emptyIconChar);
+        } else {
+            content = (int) Math.ceil(Minecraft.getInstance().font.width(displayText(cfg, current)) * cfg.layout.textScale);
+        }
+        return content + contentPadding() * 2;
+    }
+
+    @Override
+    protected int getHeight() {
+        ModConfig.Crosshair.Multiload cfg = config();
+        if (cfg == null || maxAmmo <= 0) return 0;
+        int current = Math.max(0, Math.min(currentAmmo, maxAmmo));
+        int content;
+        if (cfg.display.ammoDisplayMode == ModConfig.Crosshair.DisplayMode.ICONS) {
+            int visible = CrosshairTextRenderer.getVisibleAmmoCount(current, maxAmmo, cfg.icons.hideEmptySlots);
+            content = CrosshairTextRenderer.getAmmoIconsHeight(visible, cfg.layout.textScale, cfg.icons.vertical,
+                    cfg.icons.iconCharStyle, cfg.icons.filledIconChar, cfg.icons.emptyIconChar);
+        } else {
+            content = (int) Math.ceil((Minecraft.getInstance().font.lineHeight + 1) * cfg.layout.textScale);
+        }
+        return content + contentPadding() * 2;
+    }
+
+    private static String displayText(ModConfig.Crosshair.Multiload cfg, int current) {
+        return cfg.display.showTotal
+                ? String.format("%d/%d", current, maxAmmo)
+                : String.valueOf(current);
+    }
+
+    @Override
+    protected void render(GuiGraphics graphics, float tickDelta) {
+        ModConfig.Crosshair.Multiload cfg = config();
+        if (cfg == null || maxAmmo <= 0) return;
 
         int current = Math.max(0, Math.min(currentAmmo, maxAmmo));
         int max = maxAmmo;
+        int width = getWidth();
+        int height = getHeight();
+        int pad = contentPadding();
+        renderBackground(graphics, width, height);
 
-        int textColor = getAmmoColor(cfg.colors.ammoFullColor, cfg.colors.ammoMidColor, cfg.colors.ammoEmptyColor, current, max);
-        textColor |= 0xFF000000;
+        float alignX = HudElementConfig.clamp01(cfg.layout.hud.positioning.alignX);
+        float alignY = HudElementConfig.clamp01(cfg.layout.hud.positioning.alignY);
 
         if (cfg.display.ammoDisplayMode == ModConfig.Crosshair.DisplayMode.ICONS) {
-            CrosshairTextRenderer.renderAmmoIcons(
+            CrosshairTextRenderer.renderAmmoIconsInBox(
                     graphics, current, max,
-                    cfg.layout.xOffset, cfg.layout.yOffset,
-                    0, cfg.layout.textScale,
+                    pad, pad, width - pad * 2, height - pad * 2, cfg.layout.textScale,
                     cfg.colors.ammoFullColor, cfg.colors.ammoMidColor, cfg.colors.ammoEmptyColor, cfg.colors.ammoEmptySlotColor,
                     cfg.icons.iconCharStyle,
                     cfg.icons.filledIconChar, cfg.icons.emptyIconChar,
                     cfg.icons.vertical,
-                    cfg.icons.hideEmptySlots, cfg.icons.alignment,
-                    cfg.icons.iconShadow
+                    cfg.icons.hideEmptySlots, cfg.icons.iconShadow,
+                    alignX, alignY
             );
         } else {
-            String displayText = cfg.display.showTotal
-                    ? String.format("%d/%d", current, max)
-                    : String.valueOf(current);
+            int textColor = getAmmoColor(cfg.colors.ammoFullColor, cfg.colors.ammoMidColor, cfg.colors.ammoEmptyColor, current, max);
+            textColor |= 0xFF000000;
             List<CrosshairTextRenderer.TextLine> lines = new ArrayList<>();
-            lines.add(new CrosshairTextRenderer.TextLine(displayText, textColor));
-            CrosshairTextRenderer.renderLinesAligned(graphics, lines, cfg.layout.xOffset, cfg.layout.yOffset, 0, cfg.layout.textScale, cfg.layout.textAlignment);
+            lines.add(new CrosshairTextRenderer.TextLine(displayText(cfg, current), textColor));
+            CrosshairTextRenderer.renderLinesInBox(graphics, lines, pad, pad, width - pad * 2, height - pad * 2,
+                    cfg.layout.textScale, alignX, alignY, cfg.layout.hud.hasTextShadow());
         }
+    }
 
-        if (cfg.fireTimer.enabled && lastShotTime > 0) {
-            long elapsed = System.currentTimeMillis() - lastShotTime;
-            long durationMs = (long) (cfg.fireTimer.duration * 1000f);
-            CrosshairTextRenderer.renderTimerBar(
-                    graphics, elapsed, durationMs,
-                    cfg.fireTimer.bar.xOffset, cfg.fireTimer.bar.yOffset,
-                    cfg.fireTimer.bar.width, cfg.fireTimer.bar.height,
-                    cfg.fireTimer.barColors.barColor, cfg.fireTimer.barColors.bgColor,
-                    cfg.fireTimer.vertical
-            );
-        }
+    public static long lastShotTime() {
+        return lastShotTime;
+    }
+
+    public static boolean hasAmmo() {
+        return maxAmmo > 0;
     }
 
     private static void reset() {

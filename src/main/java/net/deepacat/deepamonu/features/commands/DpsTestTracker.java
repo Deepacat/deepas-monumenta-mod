@@ -1,4 +1,4 @@
-package net.deepacat.deepamonu.features.commands.debug;
+package net.deepacat.deepamonu.features.commands;
 
 import net.deepacat.deepamonu.utils.ChatUtil;
 import net.minecraft.network.chat.Component;
@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Comparator;
 
+/* TODO: Fix dps tester not detecting dmg messages after monumenta had serverside updates to them
+    Add a debug command to toggle logging of message data (text embeds and raw msg) to debug this
+*/
 public class DpsTestTracker {
 
     private static boolean running = false;
@@ -170,6 +173,7 @@ public class DpsTestTracker {
 
         StringBuilder perAbilityDetail = new StringBuilder();
         StringBuilder perAbilityDpsDetail = new StringBuilder();
+
         for (Map.Entry<String, Double> entry : sorted) {
             double dps = entry.getValue() / totalTime;
             perAbilityDetail.append(entry.getKey()).append(": ")

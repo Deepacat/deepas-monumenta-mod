@@ -3,7 +3,7 @@ package net.deepacat.deepamonu.features;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.deepacat.deepamonu.DMMClient;
 import net.deepacat.deepamonu.ModConfig;
-import net.deepacat.deepamonu.features.commands.debug.DpsTestTracker;
+import net.deepacat.deepamonu.features.commands.DpsTestTracker;
 import net.deepacat.deepamonu.features.commands.debug.DumpAbilities;
 import net.deepacat.deepamonu.features.commands.debug.DumpChatMessage;
 import net.deepacat.deepamonu.utils.ChatUtil;

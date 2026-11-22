@@ -1,28 +1,31 @@
 package net.deepacat.deepamonu.hud.elements;
 
-import ch.njol.minecraft.uiframework.ElementPosition;
-import ch.njol.minecraft.uiframework.hud.HudElement;
-import net.deepacat.deepamonu.features.ShieldBlockHelper;
+import net.deepacat.deepamonu.DMMClient;
+import net.deepacat.deepamonu.configUtils.HudElementConfig;
+import net.deepacat.deepamonu.ModConfig;
+import net.deepacat.deepamonu.features.ShieldGuardHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
 
-public class ShieldBreakText extends HudElement {
+import java.util.Locale;
+
+public class ShieldBreakText extends DMMHudElement {
     public static final ShieldBreakText INSTANCE = new ShieldBreakText();
 
-    private final ElementPosition pos = new ElementPosition(1.0F, 0, 0.0F, 0, 1.0F, 0.0F);
+    private static ModConfig.Features.ShieldHelpers config() {
+        ModConfig config = DMMClient.config();
+        return config == null ? null : config.features.shieldHelpers;
+    }
 
-    private static final String DISPLAY_TEXT = "Break: %breaktime%";
-    private static final String REPLACER = "%breaktime%";
+    private static ModConfig.Features.ShieldHelpers.ShieldStunTimerDisplaySettings display() {
+        ModConfig.Features.ShieldHelpers config = config();
+        return config == null ? null : config.shieldStunTimerDisplaySettings;
+    }
 
-    private final int pad = 5;
-    private final int textCol = 16733695;
-
-    private Component buildText() {
-        double brokenTicks = (double) ShieldBlockHelper.shieldBrokenTicks / 20;
-        String formatted = String.format("%.1f", brokenTicks);
-        return Component.literal(DISPLAY_TEXT.replaceFirst(REPLACER, formatted));
+    @Override
+    protected HudElementConfig hudConfig() {
+        ModConfig.Features.ShieldHelpers.ShieldStunTimerDisplaySettings display = display();
+        return display == null ? null : display.hud;
     }
 
     @Override
@@ -32,40 +35,34 @@ public class ShieldBreakText extends HudElement {
 
     @Override
     protected boolean isVisible() {
-        return true;
+        ModConfig.Features.ShieldHelpers config = config();
+        if (config == null || !config.enableShieldStunTimer) return false;
+        return config.shieldStunAlwaysShow || ShieldGuardHelper.shieldBrokenTicks > 0;
+    }
+
+    private static String buildText() {
+        ModConfig.Features.ShieldHelpers.ShieldStunTimerDisplaySettings display = display();
+        String template = display != null ? display.displayText : "Break: %breaktime%";
+        double seconds = (double) ShieldGuardHelper.shieldBrokenTicks / 20.0;
+        return template.replace("%breaktime%", String.format(Locale.ROOT, "%.1f", seconds));
     }
 
     @Override
     protected int getWidth() {
-        return Minecraft.getInstance().font.width(buildText()) + pad * 2;
+        return Minecraft.getInstance().font.width(buildText()) + contentPadding() * 2;
     }
 
     @Override
     protected int getHeight() {
-        return Minecraft.getInstance().font.lineHeight * 2;
+        return Minecraft.getInstance().font.lineHeight + contentPadding() * 2;
     }
 
     @Override
-    protected ElementPosition getPosition() {
-        return pos;
-    }
-
-    @Override
-    protected int getZOffset() {
-        return 0;
-    }
-
-    @Override
-    protected void render(GuiGraphics draw, float v) {
-        Font fo = Minecraft.getInstance().font;
-        Component text = buildText();
-        int bgCol = Minecraft.getInstance().options.getBackgroundColor(0.3F);
-
-        int x = pad;
-        int y = fo.lineHeight / 2;
-        int width = fo.width(text);
-
-        draw.fill(0, 0, width + pad * 2, 18, bgCol);
-        draw.drawString(fo, text, x, y, textCol, true);
+    protected void render(GuiGraphics graphics, float tickDelta) {
+        int width = getWidth();
+        int height = getHeight();
+        int pad = contentPadding();
+        renderBackground(graphics, width, height);
+        drawText(graphics, buildText(), pad, pad, 1.0f);
     }
 }

@@ -2,17 +2,16 @@ package net.deepacat.deepamonu;
 
 import java.util.Objects;
 
-import ch.njol.minecraft.uiframework.hud.Hud;
 import net.deepacat.deepamonu.compat.TriggerSaving;
 import net.deepacat.deepamonu.events.ClientPlayerHurtEvent;
+import net.deepacat.deepamonu.events.LocalShieldBreakEvent;
 import net.deepacat.deepamonu.events.LocalShieldHitEvent;
 import net.deepacat.deepamonu.features.Commands;
 import net.deepacat.deepamonu.features.Keybinds;
-import net.deepacat.deepamonu.features.ShieldBlockHelper;
-import net.deepacat.deepamonu.features.commands.debug.DpsTestTracker;
+import net.deepacat.deepamonu.features.ShieldGuardHelper;
+import net.deepacat.deepamonu.features.commands.DpsTestTracker;
 import net.deepacat.deepamonu.hud.CrosshairHud;
-import net.deepacat.deepamonu.hud.elements.GuardSituText;
-import net.deepacat.deepamonu.hud.elements.ShieldBreakText;
+import net.deepacat.deepamonu.hud.DMMHud;
 import net.deepacat.deepamonu.utils.SafeExceptionLogger;
 import net.deepacat.deepamonu.utils.TickScheduler;
 import org.apache.logging.log4j.LogManager;
@@ -77,23 +76,19 @@ public class DMMClient implements ClientModInitializer {
         ClientLifecycleEvents.CLIENT_STARTED.register(minecraft -> GLOBAL_SAFE_EH.runSafely(this::initializeAfterMC));
 
         Keybinds.init();
-        CrosshairHud.init();
+        DMMHud.init();
         Commands.init();
-
-        // UMM hud system elements
-        Hud.INSTANCE.addElement(GuardSituText.INSTANCE);
-        Hud.INSTANCE.addElement(ShieldBreakText.INSTANCE);
 
         ClientPlayerHurtEvent.EVENT.register(damage -> {
 //            DMMClient.LOGGER.info("Local player hurt with dmg {}", damage);
-            ShieldBlockHelper.updateGuardHitTimer(player(), damage);
+            ShieldGuardHelper.updateGuardHitTimer(player(), damage);
         });
 
-        LocalShieldHitEvent.EVENT.register(player -> GLOBAL_SAFE_EH.runSafely(() -> ShieldBlockHelper.updateGuardBlockTimer(player)));
-//        EntityShieldDisabledEvent.EVENT.register(player -> GLOBAL_SAFE_EH.runSafely(() -> ShieldBlockHelper.updateShieldBreakTimer(player)));
+        LocalShieldHitEvent.EVENT.register(player -> GLOBAL_SAFE_EH.runSafely(() -> ShieldGuardHelper.updateGuardBlockTimer(player)));
+        LocalShieldBreakEvent.EVENT.register(player -> GLOBAL_SAFE_EH.runSafely(() -> ShieldGuardHelper.updateShieldBreakTimer(player)));
 
         ClientTickEvents.END_WORLD_TICK.register(clientLevel -> GLOBAL_SAFE_EH.runSafely(() -> {
-            ShieldBlockHelper.onTick(instance());
+            ShieldGuardHelper.onTick(instance());
         }));
 
         ClientTickEvents.END_CLIENT_TICK.register(mc -> GLOBAL_SAFE_EH.runSafely(() -> {

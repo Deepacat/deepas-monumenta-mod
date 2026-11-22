@@ -274,6 +274,128 @@ public class CrosshairTextRenderer {
     }
 
     /**
+     * Renders inline segments at a local anchor. Unlike
+     * {@link #renderSingleLineAligned}, the coordinates are not relative to the
+     * screen centre, so this can be used from a HUD element that is already
+     * translated into place.
+     */
+    public static void renderSegmentsAt(GuiGraphics graphics, List<TextLine> segments, float x, float y, float scale, float alignment, boolean shadow) {
+        if (segments == null || segments.isEmpty()) return;
+
+        Minecraft mc = Minecraft.getInstance();
+        Font font = mc.font;
+        int lineHeight = font.lineHeight + 1;
+        float scaledLineHeight = lineHeight * scale;
+
+        List<List<TextLine>> rows = splitOnNewlines(segments);
+        for (int i = 0; i < rows.size(); i++) {
+            List<TextLine> row = rows.get(i);
+            if (row == null || row.isEmpty()) continue;
+
+            float rowWidth = 0;
+            for (TextLine seg : row) {
+                if (seg != null && seg.text != null && !seg.text.isEmpty()) {
+                    rowWidth += font.width(seg.text) * scale;
+                }
+            }
+            if (rowWidth <= 0) continue;
+
+            float drawX = x - rowWidth * alignFraction(alignment);
+            float drawY = y + i * scaledLineHeight;
+            for (TextLine seg : row) {
+                if (seg == null || seg.text == null || seg.text.isEmpty()) continue;
+                drawScaledText(graphics, font, seg.text, drawX, drawY, seg.color, scale, shadow);
+                drawX += font.width(seg.text) * scale;
+            }
+        }
+    }
+
+    /**
+     * Measures inline segments as if they were rendered by
+     * {@link #renderSegmentsAt}.
+     *
+     * @return {minX, minY, maxX, maxY} relative to the same local origin
+     */
+    public static float[] measureSegmentsRelative(List<TextLine> segments, float x, float y, float scale, float alignment) {
+        float minX = Float.MAX_VALUE;
+        float minY = Float.MAX_VALUE;
+        float maxX = -Float.MAX_VALUE;
+        float maxY = -Float.MAX_VALUE;
+        if (segments == null || segments.isEmpty()) {
+            return new float[]{x, y, x, y};
+        }
+
+        Minecraft mc = Minecraft.getInstance();
+        Font font = mc.font;
+        int lineHeight = font.lineHeight + 1;
+        float scaledLineHeight = lineHeight * scale;
+
+        List<List<TextLine>> rows = splitOnNewlines(segments);
+        for (int i = 0; i < rows.size(); i++) {
+            List<TextLine> row = rows.get(i);
+            if (row == null || row.isEmpty()) continue;
+            float rowWidth = 0;
+            for (TextLine seg : row) {
+                if (seg != null && seg.text != null && !seg.text.isEmpty()) {
+                    rowWidth += font.width(seg.text) * scale;
+                }
+            }
+            if (rowWidth <= 0) continue;
+
+            float startX = x - rowWidth * alignFraction(alignment);
+            float rowY = y + i * scaledLineHeight;
+            minX = Math.min(minX, startX);
+            maxX = Math.max(maxX, startX + rowWidth);
+            minY = Math.min(minY, rowY);
+            maxY = Math.max(maxY, rowY + font.lineHeight * scale);
+        }
+
+        if (minX == Float.MAX_VALUE) {
+            return new float[]{x, y, x, y};
+        }
+        return new float[]{minX, minY, maxX, maxY};
+    }
+
+    /**
+     * Renders lines inside a local box, aligning the text block horizontally and
+     * vertically using 0..1 alignment values.
+     */
+    public static void renderLinesInBox(GuiGraphics graphics, List<TextLine> lines, float boxX, float boxY,
+                                        float boxWidth, float boxHeight, float scale, float alignX, float alignY,
+                                        boolean shadow) {
+        if (lines == null || lines.isEmpty()) return;
+
+        Minecraft mc = Minecraft.getInstance();
+        Font font = mc.font;
+        int lineHeight = font.lineHeight + 1;
+        float scaledLineHeight = lineHeight * scale;
+
+        List<TextLine> rows = new ArrayList<>();
+        for (TextLine line : lines) {
+            if (line == null || line.text == null) continue;
+            String[] parts = line.text.split("\n", -1);
+            for (String part : parts) {
+                rows.add(new TextLine(part, line.color));
+            }
+        }
+        if (rows.isEmpty()) return;
+
+        float ax = Math.max(0f, Math.min(1f, alignX));
+        float ay = Math.max(0f, Math.min(1f, alignY));
+        float totalHeight = rows.size() * scaledLineHeight;
+        float startY = boxY + (boxHeight - totalHeight) * ay;
+
+        for (TextLine row : rows) {
+            if (!row.text.isEmpty()) {
+                float rowWidth = font.width(row.text) * scale;
+                float drawX = boxX + (boxWidth - rowWidth) * ax;
+                drawScaledText(graphics, font, row.text, drawX, startY, row.color, scale, shadow);
+            }
+            startY += scaledLineHeight;
+        }
+    }
+
+    /**
      * Maps a -1 (left) to 1 (right) alignment value to the fraction of the row
      * width subtracted from the anchor: -1 -> 0 (left edge at x), 0 -> 0.5
      * (centered), 1 -> 1 (right edge at x). Values outside [-1, 1] are clamped.
@@ -315,7 +437,22 @@ public class CrosshairTextRenderer {
         return rows;
     }
 
-    private static void drawScaledOutlinedText(GuiGraphics graphics, Font font, String text, float x, float y, int color, float scale) {
+    public static void drawScaledText(GuiGraphics graphics, Font font, String text, float x, float y, int color, float scale, boolean shadow) {
+        if (shadow) {
+            drawScaledOutlinedText(graphics, font, text, x, y, color, scale);
+            return;
+        }
+
+        graphics.pose().pushPose();
+        graphics.pose().translate(x, y, 0);
+        if (scale != 1.0f) {
+            graphics.pose().scale(scale, scale, 1.0f);
+        }
+        graphics.drawString(font, text, 0, 0, color, false);
+        graphics.pose().popPose();
+    }
+
+    public static void drawScaledOutlinedText(GuiGraphics graphics, Font font, String text, float x, float y, int color, float scale) {
         graphics.pose().pushPose();
         graphics.pose().translate(x, y, 0);
         if (scale != 1.0f) {
@@ -332,18 +469,158 @@ public class CrosshairTextRenderer {
         graphics.pose().popPose();
     }
 
+    private static boolean usesCharIcons(ModConfig.Crosshair.IconCharStyle iconStyle, String filledCharCustom, String emptyCharCustom) {
+        return iconStyle != ModConfig.Crosshair.IconCharStyle.BLOCKS
+                || (filledCharCustom != null && !filledCharCustom.isEmpty())
+                || (emptyCharCustom != null && !emptyCharCustom.isEmpty());
+    }
+
+    public static int getAmmoIconCellWidth(float scale, ModConfig.Crosshair.IconCharStyle iconStyle, String filledCharCustom, String emptyCharCustom) {
+        if (!usesCharIcons(iconStyle, filledCharCustom, emptyCharCustom)) {
+            return Math.max(1, (int) (8 * scale));
+        }
+        Font font = Minecraft.getInstance().font;
+        String filled = filledCharCustom != null && !filledCharCustom.isEmpty() ? filledCharCustom : getDefaultFilledChar(iconStyle);
+        String empty = emptyCharCustom != null && !emptyCharCustom.isEmpty() ? emptyCharCustom : getDefaultEmptyChar(iconStyle);
+        return Math.max(1, (int) Math.ceil(Math.max(font.width(filled), font.width(empty)) * scale));
+    }
+
+    public static int getAmmoIconCellHeight(float scale, ModConfig.Crosshair.IconCharStyle iconStyle, String filledCharCustom, String emptyCharCustom) {
+        if (!usesCharIcons(iconStyle, filledCharCustom, emptyCharCustom)) {
+            return Math.max(1, (int) (8 * scale));
+        }
+        return Math.max(1, (int) Math.ceil(Minecraft.getInstance().font.lineHeight * scale));
+    }
+
+    public static int getAmmoIconGap(float scale, ModConfig.Crosshair.IconCharStyle iconStyle, String filledCharCustom, String emptyCharCustom) {
+        if (!usesCharIcons(iconStyle, filledCharCustom, emptyCharCustom)) {
+            return Math.max(0, (int) (2 * scale));
+        }
+        return 0;
+    }
+
+    public static int getVisibleAmmoCount(int current, int max, boolean hideEmptySlots) {
+        return hideEmptySlots ? Math.max(0, Math.min(current, max)) : Math.max(0, max);
+    }
+
+    public static int getAmmoIconsWidth(int visibleCount, float scale, boolean vertical, ModConfig.Crosshair.IconCharStyle iconStyle, String filledCharCustom, String emptyCharCustom) {
+        if (visibleCount <= 0) return 0;
+        int cell = getAmmoIconCellWidth(scale, iconStyle, filledCharCustom, emptyCharCustom);
+        int gap = getAmmoIconGap(scale, iconStyle, filledCharCustom, emptyCharCustom);
+        return vertical ? cell : visibleCount * cell + Math.max(0, visibleCount - 1) * gap;
+    }
+
+    public static int getAmmoIconsHeight(int visibleCount, float scale, boolean vertical, ModConfig.Crosshair.IconCharStyle iconStyle, String filledCharCustom, String emptyCharCustom) {
+        if (visibleCount <= 0) return 0;
+        int cell = getAmmoIconCellHeight(scale, iconStyle, filledCharCustom, emptyCharCustom);
+        int gap = getAmmoIconGap(scale, iconStyle, filledCharCustom, emptyCharCustom);
+        return vertical ? visibleCount * cell + Math.max(0, visibleCount - 1) * gap : cell;
+    }
+
+    /**
+     * Draws ammo icons inside a local box. Coordinates are relative to the HUD
+     * element, and the icon block is aligned within the box using 0..1 values.
+     */
+    public static void renderAmmoIconsInBox(GuiGraphics graphics, int current, int max, float boxX, float boxY,
+                                            float boxWidth, float boxHeight, float scale, int fullColor, int midColor,
+                                            int emptyColor, int emptySlotColor, ModConfig.Crosshair.IconCharStyle iconStyle,
+                                            String filledCharCustom, String emptyCharCustom, boolean vertical,
+                                            boolean hideEmptySlots, ModConfig.Crosshair.ShadowType shadowType,
+                                            float alignX, float alignY) {
+        int visibleCount = getVisibleAmmoCount(current, max, hideEmptySlots);
+        if (visibleCount <= 0) return;
+
+        int cellW = getAmmoIconCellWidth(scale, iconStyle, filledCharCustom, emptyCharCustom);
+        int cellH = getAmmoIconCellHeight(scale, iconStyle, filledCharCustom, emptyCharCustom);
+        int gap = getAmmoIconGap(scale, iconStyle, filledCharCustom, emptyCharCustom);
+        int totalW = getAmmoIconsWidth(visibleCount, scale, vertical, iconStyle, filledCharCustom, emptyCharCustom);
+        int totalH = getAmmoIconsHeight(visibleCount, scale, vertical, iconStyle, filledCharCustom, emptyCharCustom);
+
+        float ax = Math.max(0f, Math.min(1f, alignX));
+        float ay = Math.max(0f, Math.min(1f, alignY));
+        float baseX = boxX + (boxWidth - totalW) * ax;
+        float baseY = boxY + (boxHeight - totalH) * ay;
+
+        int filledColorValue = MultiloadDisplay.getAmmoColor(fullColor, midColor, emptyColor, current, max);
+        filledColorValue |= 0xFF000000;
+        int slotColor = emptySlotColor | 0xFF000000;
+
+        boolean charIcons = usesCharIcons(iconStyle, filledCharCustom, emptyCharCustom);
+        Font font = Minecraft.getInstance().font;
+        String filledChar = filledCharCustom != null && !filledCharCustom.isEmpty() ? filledCharCustom : getDefaultFilledChar(iconStyle);
+        String emptyChar = emptyCharCustom != null && !emptyCharCustom.isEmpty() ? emptyCharCustom : getDefaultEmptyChar(iconStyle);
+
+        graphics.pose().pushPose();
+        for (int i = 0; i < visibleCount; i++) {
+            float x = vertical ? baseX : baseX + i * (cellW + gap);
+            float y = vertical ? baseY + i * (cellH + gap) : baseY;
+            boolean filled = i < current;
+
+            if (charIcons) {
+                String ch = filled ? filledChar : emptyChar;
+                int color = filled ? filledColorValue : slotColor;
+                graphics.pose().pushPose();
+                graphics.pose().translate(x, y, 0);
+                if (scale != 1.0f) {
+                    graphics.pose().scale(scale, scale, 1.0f);
+                }
+                drawCharWithShadow(graphics, font, ch, 0, 0, color, shadowType);
+                graphics.pose().popPose();
+            } else if (filled) {
+                graphics.fill((int) x, (int) y, (int) x + cellW, (int) y + cellH, filledColorValue);
+                graphics.fill((int) x - 1, (int) y - 1, (int) x + cellW + 1, (int) y, 0xFF000000);
+                graphics.fill((int) x - 1, (int) y + cellH, (int) x + cellW + 1, (int) y + cellH + 1, 0xFF000000);
+                graphics.fill((int) x - 1, (int) y, (int) x, (int) y + cellH, 0xFF000000);
+                graphics.fill((int) x + cellW, (int) y, (int) x + cellW + 1, (int) y + cellH, 0xFF000000);
+            } else {
+                graphics.fill((int) x, (int) y, (int) x + cellW, (int) y + 1, slotColor);
+                graphics.fill((int) x, (int) y + cellH - 1, (int) x + cellW, (int) y + cellH, slotColor);
+                graphics.fill((int) x, (int) y, (int) x + 1, (int) y + cellH, slotColor);
+                graphics.fill((int) x + cellW - 1, (int) y, (int) x + cellW, (int) y + cellH, slotColor);
+            }
+        }
+        graphics.pose().popPose();
+    }
+
+    private static float alignmentFraction(ModConfig.Crosshair.Alignment alignment) {
+        if (alignment == null) return 0.5f;
+        return switch (alignment) {
+            case LEFT -> 0f;
+            case RIGHT -> 1f;
+            default -> 0.5f;
+        };
+    }
+
     public static void renderAmmoIcons(GuiGraphics graphics, int current, int max, float xOffset, float yOffset, int zOffset, float scale, int fullColor, int midColor, int emptyColor, int emptySlotColor, ModConfig.Crosshair.IconCharStyle iconStyle, String filledCharCustom, String emptyCharCustom, boolean vertical, boolean hideEmptySlots, ModConfig.Crosshair.Alignment alignment, ModConfig.Crosshair.ShadowType shadowType) {
         if (max <= 0) return;
 
-        boolean hasCustomChars = (filledCharCustom != null && !filledCharCustom.isEmpty())
-                || (emptyCharCustom != null && !emptyCharCustom.isEmpty());
+        Minecraft mc = Minecraft.getInstance();
+        int centerX = mc.getWindow().getGuiScaledWidth() / 2;
+        int centerY = mc.getWindow().getGuiScaledHeight() / 2;
 
-        if (iconStyle != ModConfig.Crosshair.IconCharStyle.BLOCKS || hasCustomChars) {
-            renderCharIcons(graphics, current, max, xOffset, yOffset, zOffset, scale, fullColor, midColor, emptyColor, emptySlotColor, iconStyle, filledCharCustom, emptyCharCustom, vertical, hideEmptySlots, alignment, shadowType);
-            return;
+        int visibleCount = getVisibleAmmoCount(current, max, hideEmptySlots);
+        int totalW = getAmmoIconsWidth(visibleCount, scale, vertical, iconStyle, filledCharCustom, emptyCharCustom);
+        int totalH = getAmmoIconsHeight(visibleCount, scale, vertical, iconStyle, filledCharCustom, emptyCharCustom);
+
+        float ax = 0.5f;
+        float ay = 0.5f;
+        if (hideEmptySlots) {
+            if (vertical) {
+                ay = alignmentFraction(alignment);
+            } else {
+                ax = alignmentFraction(alignment);
+            }
         }
 
-        renderBlockIcons(graphics, current, max, xOffset, yOffset, zOffset, scale, fullColor, midColor, emptyColor, emptySlotColor, vertical, hideEmptySlots, alignment);
+        float boxX = centerX + xOffset - totalW * ax;
+        float boxY = centerY + yOffset - totalH * ay;
+
+        graphics.pose().pushPose();
+        graphics.pose().translate(0, 0, zOffset);
+        renderAmmoIconsInBox(graphics, current, max, boxX, boxY, totalW, totalH, scale,
+                fullColor, midColor, emptyColor, emptySlotColor, iconStyle, filledCharCustom,
+                emptyCharCustom, vertical, hideEmptySlots, shadowType, 0f, 0f);
+        graphics.pose().popPose();
     }
 
     private static void renderBlockIcons(GuiGraphics graphics, int current, int max, float xOffset, float yOffset, int zOffset, float scale, int fullColor, int midColor, int emptyColor, int emptySlotColor, boolean vertical, boolean hideEmptySlots, ModConfig.Crosshair.Alignment alignment) {

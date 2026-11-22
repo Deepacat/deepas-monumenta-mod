@@ -1,6 +1,7 @@
 package net.deepacat.deepamonu.mixin;
 
 import net.deepacat.deepamonu.DMMClient;
+import net.deepacat.deepamonu.events.LocalShieldBreakEvent;
 import net.deepacat.deepamonu.events.LocalShieldHitEvent;
 import net.deepacat.deepamonu.utils.Util;
 import net.minecraft.client.player.LocalPlayer;
@@ -19,6 +20,8 @@ public abstract class LocalPlayerMixin {
         DMMClient.GLOBAL_SAFE_EH.runSafely(() -> {
             if (status == 29) {
                 LocalShieldHitEvent.EVENT.invoker().onShieldHit(Util.c(this));
+            } else if (status == 30) {
+                LocalShieldBreakEvent.EVENT.invoker().onShieldBreak(Util.c(this));
             }
         });
     }

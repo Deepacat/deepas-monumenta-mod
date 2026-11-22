@@ -3,7 +3,7 @@ package net.deepacat.deepamonu.mixin;
 import net.deepacat.deepamonu.DMMClient;
 import net.deepacat.deepamonu.ModConfig;
 import net.deepacat.deepamonu.hud.ActionBarState;
-import net.deepacat.deepamonu.hud.CrosshairHud;
+import net.deepacat.deepamonu.hud.DMMHud;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.minecraft.client.gui.Gui;
@@ -40,6 +40,6 @@ public class GuiMixin {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void onRenderTail(GuiGraphics graphics, float tickDelta, CallbackInfo ci) {
-        CrosshairHud.onRenderOverUI(graphics, tickDelta);
+        DMMHud.renderOverUI(graphics, tickDelta);
     }
 }
