@@ -36,13 +36,7 @@ public class ModConfig implements ConfigData {
         public static class MobGlowColorOverrides {
             @Tooltip()
             public boolean enable = true;
-
-            @ConfigEntry.Gui.CollapsibleObject
-            public MobColorsDropdown mobColorsDropdown = new MobColorsDropdown();
-
-            public static class MobColorsDropdown {
-                public Map<String, Integer> mobColorMap = new LinkedHashMap<>(Map.of("Gravity Bomb", 0xFF0000));
-            }
+            public Map<String, Integer> mobColorMap = new LinkedHashMap<>(Map.of("Gravity Bomb", 0xFF0000));
         }
 
         @ConfigEntry.Gui.CollapsibleObject
@@ -427,6 +421,7 @@ public class ModConfig implements ConfigData {
             java.lang.reflect.Type[] args = pt.getActualTypeArguments();
             return args.length == 2 && args[0] == String.class && args[1] == Integer.class;
         };
+
         registry.registerPredicateProvider(new MobGlowColorProvider(), predicate);
 
         registry.registerPredicateProvider(new CompactAbilityProvider(),

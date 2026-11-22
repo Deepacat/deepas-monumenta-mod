@@ -29,7 +29,7 @@ public class CompactAbilityProvider implements GuiProvider {
                 null,
                 (newList) -> Utils.setUnsafely(field, config, newList),
                 () -> defaultEntries,
-                Component.translatable("config.deepamonu.reset")
+                Component.translatable("config.deepamonu.mobGlowColorOverrides.reset")
         );
 
         return Collections.singletonList(listEntry);

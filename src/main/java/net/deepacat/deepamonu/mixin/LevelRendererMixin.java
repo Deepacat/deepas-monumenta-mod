@@ -32,7 +32,7 @@ public class LevelRendererMixin {
         return ExceptionHandler.runSafely(() -> {
             if (!config.features.mobGlowColorOverrides.enable) return original;
 
-            var map = config.features.mobGlowColorOverrides.mobColorsDropdown.mobColorMap;
+            var map = config.features.mobGlowColorOverrides.mobColorMap;
             for (Map.Entry<String, Integer> entry : map.entrySet()) {
                 if (entity.getName().getString().contains(entry.getKey())) {
                     return entry.getValue();
